@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Navbar() {
   return (
-    <header className="bg-gray-600 text-white">
+    <header className="bg-gray-500 text-white">
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link href="/" className="text-xl font-bold">IntelliBlog</Link>
         <nav>
