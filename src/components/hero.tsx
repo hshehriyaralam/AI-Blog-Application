@@ -1,5 +1,12 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import HeroBg from '../../public/Herobg.jpg'
+import male_One from '../../public/author-male-one.jpg'
+import male_Two from '../../public/author-male-two.jpg'
+import male_Three from '../../public/author-male-three.jpg'
+import female_One from '../../public/author-female-one.jpg'
+import female_Two from '../../public/author-female-two.jpg'
+import female_Three from '../../public/author-female-three.jpg'
 
 
 export default function Hero() {
@@ -70,15 +77,46 @@ export default function Hero() {
     "David Wilson", "Priya Patel", "James Rodriguez"
   ];
 
+
+  const Authors = [
+    {
+      name : "Sarah Johnson",
+      image : female_One
+    },
+    {
+      name : "Michael Chen",
+      image : male_One
+    },
+    {
+      name : "Emma Davis",
+      image : female_Two
+    },
+     {
+      name : "David Wilson",
+      image : male_Two
+    },
+     {
+      name : "Priya Patel",
+      image : female_Three
+    },
+    {
+      name : "James Rodriguez",
+      image : male_Three
+    },
+    
+  ]
+
+  
+
   return (
   <div className="min-h-screen bg-gray-50">
- <div className="flex flex-col lg:flex-row gap-y-6 gap-x-2 p-10">
+ <div className="flex flex-col lg:flex-row gap-y-6 gap-x-2 p-6 justify-center">
   {/* Hero Section with Background Image - 70% Width */}
-  <div className="relative w-full lg:w-[70%] h-[600px] ">
+  <div className="relative w-full lg:w-[74%] h-[600px] ">
     {/* Background Image */}
-    <div className="absolute inset-0">
+    <div className="absolute inset-0  ">
       <img
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover rounded-xl"
         src={HeroBg.src}
         alt="Background"
       />
@@ -97,9 +135,9 @@ export default function Hero() {
   </div>
 
   {/* Sidebar - 30% Width */}
-  <div className="w-full lg:w-[30%] space-y-6">
+  <div className="w-full lg:w-[20%] space-y-6">
     {/* Popular Tags */}
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-white p-4 rounded-lg shadow-md">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">Popular Tags</h3>
       <div className="flex flex-wrap gap-2">
         {popularTags.map((tag, index) => (
@@ -117,13 +155,13 @@ export default function Hero() {
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">Top Authors</h3>
       <ul className="space-y-3">
-        {topAuthors.map((author, index) => (
+        {Authors.map((author, index) => (
           <li key={index} className="flex items-center">
-            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-              {author.charAt(0)}
+            <div className="flex-shrink-0 h-12 w-12 rounded-full bg-gray-200  flex items-center justify-center text-gray-500">
+              <Image src={author.image} alt='Author-pic'  className='w-12 h-12 rounded-full object-cover' />
             </div>
             <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900">{author}</p>
+              <p className="text-sm font-medium text-gray-900">{author.name}</p>
               <p className="text-sm text-gray-500">24 articles</p>
             </div>
           </li>
@@ -177,42 +215,6 @@ export default function Hero() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:w-1/4 space-y-6">
-            {/* Popular Tags */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Popular Tags</h3>
-              <div className="flex flex-wrap gap-2">
-                {popularTags.map((tag, index) => (
-                  <span 
-                    key={index}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 hover:bg-gray-200 cursor-pointer"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Top Authors */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Top Authors</h3>
-              <ul className="space-y-3">
-                {topAuthors.map((author, index) => (
-                  <li key={index} className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                      {author.charAt(0)}
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">{author}</p>
-                      <p className="text-sm text-gray-500">24 articles</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>
