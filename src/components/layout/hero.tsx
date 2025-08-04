@@ -15,7 +15,6 @@ export default function Hero() {
    <HeroTopCard />
     <div className="w-full lg:w-[20%] space-y-4">
       <Tags />
-
       {/* Top Authors */}
       <TopAuthors />
     </div>
