@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+   server : {
+    host : true,
+    port : 3000
+   },
    images: {
     domains: [
       'popupdomination.com',
@@ -13,6 +17,7 @@ const nextConfig: NextConfig = {
       'content.altexsoft.com',
     ],
   },
+  
 };
 
 export default nextConfig;
