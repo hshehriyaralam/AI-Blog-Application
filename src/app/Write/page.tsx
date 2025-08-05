@@ -1,5 +1,7 @@
 'use client'
-import { useState, KeyboardEvent, ChangeEvent } from 'react';
+import { useState, KeyboardEvent, ChangeEvent, useContext } from 'react';
+import { ContextTheme} from '../../Context/DarkTheme'
+
 
 interface BlogFormData {
   title: string;
@@ -19,6 +21,7 @@ export default function WriteBlogForm() {
     image: null,
     imagePreview: ''
   });
+  const {themeValue, light, dark, lightText, DarkText} = useContext(ContextTheme)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -70,32 +73,33 @@ export default function WriteBlogForm() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-2 py-6">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Write New Blog</h1>
+    <div className={`w-full min-h-screen ${themeValue ? light : dark}`}>
+    <div className={`max-w-5xl  mx-auto px-2 py-6`}>
+      <h1 className={`text-2xl font-semibold  mb-4 text-center ${themeValue ? lightText : DarkText} `}>Add Article</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-white border border-gray-200 rounded-md p-4 shadow-sm">
+      <div className={`grid grid-cols-1 lg:grid-cols-2 gap-6  border border-gray-200 ${themeValue ? light : dark}  rounded-md p-4 shadow-sm`}>
         {/* Left Column: Title, Tags, Summary */}
         <div className="space-y-4">
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Blog Title</label>
+            <label className={`block text-sm font-medium  mb-1 ${themeValue ? lightText : DarkText}    `}>Blog Title</label>
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleChange}
               placeholder="Enter blog title"
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:ring-blue-200 focus:ring-1"
+              className={`w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:ring-blue-200 focus:ring-1 text-gray-500  `}
             />
           </div>
 
           {/* Tags */}
           <div>
             <div className="flex justify-between items-center mb-1">
-              <label className="text-sm font-medium text-gray-700">Tags</label>
+              <label className={`text-sm font-medium  ${themeValue ? lightText : DarkText} `}>Tags</label>
               <button
                 onClick={generateTags}
-                className="text-xs text-blue-600 hover:underline"
+                className="text-xs text-blue-600 hover:underline cursor-pointer"
               >
                 Generate Tags
               </button>
@@ -110,7 +114,7 @@ export default function WriteBlogForm() {
                   <button
                     type="button"
                     onClick={() => removeTag(i)}
-                    className="text-xs text-blue-500 hover:text-blue-800"
+                    className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
                   >
                     ×
                   </button>
@@ -121,18 +125,18 @@ export default function WriteBlogForm() {
               type="text"
               onKeyDown={handleTagKeyDown}
               placeholder="Press Enter to add tag"
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-blue-200"
+              className={`w-full px-3 py-1.5  border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-blue-200   text-gray-500`}
             />
           </div>
 
           {/* Summary */}
           <div>
             <div className="flex justify-between items-center mb-1">
-              <label className="text-sm font-medium text-gray-700">Content Summary</label>
+              <label className={`text-sm font-medium ${themeValue ? lightText : DarkText} `}>Content Summary</label>
               <button
                 type="button"
                 onClick={generateSummary}
-                className="text-xs text-blue-600 hover:underline"
+                className={`text-xs text-blue-600 hover:underline   cursor-pointer`}
               >
                 Generate Summary
               </button>
@@ -143,7 +147,7 @@ export default function WriteBlogForm() {
               value={formData.summary}
               onChange={handleChange}
               placeholder="Enter or generate content summary"
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-blue-200"
+              className={`w-full px-3 py-1.5   border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-blue-200 text-gray-500 `}
             />
           </div>
         </div>
@@ -152,21 +156,21 @@ export default function WriteBlogForm() {
         <div className="space-y-4">
           {/* Content */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+            <label className={`block text-sm font-medium mb-1   ${themeValue ? lightText : DarkText}`}>Content</label>
             <textarea
               name="content"
               rows={4}
               value={formData.content}
               onChange={handleChange}
               placeholder="Write blog content here..."
-              className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-blue-200"
+              className={`w-full px-3   py-1.5 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-blue-200  text-gray-500 `}
             />
           </div>
 
           {/* Image Upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Content Image</label>
-            <label className="block w-full h-30 border-2 border-dashed border-gray-300 rounded-md bg-gray-50 cursor-pointer flex items-center justify-center hover:bg-gray-100 transition-colors">
+            <label className={`block text-sm font-medium  mb-1 ${themeValue ? lightText : DarkText} `}>Content Image</label>
+            <label className={`block w-full h-30 border-2 border-dashed border-gray-300 rounded-md  ${themeValue ?  'bg-gray-50' : 'bg-transparent' }     cursor-pointer flex items-center justify-center hover:bg-gray-100 transition-colors`}>
               {formData.imagePreview ? (
                 <img src={formData.imagePreview} alt="Preview" className="w-full h-full object-cover rounded" />
               ) : (
@@ -190,17 +194,18 @@ export default function WriteBlogForm() {
       <div className="mt-6 flex justify-center gap-3">
         <button
           type="button"
-          className="px-5 py-1.5 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition"
+          className="px-5 py-1.5 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition cursor-pointer "
         >
           Publish
         </button>
         <button
           type="button"
-          className="px-5 py-1.5 border border-gray-400 text-gray-700 text-sm rounded-md hover:bg-gray-100 transition"
+          className={`px-5 py-1.5 border border-gray-400 ${themeValue ? `  ${lightText} hover:bg-gray-100 ` : `  ${DarkText} hover:bg-gray-500 `} text-sm rounded-md  transition   cursor-pointer`}
         >
           Cancel
         </button>
       </div>
     </div>
+        </div>
   );
 }

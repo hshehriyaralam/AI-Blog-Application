@@ -23,7 +23,7 @@ export default function Navbar() {
           <nav>
             <ul className={`flex space-x-6 font-medium ${themeValue ? 'text-gray-700' : 'text-gray-200'}`}>
               <li><Link href="/" className="hover:text-blue-500 transition">Home</Link></li>
-              <li><Link href="/Write" className="hover:text-blue-500 transition">Write Blog</Link></li>
+              <li><Link href="/Write" className="hover:text-blue-500 transition">Create Blog</Link></li>
               <li><Link href="/Blogs" className="hover:text-blue-500 transition">Blogs</Link></li>
               <li>
                 <Link href="/Login" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-md transition">
