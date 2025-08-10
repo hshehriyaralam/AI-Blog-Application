@@ -39,7 +39,7 @@ const userSchema = new Schema<IUser>(
 userSchema.index({ role: 1 });
 userSchema.index({ email: 1 });
 
-// Transform output (hide _id, __v)
+// Transform output (hide _id, __v and expose id instead)
 userSchema.set("toJSON", {
   transform: (_doc, ret: any) => {
     ret.id = ret._id.toString();
