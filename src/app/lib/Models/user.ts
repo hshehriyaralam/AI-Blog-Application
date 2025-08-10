@@ -1,60 +1,55 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 
-const userSchema = new mongoose.Schema(
+export interface IUser extends Document {
+  uid: string; // Google UID (sub)
+  email: string;
+  name: string;
+  profilePic?: string | null;
+  role: "reader" | "author" | "admin";
+  bio?: string;
+  blogCount: number;
+  isBanned: boolean;
+  joiningTime: Date;
+  lastSeenAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const userSchema = new Schema<IUser>(
   {
-    uid: { 
-        type: String,
-        required: true,
-        unique: true
-     },
-      // Google UID
-    email: { 
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true
-    },
-    name: { 
-        type: String,
-        required: true
-    },
-    profilePic: { 
-        type: String,
-        default: null 
-    },
+    uid: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    name: { type: String, required: true },
+    profilePic: { type: String, default: null },
     role: {
       type: String,
       enum: ["reader", "author", "admin"],
       default: "reader",
     },
-    bio: { 
-        type: String,
-        default: "" 
-    },
-    blogCount: {
-         type: Number,
-         default: 0 
-    },
-    isBanned: { 
-        type: Boolean,
-        default: false 
-    },
-    joiningTime: { 
-        type: Date,
-        default: Date.now
-    },
-    lastSeenAt: { 
-        type: Date,
-        default: Date.now
-    },
+    bio: { type: String, default: "" },
+    blogCount: { type: Number, default: 0 },
+    isBanned: { type: Boolean, default: false },
+    joiningTime: { type: Date, default: Date.now },
+    lastSeenAt: { type: Date, default: Date.now },
   },
-  {
-    timestamps: true, 
-  }
+  { timestamps: true }
 );
 
-// indexes for quick searches
+// Indexes for performance
 userSchema.index({ role: 1 });
 userSchema.index({ email: 1 });
 
-export default mongoose.model("User", userSchema);
+// Transform output (hide _id, __v)
+userSchema.set("toJSON", {
+  transform: (_doc, ret: any) => {
+    ret.id = ret._id.toString();
+    delete ret._id;
+    delete ret.__v;
+    return ret;
+  },
+});
+
+const User: Model<IUser> =
+  mongoose.models.User || mongoose.model<IUser>("User", userSchema);
+
+export default User;
