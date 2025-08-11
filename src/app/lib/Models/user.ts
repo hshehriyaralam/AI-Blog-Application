@@ -5,7 +5,8 @@ export interface IUser extends Document {
   email: string;
   name: string;
   profilePic?: string | null;
-  role: "reader" | "author" | "admin";
+  role: "author" | "admin";
+  isAdmin: boolean; // NEW FIELD
   bio?: string;
   blogCount: number;
   isBanned: boolean;
@@ -23,9 +24,10 @@ const userSchema = new Schema<IUser>(
     profilePic: { type: String, default: null },
     role: {
       type: String,
-      enum: [ "author", "admin"],
+      enum: ["author", "admin"],
       default: "author",
     },
+    isAdmin: { type: Boolean, default: false }, // NEW FIELD
     bio: { type: String, default: "" },
     blogCount: { type: Number, default: 0 },
     isBanned: { type: Boolean, default: false },
