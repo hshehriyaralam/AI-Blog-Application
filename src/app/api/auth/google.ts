@@ -7,12 +7,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { idToken } = req.body;
-    if (!idToken) {
-      return res.status(400).json({ error: "Missing Google ID token" });
+    const { code } = req.body; 
+    if (!code) {
+      return res.status(400).json({ error: "Missing Google authorization code" });
     }
 
-    const { user, token } = await googleLogin(idToken);
+    const { user, token } = await googleLogin(code); 
     res.status(200).json({ user, token });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
