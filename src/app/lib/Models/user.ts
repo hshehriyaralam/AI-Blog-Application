@@ -23,8 +23,8 @@ const userSchema = new Schema<IUser>(
     profilePic: { type: String, default: null },
     role: {
       type: String,
-      enum: ["reader", "author", "admin"],
-      default: "reader",
+      enum: [ "author", "admin"],
+      default: "author",
     },
     bio: { type: String, default: "" },
     blogCount: { type: Number, default: 0 },

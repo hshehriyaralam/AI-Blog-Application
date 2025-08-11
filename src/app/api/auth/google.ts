@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { googleLogin } from "../../lib/googleAuth";
-import { error } from "console";
 
 
 export default  async  function handler(req: NextApiRequest , res: NextApiResponse){
@@ -9,9 +8,17 @@ export default  async  function handler(req: NextApiRequest , res: NextApiRespon
     }
 
     try{
-
+        const {idToken} = req.body
+        if(!idToken){
+            return res.status(400).json({error: "Missing Google ID token"})
+        }
+        const {user , token} = await googleLogin(idToken)
+        res.status(200).json({user, token})
     }catch(error : any){
         res.status(500).json({ error: error.message })
     }
 }
+
+
+
 

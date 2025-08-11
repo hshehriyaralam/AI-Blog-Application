@@ -29,7 +29,7 @@ export async function googleLogin(idToken : string){
     const profilePic = payload.picture || null 
 
     //check if user already exist 
-    let user = await User.findOne({email})
+    let user = await User.findOne({uid })
 
     if(!user){
         user = await User.create({
