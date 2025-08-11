@@ -1,12 +1,12 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 export interface IUser extends Document {
-  uid: string; // Google UID (sub)
+  uid: string; 
   email: string;
   name: string;
   profilePic?: string | null;
   role: "author" | "admin";
-  isAdmin: boolean; // NEW FIELD
+  isAdmin: boolean; 
   bio?: string;
   blogCount: number;
   isBanned: boolean;
@@ -27,7 +27,7 @@ const userSchema = new Schema<IUser>(
       enum: ["author", "admin"],
       default: "author",
     },
-    isAdmin: { type: Boolean, default: false }, // NEW FIELD
+    isAdmin: { type: Boolean, default: false }, 
     bio: { type: String, default: "" },
     blogCount: { type: Number, default: 0 },
     isBanned: { type: Boolean, default: false },
@@ -41,7 +41,7 @@ const userSchema = new Schema<IUser>(
 userSchema.index({ role: 1 });
 userSchema.index({ email: 1 });
 
-// Transform output (hide _id, __v and expose id instead)
+
 userSchema.set("toJSON", {
   transform: (_doc, ret: any) => {
     ret.id = ret._id.toString();
