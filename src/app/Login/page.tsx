@@ -6,10 +6,12 @@ import type { AppDispatch,RootState } from "../../Redux/store";
 
 
 
+
 export default function Login(){
     const dispatch = useDispatch<AppDispatch>();
     const loading = useSelector((state : RootState) => state.auth.loading)
-
+    const user = useSelector((state: RootState) => state.auth.user)
+    console.log("user", user)
     const handleGoogleLgin = () => {
         console.log("Continue with google")
         dispatch(googleLoginThunk())
@@ -23,7 +25,7 @@ export default function Login(){
             <h1>Login</h1>
     <button
     className="p-2 border rounded-xl text-center m-10 cursor-pointer"
-    onClick={handleGoogleLgin} disabled={loading}>
+    onClick={handleGoogleLgin} disabled={loading} >
       {loading ? "Signing in..." : "Continue with Google"}
     </button>
         </div>

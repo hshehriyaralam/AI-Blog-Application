@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 interface User {
   id?: string;
@@ -11,15 +12,15 @@ interface User {
 }
 
 interface AuthState {
-  user: User | null;
-  token: string | null;
+  user:  User | null,
+  token: string | null,
   loading: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
-  user: null,
-  token: null,
+  user:  typeof window !== "undefined" ? JSON.parse(Cookies.get("user")  || "null") : null,
+  token: typeof window !== "undefined" ? Cookies.get("token") || null : null,
   loading: false,
   error: null,
 };
@@ -62,7 +63,7 @@ export const googleLoginThunk = createAsyncThunk(
         tokenClient.requestAccessToken();
       });
 
-      const data = await promise; // { user, token }
+      const data = await promise;
       return data;
     } catch (error: any) {
       return rejectWithValue(error?.message || String(error));
@@ -77,10 +78,16 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.token = null;
+      Cookies.remove("user");
+      Cookies.remove("token");
     },
     setAuth(state, action: PayloadAction<{ user: User; token: string }>) {
       state.user = action.payload.user;
       state.token = action.payload.token;
+
+      //save in cookies 
+      Cookies.set("user", JSON.stringify(action.payload.user), {expires : 7})
+      Cookies.set("token", action.payload.token, {expires:7})
     },
   },
   extraReducers: (builder) => {
@@ -93,6 +100,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        Cookies.set("user", JSON.stringify(action.payload.user), {expires : 7})
+        Cookies.set("token", action.payload.token, {expires:7})
       })
       .addCase(googleLoginThunk.rejected, (state, action) => {
         state.loading = false;

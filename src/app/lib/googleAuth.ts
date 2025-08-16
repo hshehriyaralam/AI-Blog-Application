@@ -48,7 +48,7 @@ export async function googleLogin(accessToken: string) {
     { id: user._id, email: user.email, role: user.role, isAdmin: user.isAdmin },
     process.env.JWT_SECRET as string,
     { expiresIn: "7d" }
-  );
+  )
 
   return { user, token: appToken };
 }
