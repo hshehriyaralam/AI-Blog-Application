@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       'coderscoach.com',
       'wallpaperaccess.com',
       'content.altexsoft.com',
+      
     ],
   },
   
