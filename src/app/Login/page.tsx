@@ -3,6 +3,7 @@ import Script from "next/script";
 import { useDispatch, useSelector } from "react-redux";
 import {googleLoginThunk} from "../../Redux/Slices/authSlice"
 import type { AppDispatch,RootState } from "../../Redux/store";    
+import Image from "next/image";
 
 
 
@@ -28,6 +29,11 @@ export default function Login(){
     onClick={handleGoogleLgin} disabled={loading} >
       {loading ? "Signing in..." : "Continue with Google"}
     </button>
+    <p>Name : {user?.name}</p>
+    <p>email : {user?.email}</p>
+    <p>role : {user?.role}</p>
+    <p>Admin : {user?.isAdmin}</p>
+    {/* <Image src={user?.profilePic} width={100} height={100}  alt="user" /> */}
         </div>
     )
 }

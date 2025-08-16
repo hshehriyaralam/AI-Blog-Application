@@ -19,7 +19,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user:  typeof window !== "undefined" ? JSON.parse(Cookies.get("user")  || "null") : null,
+  user: null,
   token: typeof window !== "undefined" ? Cookies.get("token") || null : null,
   loading: false,
   error: null,
@@ -86,7 +86,6 @@ const authSlice = createSlice({
       state.token = action.payload.token;
 
       //save in cookies 
-      Cookies.set("user", JSON.stringify(action.payload.user), {expires : 7})
       Cookies.set("token", action.payload.token, {expires:7})
     },
   },
@@ -100,7 +99,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
-        Cookies.set("user", JSON.stringify(action.payload.user), {expires : 7})
         Cookies.set("token", action.payload.token, {expires:7})
       })
       .addCase(googleLoginThunk.rejected, (state, action) => {
