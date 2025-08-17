@@ -26,6 +26,8 @@ export async function GET(req:Request){
         // user Fetch from DB
         const user = await User.findById(decode.id).select("-password")
         if(!user) {
+             // ✅ Delete cookie if user not found
+            (await cookies()).delete("token");
             return new Response(JSON.stringify({error : "User Not Found "}), {status : 404})
         }
 

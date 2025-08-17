@@ -3,15 +3,38 @@ import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import {ContextTheme} from '../../Context/DarkTheme'
+import { useGetUserQuery } from "../../Redux/Services/userApi";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import {googleLoginThunk} from "../../Redux/Slices/authSlice"
+import type { AppDispatch,RootState } from "../../Redux/store";    
+
+
 
 
 
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
   const {themeValue,changeTheme, light ,dark} = useContext(ContextTheme)
-
+  const { data, isLoading } = useGetUserQuery({});
+    const router = useRouter();
   
+  
+const handleNavigate = async (link: string) => {
+  if (!data?.user) {
+    try {
+          const res = await dispatch(googleLoginThunk()).unwrap();
+      router.push(link);
+    } catch (error) {
+      console.error("Google login failed:", error);
+    }
+  } else {
+    router.push(link);
+  }
+};
+
 
   return (
     <header className={`${themeValue ? light : dark} shadow-md sticky top-0 z-50 fixed w-full`}>
@@ -25,12 +48,12 @@ export default function Navbar() {
           <nav>
             <ul className={`flex space-x-6 font-medium ${themeValue ? 'text-gray-700' : 'text-gray-200'}`}>
               <li><Link href="/" className="hover:text-blue-500 transition">Home</Link></li>
-              <li><Link href="/Create" className="hover:text-blue-500 transition">Create Blog</Link></li>
-              <li><Link href="/Blogs" className="hover:text-blue-500 transition">Blogs</Link></li>
-              <li>
-                <Link href="/Login" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-md transition">
-                  Login
-                </Link>
+              <li className="hover:text-blue-500 transition cursor-pointer"  onClick={() => handleNavigate('/Create')}> Create Blog</li>
+              <li className="hover:text-blue-500 transition cursor-pointer" onClick={() => handleNavigate('/Blogs')}   >Blogs</li>
+              <li
+              onClick={() => handleNavigate('/Login')}
+                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-md transition cursor-pointer ">                  
+                 Login 
               </li>
             </ul>
           </nav>

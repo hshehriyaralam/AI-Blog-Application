@@ -3,7 +3,6 @@ import Script from "next/script";
 import { useDispatch, useSelector } from "react-redux";
 import {googleLoginThunk} from "../../Redux/Slices/authSlice"
 import type { AppDispatch,RootState } from "../../Redux/store";    
-import Image from "next/image";
 import   {useGetUserQuery}  from '../../Redux/Services/userApi'
 
 
@@ -12,7 +11,10 @@ import   {useGetUserQuery}  from '../../Redux/Services/userApi'
 export default function Login(){
     const dispatch = useDispatch<AppDispatch>();
     const loading = useSelector((state : RootState) => state.auth.loading)
-    const { data, error, isLoading } = useGetUserQuery(undefined);
+    const { data} = useGetUserQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+        pollingInterval: 10000,
+        })
 
 
 

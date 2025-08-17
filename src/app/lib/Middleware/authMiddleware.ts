@@ -1,36 +1,23 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
+import { NextRequest, NextResponse } from "next/server";
+import { jwtVerify } from "jose";
 
-export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
-  // Sirf admin routes protect karna
-  if (pathname.startsWith("/Admin")) {
-    const authHeader = req.headers.get("authorization");
+export default async function authMiddleware(req: NextRequest) {
+  const token = req.cookies.get("token")?.value;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
+  console.log("🔑 authMiddleware called");
+  console.log("Token from cookie:", token);
 
-    const token = authHeader.split(" ")[1];
-
-    try {
-      const decode = jwt.verify(token, process.env.JWT_SECRET as string) as {
-        isAdmin: boolean;
-      };
-
-      if (!decode.isAdmin) {
-        return NextResponse.redirect(new URL("/", req.url));
-      }
-    } catch (error) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
+  if (!token) {
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
-  return NextResponse.next();
+  try {
+    await jwtVerify(token, secret);
+    return NextResponse.next();
+  } catch (error) {
+    console.log("JWT verification failed", error);
+    return NextResponse.redirect(new URL("/", req.url));
+  }
 }
-
-export const config = {
-  matcher: ["/Admin/:path*"],
-};
