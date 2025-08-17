@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import {googleLoginThunk} from "../../Redux/Slices/authSlice"
 import type { AppDispatch,RootState } from "../../Redux/store";    
+import Loader from '../Common/Loader';
 
 
 
@@ -23,17 +24,21 @@ export default function Navbar() {
   
   
 const handleNavigate = async (link: string) => {
-  if (isLoading) return
+  if (isLoading) return <div className="w-full h-screen flex justify-center items-center"  > <Loader /> </div>
 
   if (!data?.user) {
     try {
       const res = await dispatch(googleLoginThunk()).unwrap();
       await refetch()
+      // for mobile navigations 
+      setMenuOpen(false)
       router.push(link);
     } catch (error) {
       console.error("Google login failed:", error);
     }
   } else {
+    // for mobile navigations 
+   setMenuOpen(false)
     router.push(link);
   }
 };
@@ -48,22 +53,22 @@ const handleNavigate = async (link: string) => {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center  gap-6 ">
           <nav>
-            <ul className={`flex space-x-6 font-medium ${themeValue ? 'text-gray-700' : 'text-gray-200'}`}>
+            <ul className={`flex space-x-6 font-medium  flex  items-center  ${themeValue ? 'text-gray-700' : 'text-gray-200'}`}>
               <li><Link href="/" className="hover:text-blue-500 transition">Home</Link></li>
               <li className="hover:text-blue-500 transition cursor-pointer"  onClick={() => handleNavigate('/Create')}> Create Blog</li>
               <li className="hover:text-blue-500 transition cursor-pointer" onClick={() => handleNavigate('/Blogs')}   >Blogs</li>
               <li
-              onClick={() => handleNavigate('/Login')}
+              onClick={() => handleNavigate('/Profile')}
                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-md transition cursor-pointer ">                  
-                 Login 
+                 Profile
               </li>
             </ul>
           </nav>
           <button
             onClick={changeTheme}
-            className={` text-blue-600 hover:text-yellow-400   transition  duration-500 cursor-pointer `}
+            className={` text-blue-600 hover:text-yellow-400   transition   duration-500 cursor-pointer `}
           >
             {themeValue ? <Moon size={24} /> : <Sun size={24} />}
           </button>
@@ -71,26 +76,24 @@ const handleNavigate = async (link: string) => {
 
         {/* Mobile Menu Button */}
         <div className="lg:hidden flex items-center gap-4">
-          <button onClick={changeTheme}  className={`  text-blue-600 hover:text-yellow-400  transition  duration-500 cursor-pointer `}>
+          <button onClick={changeTheme}  className={`text-blue-600 hover:text-yellow-400  transition  duration-500 cursor-pointer `}>
             {themeValue ? <Moon size={22} /> : <Sun size={22} />}
           </button>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="text-blue-600">
+          <button onClick={() => setMenuOpen(!menuOpen)} className="text-blue-600 cursor-pointer">
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu Dropdown */}
-      <div className={`lg:hidden overflow-hidden transition-all duration-500 ${menuOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}>
-        <ul className={`flex flex-col space-y-4 font-medium px-6 pb-4 pt-2 ${themeValue ? 'text-gray-700' : 'text-gray-200'}`}>
-          <li><Link href="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-          <li><Link href="/Create" onClick={() => setMenuOpen(false)}>Create Blog</Link></li>
-          <li><Link href="/Blogs" onClick={() => setMenuOpen(false)}>Blogs</Link></li>
-          <li>
-            <Link href="/Login" onClick={() => setMenuOpen(false)} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-md transition">
-              Login
-            </Link>
-          </li>
+      <div className={`lg:hidden overflow-hidden transition-all  duration-500 ${menuOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}>
+        <ul className={`flex flex-col space-y-4 font-medium px-6 pb-4 pt-2   ${themeValue ? 'text-gray-700' : 'text-gray-200'}   `}>
+          <li className='hover:text-blue-500' ><Link href="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
+          <li onClick={() => handleNavigate('/Create')}   className='cursor-pointer hover:text-blue-500 ' >Create Blog</li>
+          <li  onClick={() => handleNavigate('/Blogs')}   className='cursor-pointer hover:text-blue-500 ' > Blogs</li>
+          <button className='bg-blue-500 hover:bg-blue-600 text-white  py-1 cursor-pointer rounded-md transition w-20  ' >
+              Profile
+          </button>
         </ul>
       </div>
     </header>
