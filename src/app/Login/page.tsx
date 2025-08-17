@@ -10,8 +10,7 @@ import   {useGetUserQuery}  from '../../Redux/Services/userApi'
 
 export default function Login(){
     const dispatch = useDispatch<AppDispatch>();
-    const loading = useSelector((state : RootState) => state.auth.loading)
-    const { data} = useGetUserQuery(undefined, {
+    const { data, isLoading} = useGetUserQuery(undefined, {
         refetchOnMountOrArgChange: true,
         pollingInterval: 10000,
         })
@@ -30,8 +29,8 @@ export default function Login(){
             <h1>Login</h1>
     <button
     className="p-2 border rounded-xl text-center m-10 cursor-pointer"
-    onClick={handleGoogleLgin} disabled={loading} >
-      {loading ? "Signing in..." : "Continue with Google"}
+    onClick={handleGoogleLgin} disabled={isLoading} >
+      {isLoading ? "Signing in..." : "Continue with Google"}
     </button>
     <p>Name : {data?.user?.name}</p>
     <p>Email : {data?.user?.email}</p>

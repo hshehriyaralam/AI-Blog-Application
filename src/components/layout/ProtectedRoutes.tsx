@@ -2,6 +2,7 @@
 import { useGetUserQuery } from "../../Redux/Services/userApi";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Loader from "../Common/Loader";
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { data, isLoading } = useGetUserQuery(undefined, {
@@ -16,7 +17,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     }
   }, [data, isLoading, router]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <div className="w-full h-screen flex justify-center items-center"  > <Loader /> </div>;
 
   return <>{children}</>;
 }

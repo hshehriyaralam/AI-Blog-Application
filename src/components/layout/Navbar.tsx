@@ -18,14 +18,17 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const {themeValue,changeTheme, light ,dark} = useContext(ContextTheme)
-  const { data, isLoading } = useGetUserQuery({});
+  const { data, isLoading, refetch} = useGetUserQuery({});
     const router = useRouter();
   
   
 const handleNavigate = async (link: string) => {
+  if (isLoading) return
+
   if (!data?.user) {
     try {
-          const res = await dispatch(googleLoginThunk()).unwrap();
+      const res = await dispatch(googleLoginThunk()).unwrap();
+      await refetch()
       router.push(link);
     } catch (error) {
       console.error("Google login failed:", error);
@@ -34,6 +37,7 @@ const handleNavigate = async (link: string) => {
     router.push(link);
   }
 };
+
 
 
   return (

@@ -39,7 +39,7 @@ export const googleLoginThunk = createAsyncThunk(
           const accessToken = tokenResponse.access_token;
           try {
             // Send access token to backend for DB save + our JWT
-            const backendRes = await axios.post("/api/auth/google", { accessToken });
+            const backendRes = await axios.post("/api/auth", { accessToken });
             return backendRes.data; // { user, token }
           } catch (err: any) {
             throw err.response?.data || err.message;
@@ -100,6 +100,7 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
         Cookies.set("token", action.payload.token, {expires:7})
+        
       })
       .addCase(googleLoginThunk.rejected, (state, action) => {
         state.loading = false;
