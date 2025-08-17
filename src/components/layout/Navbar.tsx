@@ -5,9 +5,9 @@ import { Menu, X, Moon, Sun } from 'lucide-react';
 import {ContextTheme} from '../../Context/DarkTheme'
 import { useGetUserQuery } from "../../Redux/Services/userApi";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {googleLoginThunk} from "../../Redux/Slices/authSlice"
-import type { AppDispatch,RootState } from "../../Redux/store";    
+import type { AppDispatch } from "../../Redux/store";    
 import Loader from '../Common/Loader';
 
 
@@ -93,7 +93,8 @@ const handleNavigate = async (link: string) => {
           <li onClick={() => handleNavigate('/Create')}   className='cursor-pointer hover:text-blue-500 ' >Create Blog</li>
           <li  onClick={() => handleNavigate('/Blogs')}   className='cursor-pointer hover:text-blue-500 ' > Blogs</li>
             <li  onClick={() => handleNavigate('/Authors')}   className='cursor-pointer hover:text-blue-500 ' > Authors</li>
-          <button className='bg-blue-500 hover:bg-blue-600 text-white  py-1 cursor-pointer rounded-md transition w-20  ' >
+          <button onClick={() => handleNavigate('/Profile')}
+           className='bg-blue-500 hover:bg-blue-600 text-white  py-1 cursor-pointer rounded-md transition w-20  ' >
               Profile
           </button>
         </ul>
