@@ -59,6 +59,7 @@ const handleNavigate = async (link: string) => {
               <li><Link href="/" className="hover:text-blue-500 transition">Home</Link></li>
               <li className="hover:text-blue-500 transition cursor-pointer"  onClick={() => handleNavigate('/Create')}> Create Blog</li>
               <li className="hover:text-blue-500 transition cursor-pointer" onClick={() => handleNavigate('/Blogs')}   >Blogs</li>
+               <li className="hover:text-blue-500 transition cursor-pointer" onClick={() => handleNavigate('/Authors')}   >Authors</li>
               <li
               onClick={() => handleNavigate('/Profile')}
                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-md transition cursor-pointer ">                  
@@ -91,6 +92,7 @@ const handleNavigate = async (link: string) => {
           <li className='hover:text-blue-500' ><Link href="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
           <li onClick={() => handleNavigate('/Create')}   className='cursor-pointer hover:text-blue-500 ' >Create Blog</li>
           <li  onClick={() => handleNavigate('/Blogs')}   className='cursor-pointer hover:text-blue-500 ' > Blogs</li>
+            <li  onClick={() => handleNavigate('/Authors')}   className='cursor-pointer hover:text-blue-500 ' > Authors</li>
           <button className='bg-blue-500 hover:bg-blue-600 text-white  py-1 cursor-pointer rounded-md transition w-20  ' >
               Profile
           </button>

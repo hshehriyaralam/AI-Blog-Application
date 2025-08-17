@@ -8,7 +8,7 @@ import   {useGetUserQuery}  from '../../Redux/Services/userApi'
 
 
 
-export default function Login(){
+export default function Profile(){
     const dispatch = useDispatch<AppDispatch>();
     const { data, isLoading} = useGetUserQuery(undefined, {
         refetchOnMountOrArgChange: true,
@@ -26,7 +26,7 @@ export default function Login(){
         src="https://accounts.google.com/gsi/client"
         strategy="afterInteractive"
       />
-            <h1>Login</h1>
+            <h1>Profile</h1>
     <button
     className="p-2 border rounded-xl text-center m-10 cursor-pointer"
     onClick={handleGoogleLgin} disabled={isLoading} >
