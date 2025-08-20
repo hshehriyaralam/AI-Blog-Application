@@ -10,11 +10,6 @@ import {googleLoginThunk} from "../../Redux/Slices/authSlice"
 import type { AppDispatch } from "../../Redux/store";    
 import Loader from '../Common/Loader';
 
-
-
-
-
-
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();

@@ -1,16 +1,16 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document,Schema } from "mongoose";
 
 
-export interface Blogs extends Document {
+export interface IBlog  extends Document {
     blogTitle : string,
     blogContent : string,
     blogSummary : string,
-    blogTags : string,
+    blogTags : string[],
     blogImage : string,
-    userId : String
+    userId : mongoose.Schema.Types.ObjectId;
 }
 
-const blogShema = new Schema<Blogs>(
+const blogShema = new Schema<IBlog>(
     {
         blogTitle : {
             type : String,
@@ -25,7 +25,7 @@ const blogShema = new Schema<Blogs>(
             required : true,
         },
         blogTags :  {
-            type : String,
+            type : [String],
             required : true,
         },
         blogImage : {
