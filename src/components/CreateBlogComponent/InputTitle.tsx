@@ -1,9 +1,10 @@
+'use client'
 import { ContextTheme } from '../../Context/DarkTheme'
 import { useContext } from 'react';
 
 
 export default function InputTitle({value,onChange}:any){
-      const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
+      const { themeValue,  lightText, DarkText } = useContext(ContextTheme);
     return(
         <div>
             <label className={`block text-sm font-medium mb-1 ${themeValue ? lightText : DarkText}`}>

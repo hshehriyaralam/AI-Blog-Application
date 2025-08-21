@@ -1,8 +1,14 @@
 'use client'
-import { useState, ChangeEvent, useContext } from 'react';
+import { useState, ChangeEvent, useContext, SetStateAction } from 'react';
 import { ContextTheme } from '../../Context/DarkTheme';
 import { Button } from '../../components/ui/button';
 import InputTitle from '../../components/CreateBlogComponent/InputTitle'
+import InputContent from '../../components/CreateBlogComponent/InputContent';
+import FeatureImage  from '../../components/CreateBlogComponent/FeatureImage';
+import InputSummary from '../../components/CreateBlogComponent/InputSummary'
+import InputTags from '../../components/CreateBlogComponent/InputTags';
+import PreviewBlog from '../../components/CreateBlogComponent/PreviewBlog';
+import CenteredButtons from '../../components/CreateBlogComponent/CenteredButtons';
 
 interface BlogFormData {
   title: string;
@@ -75,6 +81,22 @@ export default function WriteBlogForm() {
     }));
   };
 
+  const CancellBlog = () => {
+    setFormData({
+    title: '',
+    content: '',
+    summary: '',
+    tags: [],
+    image: null,
+    imagePreview: ''
+    })
+  }
+
+  const addBlogs = () => {
+    alert("add Blogs")
+  }
+
+
   return (
     <div className={`w-full min-h-screen ${themeValue ? light : dark}`}>
       <div className="max-w-6xl mx-auto px-4 py-4">
@@ -86,95 +108,27 @@ export default function WriteBlogForm() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Left Column - Title and Content */}
           <div className="space-y-3">
-            {/* // Input Titlle  */}
+            {/* Blog Titlle  */}
             <InputTitle  onChange={handleChange} value={formData.title} />
-
-            <div>
-              <label className={`block text-sm font-medium mb-1 ${themeValue ? lightText : DarkText}`}>
-                Blog Content
-              </label>
-              <textarea
-                name="content"
-                rows={6}
-                value={formData.content}
-                onChange={handleChange}
-                placeholder="Write your content here..."
-                className={`w-full px-3 py-2 text-sm border rounded-md ${themeValue ? 'border-gray-300' : 'border-gray-600'} text-gray-500`}
-              />
-            </div>
-
-            <div>
-              <label className={`block text-sm font-medium mb-1 ${themeValue ? lightText : DarkText}`}>
-                Featured Image
-              </label>
-              <label className={`block w-full h-32 border-2 border-dashed rounded-md cursor-pointer flex items-center justify-center ${
-                themeValue ? 'border-gray-300 bg-gray-50' : 'border-gray-600 bg-gray-800'
-              }`}>
-                {formData.imagePreview ? (
-                  <img src={formData.imagePreview} alt="Preview" className="h-full w-full object-cover rounded" />
-                ) : (
-                  <div className={`text-center ${themeValue ? 'text-gray-500' : 'text-gray-400'}`}>
-                    <p className="text-sm">Click to upload</p>
-                    <p className="text-xs">PNG, JPG (Max 5MB)</p>
-                  </div>
-                )}
-                <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
-              </label>
-            </div>
-          </div>
+            {/* Blog Content  */}
+            <InputContent  onChange={handleChange} value={formData.content}  />
+            {/* Feature Image */}
+            <FeatureImage  onChange={handleImageChange} imagePreview={formData.imagePreview} /> 
+           </div>
 
           {/* Middle Column - Summary and Tags */}
           <div className="space-y-3">
-            <div>
-              <label className={`block text-sm font-medium mb-1 ${themeValue ? lightText : DarkText}`}>
-                Summary
-              </label>
-              <textarea
-                name="summary"
-                rows={4}
-                value={formData.summary}
-                onChange={handleChange}
-                placeholder="Blog summary..."
-                className={`w-full px-3 py-2 text-sm border rounded-md ${themeValue ? 'border-gray-300' : 'border-gray-600'} text-gray-500 `}
-              />
-            </div>
-
-            <div>
-              <label className={`block text-sm font-medium mb-1 ${themeValue ? lightText : DarkText}`}>
-                Tags
-              </label>
-              <div className="flex gap-2 mb-2 items-center">
-                <input
-                  type="text"
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && addTag()}
-                  placeholder="Add tag..."
-                  className={`flex-1 px-3 py-2 text-sm border rounded-md ${themeValue ? 'border-gray-300' : 'border-gray-600'} ${themeValue ? lightText : DarkText}`}
-                />
-                <Button onClick={addTag} size="sm" className={`h-[30px]   border border-gray-500 ${themeValue ? 'text-gray-800' : 'text-gray-300'}  cursor-pointer`}>
-                  Add
-                </Button>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {formData.tags.map((tag, i) => (
-                  <span 
-                    key={i} 
-                    className={`inline-flex items-center px-2 py-1 text-xs rounded-full ${
-                      themeValue ? 'bg-blue-100 text-blue-800' : 'bg-blue-900 text-blue-100'
-                    }`}
-                  >
-                    {tag}
-                    <button 
-                      onClick={() => removeTag(i)} 
-                      className="ml-1 text-xs cursor-pointer "
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-            </div>
+            {/* Input Summary */}
+            <InputSummary  value={formData.summary} onChange={handleChange} />
+            {/* InputTags */}
+            <InputTags 
+            value={tagInput} 
+            onChange={(e: { target: { value: SetStateAction<string>; }; }) => setTagInput(e.target.value)}
+            onKeyDown={(e: { key: string; }) => e.key === 'Enter' && addTag()}
+            addTag={addTag}
+            removeTag={removeTag}
+            formData={formData}
+            />
           </div>
 
           {/* Right Column - AI Tools */}
@@ -203,50 +157,13 @@ export default function WriteBlogForm() {
               </div>
             </div>
 
-            <div className={`p-3 rounded-lg ${themeValue ? 'bg-gray-50' : 'bg-gray-800'}`}>
-              <h2 className={`text-sm font-medium mb-2 ${themeValue ? lightText : DarkText}`}>
-                Preview
-              </h2>
-              <div className={`p-2 rounded text-xs ${themeValue ? 'bg-white' : 'bg-gray-700'}`}>
-                <h3 className={`font-medium mb-1 ${themeValue ? 'text-gray-800' : 'text-gray-200'}`}>
-                  {formData.title || "Your Title"}
-                </h3>
-                <p className={`${themeValue ? 'text-gray-600' : 'text-gray-300'} line-clamp-3`}>
-                  {formData.summary || "Summary preview"}
-                </p>
-                {formData.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {formData.tags.map((tag, i) => (
-                      <span 
-                        key={i} 
-                        className={`px-2 py-0.5 text-xs rounded-full ${
-                          themeValue ? 'bg-blue-100 text-blue-800' : 'bg-blue-900 text-blue-100'
-                        }`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+            {/* Preview Blogs  */}
+            <PreviewBlog  formData={formData} />
           </div>
         </div>
 
         {/* Action Buttons - Centered */}
-        <div className="mt-6 flex justify-center gap-3">
-          <Button 
-            variant="outline"
-            className={`px-4 py-2 border border-gray-500 ${themeValue ? 'text-gray-800' : 'text-gray-300'} cursor-pointer  `}
-          >
-            Cancel
-          </Button>
-          <Button 
-            className="px-4 py-2 bg-blue-600 text-gray-100 hover:bg-blue-700 cursor-pointer  "
-          >
-            Publish
-          </Button>
-        </div>
+        <CenteredButtons addBlog={addBlogs} CancellBlog={CancellBlog} />
       </div>
     </div>
     
