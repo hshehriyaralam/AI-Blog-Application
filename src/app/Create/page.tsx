@@ -2,6 +2,7 @@
 import { useState, ChangeEvent, useContext } from 'react';
 import { ContextTheme } from '../../Context/DarkTheme';
 import { Button } from '../../components/ui/button';
+import InputTitle from '../../components/CreateBlogComponent/InputTitle'
 
 interface BlogFormData {
   title: string;
@@ -85,19 +86,8 @@ export default function WriteBlogForm() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Left Column - Title and Content */}
           <div className="space-y-3">
-            <div>
-              <label className={`block text-sm font-medium mb-1 ${themeValue ? lightText : DarkText}`}>
-                Blog Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="Enter blog title"
-                className={`w-full px-3 py-2 text-sm border rounded-md ${themeValue ? 'border-gray-300' : 'border-gray-600'} text-gray-500`}
-              />
-            </div>
+            {/* // Input Titlle  */}
+            <InputTitle  onChange={handleChange} value={formData.title} />
 
             <div>
               <label className={`block text-sm font-medium mb-1 ${themeValue ? lightText : DarkText}`}>
