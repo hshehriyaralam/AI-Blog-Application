@@ -1,5 +1,8 @@
 'use client'
-import { useState, ChangeEvent, useContext, SetStateAction } from 'react';
+import { useState, ChangeEvent } from 'react';
+import axios from 'axios';
+import { toBase64 } from '../utilities/file';
+import {useAddBlogMutation } from '../Redux/Services/blogApi'
 
 
 interface BlogFormDataTypes {
@@ -9,18 +12,22 @@ interface BlogFormDataTypes {
   tags: string[];
   image: File | null;
   imagePreview: string;
+  userId : string
 }
 
 export default function  BlogFormFunctions(){
+  const [addBlogMutation, { isLoading }] = useAddBlogMutation();
     const [formData, setFormData] = useState<BlogFormDataTypes>({
         title: '',
         content: '',
         summary: '',
         tags: [],
         image: null,
-        imagePreview: ''
+        imagePreview: '',
+        userId : ''
       });
   const [tagInput, setTagInput] = useState('');
+  const [file, setFile] = useState<File | null>(null);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
@@ -29,14 +36,15 @@ export default function  BlogFormFunctions(){
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
-      const file = e.target.files[0];
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
       setFormData(prev => ({
         ...prev,
-        image: file,
-        imagePreview: URL.createObjectURL(file)
+        image: selectedFile,
+        imagePreview: URL.createObjectURL(selectedFile)
       }));
     }
-  }
+  };
 
    const addTag = () => {
     if (tagInput.trim()) {
@@ -55,20 +63,71 @@ export default function  BlogFormFunctions(){
     }));
   }
 
-  const addBlogs = () => {
-    alert("add Blogs")
-  }  
-
-    const CancellBlog = () => {
+     const CancellBlog = () => {
     setFormData({
     title: '',
     content: '',
     summary: '',
     tags: [],
     image: null,
-    imagePreview: ''
+    imagePreview: '',
+    userId : ''
     })
   }
+
+   const handleImageUpload = async () => {
+    if (!formData.image) return;
+
+    try {
+      const base64File = await toBase64(formData.image);
+      const res = await axios.post('/api/upload', { file: base64File });
+
+      if (res.status === 200) {
+        const imageUrl = res.data.url;
+        console.log("Uploaded Image URL:", imageUrl);
+
+        setFormData(prev => ({
+          ...prev,
+          imagePreview: imageUrl,
+          image: null, // optional clear
+        }));
+
+        return imageUrl;
+      } else {
+        throw new Error("Image Upload failed");
+      }
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      throw error;
+    }
+  };
+ 
+
+
+ const addBlogs = async () => {
+    try {
+      const imageURL = await handleImageUpload();
+
+      const blogPayload = {
+        blogTitle: formData.title,
+        blogContent: formData.content,
+        blogSummary: formData.summary,
+        blogTags: formData.tags,
+        blogImage: imageURL,
+        userId: formData.userId,
+      };
+
+      const result = await addBlogMutation(blogPayload).unwrap();
+      console.log("Blog added:", result);
+
+      CancellBlog();
+    } catch (error) {
+      console.error("Failed to add blog:", error);
+    }
+  };
+
+
+ 
 
     return {
       handleChange,
