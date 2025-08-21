@@ -1,5 +1,5 @@
 'use client'
-import { useState, ChangeEvent, useContext, SetStateAction } from 'react';
+import {  useContext, SetStateAction } from 'react';
 import { ContextTheme } from '../../Context/DarkTheme';
 import { Button } from '../../components/ui/button';
 import InputTitle from '../../components/CreateBlogComponent/InputTitle'
@@ -9,92 +9,29 @@ import InputSummary from '../../components/CreateBlogComponent/InputSummary'
 import InputTags from '../../components/CreateBlogComponent/InputTags';
 import PreviewBlog from '../../components/CreateBlogComponent/PreviewBlog';
 import CenteredButtons from '../../components/CreateBlogComponent/CenteredButtons';
+import BlogFormFunctions  from '../../utilities/BlogFornFunc'
+import GenerateSummaryFunction from '../../utilities/AI-Functions/GenerateSumary'
+import GenerateTagsFunction from '../../utilities/AI-Functions/GenerateTags'
 
-interface BlogFormData {
-  title: string;
-  content: string;
-  summary: string;
-  tags: string[];
-  image: File | null;
-  imagePreview: string;
-}
 
 export default function WriteBlogForm() {
-  const [formData, setFormData] = useState<BlogFormData>({
-    title: '',
-    content: '',
-    summary: '',
-    tags: [],
-    image: null,
-    imagePreview: ''
-  });
-
-  const [tagInput, setTagInput] = useState('');
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
+  const {
+    handleChange,
+    handleImageChange,
+     addTag,
+     removeTag,
+     addBlogs,
+     CancellBlog,
+     formData,
+     setFormData,
+     tagInput,
+      setTagInput
+  } = BlogFormFunctions();
+  
+  const {generateSummary}  = GenerateSummaryFunction(setFormData);
+  const {generateTags} = GenerateTagsFunction(setFormData);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      const file = e.target.files[0];
-      setFormData(prev => ({
-        ...prev,
-        image: file,
-        imagePreview: URL.createObjectURL(file)
-      }));
-    }
-  };
-
-  const addTag = () => {
-    if (tagInput.trim()) {
-      setFormData(prev => ({
-        ...prev,
-        tags: [...prev.tags, tagInput.trim()]
-      }));
-      setTagInput('');
-    }
-  };
-
-  const removeTag = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      tags: prev.tags.filter((_, i) => i !== index)
-    }));
-  };
-
-  const generateSummary = () => {
-    // AI would analyze title + content to generate summary
-    setFormData(prev => ({
-      ...prev,
-      summary: `AI-generated summary based on: "${prev.title}"...`
-    }));
-  };
-
-  const generateTags = () => {
-    // AI would analyze title + content to generate tags
-    setFormData(prev => ({
-      ...prev,
-      tags: [...prev.tags, ...["Tech", "Writing", "AI"]]
-    }));
-  };
-
-  const CancellBlog = () => {
-    setFormData({
-    title: '',
-    content: '',
-    summary: '',
-    tags: [],
-    image: null,
-    imagePreview: ''
-    })
-  }
-
-  const addBlogs = () => {
-    alert("add Blogs")
-  }
 
 
   return (
@@ -141,7 +78,7 @@ export default function WriteBlogForm() {
                 <Button
                   onClick={generateSummary}
                   variant="outline"
-                  className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'}`}
+                  className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'} cursor-pointer `}
                 >
                   <span >Generate Summary</span>
                   <span className="text-xs">⌘S</span>
@@ -149,7 +86,7 @@ export default function WriteBlogForm() {
                 <Button
                   onClick={generateTags}
                   variant="outline"
-                  className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'} `}
+                  className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'} cursor-pointer `}
                 >
                   <span>Suggest Tags</span>
                   <span className="text-xs">⌘T</span>
