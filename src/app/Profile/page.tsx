@@ -15,8 +15,6 @@ export default function Profile(){
         pollingInterval: 10000,
         })
 
-
-
     const handleGoogleLgin = () => {
             dispatch(googleLoginThunk())
     }
@@ -36,6 +34,7 @@ export default function Profile(){
     <p>Email : {data?.user?.email}</p>
     <p>ROle : {data?.user?.role}</p>
     <p>BlogCount : {data?.user.blogCount}</p>
+    <p>Id : {data?.user.id}</p>
     <img src={data?.user?.profilePic} width={100} height={100}  alt="user" />
         </div>
     )

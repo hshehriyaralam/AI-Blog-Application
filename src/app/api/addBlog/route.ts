@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       userId, 
     } = body;
 
-    if (!blogTitle || !blogContent || !blogSummary || !blogImage || !blogTags) {
+    if (!blogTitle || !blogContent || !blogSummary || !blogImage || !blogTags || !userId) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }

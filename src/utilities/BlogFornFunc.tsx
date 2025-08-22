@@ -3,6 +3,9 @@ import { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { toBase64 } from '../utilities/file';
 import {useAddBlogMutation } from '../Redux/Services/blogApi'
+import   {useGetUserQuery}  from '../Redux/Services/userApi'
+
+
 
 
 interface BlogFormDataTypes {
@@ -16,7 +19,9 @@ interface BlogFormDataTypes {
 }
 
 export default function  BlogFormFunctions(){
-  const [addBlogMutation, { isLoading }] = useAddBlogMutation();
+    const { data} = useGetUserQuery(undefined)
+  const [addBlogMutation] = useAddBlogMutation();
+  const [loading , setLoading] = useState(false)
     const [formData, setFormData] = useState<BlogFormDataTypes>({
         title: '',
         content: '',
@@ -106,21 +111,19 @@ export default function  BlogFormFunctions(){
 
  const addBlogs = async () => {
     try {
+      setLoading(true)
       const imageURL = await handleImageUpload();
-
       const blogPayload = {
         blogTitle: formData.title,
         blogContent: formData.content,
         blogSummary: formData.summary,
         blogTags: formData.tags,
         blogImage: imageURL,
-        userId: formData.userId,
+        userId: data?.user.id,
       };
-
       const result = await addBlogMutation(blogPayload).unwrap();
-      console.log("Blog added:", result);
-
       CancellBlog();
+      setLoading(false)
     } catch (error) {
       console.error("Failed to add blog:", error);
     }
@@ -139,6 +142,7 @@ export default function  BlogFormFunctions(){
        formData,
        setFormData,
        tagInput,
-       setTagInput
+       setTagInput,
+       loading
       }
 }

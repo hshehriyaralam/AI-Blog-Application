@@ -26,7 +26,8 @@ export default function WriteBlogForm() {
      formData,
      setFormData,
      tagInput,
-      setTagInput
+      setTagInput,
+      loading
   } = BlogFormFunctions();
   
   const {generateSummary}  = GenerateSummaryFunction(setFormData);
@@ -100,7 +101,7 @@ export default function WriteBlogForm() {
         </div>
 
         {/* Action Buttons - Centered */}
-        <CenteredButtons addBlog={addBlogs} CancellBlog={CancellBlog} />
+        <CenteredButtons addBlog={addBlogs} CancellBlog={CancellBlog} text={loading ? "Loading..." : "Publish"} />
       </div>
     </div>
     
