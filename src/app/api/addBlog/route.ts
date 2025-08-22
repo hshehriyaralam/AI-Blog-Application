@@ -6,7 +6,6 @@ export async function POST(req: Request) {
   try {
     await connectDB();
     const body = await req.json();
-    console.log("Incoming Blog Data:", body);
 
     const {
       blogTitle,
