@@ -22,6 +22,7 @@ export default function InputTags({value,onChange,onKeyDown, addTag,removeTag,fo
         />
         <Button 
           onClick={addTag} 
+          type='button'
           size="sm" 
           className={`h-[30px] border border-gray-500 ${themeValue ? 'text-gray-800' : 'text-gray-300'} cursor-pointer`}
         >

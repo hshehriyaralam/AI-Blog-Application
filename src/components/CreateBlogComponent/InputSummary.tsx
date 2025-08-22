@@ -11,6 +11,7 @@ export default function InputSummary({value,onChange}:any){
         Summary
         </label>
         <textarea
+        required
         name="summary"
         rows={4}
         value={value}

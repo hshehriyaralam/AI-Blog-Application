@@ -13,6 +13,7 @@ export default function InputTitle({value,onChange}:any){
             <input
             type="text"
             name="title"
+            required
             value={value}
             onChange={onChange}
             placeholder="Enter blog title"

@@ -21,7 +21,7 @@ export default function FeatureImage({onChange,imagePreview }:any){
             <p className="text-xs">PNG, JPG (Max 5MB)</p>
             </div>
         )}
-        <input type="file" className="hidden" accept="image/*" onChange={onChange} />
+        <input type="file" className="hidden" accept="image/*" onChange={onChange}  required />
         </label>
     </div>
     )

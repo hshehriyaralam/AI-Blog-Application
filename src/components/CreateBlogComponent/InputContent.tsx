@@ -12,6 +12,7 @@ export default function InputContent({value,onChange}:any){
         </label>
         <textarea
         name="content"
+        required
         rows={6}
         value={value}
         onChange={onChange}

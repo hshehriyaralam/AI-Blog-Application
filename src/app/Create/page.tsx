@@ -38,13 +38,17 @@ export default function WriteBlogForm() {
 
   return (
     <div className={`w-full min-h-screen ${themeValue ? light : dark}`}>
-      <div className="max-w-6xl mx-auto px-4 py-4">
+      <form 
+      onSubmit={addBlogs}
+      className="max-w-6xl mx-auto px-4 py-4">
         <h1 className={`text-xl font-semibold mb-4 text-center ${themeValue ? lightText : DarkText}`}>
           Add Article
         </h1>
 
         {/* Main Editor Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div
+        
+        className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Left Column - Title and Content */}
           <div className="space-y-3">
             {/* Blog Titlle  */}
@@ -78,6 +82,7 @@ export default function WriteBlogForm() {
               </h2>
               <div className="space-y-2">
                 <Button
+                type='button'
                   onClick={generateSummary}
                   variant="outline"
                   className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'} cursor-pointer `}
@@ -86,6 +91,7 @@ export default function WriteBlogForm() {
                   <span className="text-xs">⌘S</span>
                 </Button>
                 <Button
+                type='button'
                   onClick={generateTags}
                   variant="outline"
                   className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'} cursor-pointer `}
@@ -102,9 +108,24 @@ export default function WriteBlogForm() {
         </div>
 
         {/* Action Buttons - Centered */}
-        <CenteredButtons addBlog={addBlogs} CancellBlog={CancellBlog} 
+        <CenteredButtons   CancellBlog={CancellBlog} 
         text={loading ?  <ButtonLoader /> : "Publish"} />
-      </div>
+           {/* <div className="mt-6 flex justify-center gap-3">
+            <Button
+            onClick={CancellBlog}
+            variant="outline"
+            className={`px-4 py-2 border border-gray-500 ${themeValue ? 'text-gray-800' : 'text-gray-300'} cursor-pointer  `}
+            >
+            Cancel
+            </Button>
+            <Button
+            type={'submit'} 
+            className="px-4 py-2 bg-blue-600 text-gray-100 hover:bg-blue-700 cursor-pointer  "
+            >
+            {loading ? <ButtonLoader /> : "Publish"}
+            </Button>
+        </div> */}
+      </form>
     </div>
     
   );

@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 
 
 
-export default function CenteredButtons({CancellBlog, addBlog,text}:any){
+export default function CenteredButtons({CancellBlog, text}:any){
   const { themeValue } = useContext(ContextTheme)
   return(
     <div className="mt-6 flex justify-center gap-3">
@@ -17,8 +17,8 @@ export default function CenteredButtons({CancellBlog, addBlog,text}:any){
     >
     Cancel
     </Button>
-    <Button 
-    onClick={addBlog}
+    <Button
+    type={'submit'} 
     className="px-4 py-2 bg-blue-600 text-gray-100 hover:bg-blue-700 cursor-pointer  "
     >
     {text}

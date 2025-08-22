@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toBase64 } from '../utilities/file';
 import {useAddBlogMutation } from '../Redux/Services/blogApi'
 import   {useGetUserQuery}  from '../Redux/Services/userApi'
-
+import { useAlert } from '../Context/AlertContext'
 
 
 
@@ -19,7 +19,8 @@ interface BlogFormDataTypes {
 }
 
 export default function  BlogFormFunctions(){
-    const { data} = useGetUserQuery(undefined)
+  const { showAlert } = useAlert()
+  const { data} = useGetUserQuery(undefined)
   const [addBlogMutation] = useAddBlogMutation();
   const [loading , setLoading] = useState(false)
     const [formData, setFormData] = useState<BlogFormDataTypes>({
@@ -109,8 +110,9 @@ export default function  BlogFormFunctions(){
  
 
 
- const addBlogs = async () => {
+ const addBlogs = async (e:any) => {
     try {
+      e.preventDefault()
       setLoading(true)
       const imageURL = await handleImageUpload();
       const blogPayload = {
@@ -122,6 +124,7 @@ export default function  BlogFormFunctions(){
         userId: data?.user.id,
       };
       const result = await addBlogMutation(blogPayload).unwrap();
+      showAlert('success', 'Article Published Successfully')
       CancellBlog();
       setLoading(false)
     } catch (error) {
