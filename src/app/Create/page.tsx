@@ -12,6 +12,7 @@ import CenteredButtons from '../../components/CreateBlogComponent/CenteredButton
 import BlogFormFunctions  from '../../utilities/BlogFornFunc'
 import GenerateSummaryFunction from '../../utilities/AI-Functions/GenerateSumary'
 import GenerateTagsFunction from '../../utilities/AI-Functions/GenerateTags'
+import ButtonLoader from '../../components/Common/BtnLoader'
 
 
 export default function WriteBlogForm() {
@@ -101,7 +102,8 @@ export default function WriteBlogForm() {
         </div>
 
         {/* Action Buttons - Centered */}
-        <CenteredButtons addBlog={addBlogs} CancellBlog={CancellBlog} text={loading ? "Loading..." : "Publish"} />
+        <CenteredButtons addBlog={addBlogs} CancellBlog={CancellBlog} 
+        text={loading ?  <ButtonLoader /> : "Publish"} />
       </div>
     </div>
     
