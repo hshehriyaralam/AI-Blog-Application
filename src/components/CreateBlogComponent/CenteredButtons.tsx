@@ -12,6 +12,7 @@ export default function CenteredButtons({CancellBlog, text}:any){
     <div className="mt-6 flex justify-center gap-3">
     <Button
     onClick={CancellBlog}
+    type='button'
     variant="outline"
     className={`px-4 py-2 border border-gray-500 ${themeValue ? 'text-gray-800' : 'text-gray-300'} cursor-pointer  `}
     >

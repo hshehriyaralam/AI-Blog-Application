@@ -8,5 +8,6 @@ export default function Admin(){
             <h1>Admin Dashboard</h1>
         </div>
         </AdminProtectedRoute>
+      
     )
 }

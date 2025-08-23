@@ -18,8 +18,8 @@ export interface IUser extends Document {
 
 const userSchema = new Schema<IUser>(
   {
-    uid: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true, lowercase: true },
+    uid: { type: String, required: true, },
+    email: { type: String, required: true,  lowercase: true },
     name: { type: String, required: true },
     profilePic: { type: String, default: null },
     role: {
@@ -27,7 +27,6 @@ const userSchema = new Schema<IUser>(
       enum: ["author", "admin"],
       default: "author",
     },
-    isAdmin: { type: Boolean, default: false }, 
     bio: { type: String, default: "" },
     blogCount: { type: Number, default: 0 },
     isBanned: { type: Boolean, default: false },

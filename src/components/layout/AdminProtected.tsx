@@ -12,7 +12,7 @@ export default function AdminProtectedRoute({ children }: { children: React.Reac
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !data?.user.isAdmin) {
+    if (!isLoading  && data?.user.role === "author") {
       router.push("/");
     }
   }, [data, isLoading, router]);

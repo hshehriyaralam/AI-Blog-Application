@@ -1,5 +1,4 @@
 'use client';
-
 import { store } from "../Redux/store";
 import { Provider } from "react-redux";
 import { ThemeContext } from "../Context/DarkTheme";

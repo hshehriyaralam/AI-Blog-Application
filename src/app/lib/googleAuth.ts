@@ -34,6 +34,7 @@ export async function googleLogin(accessToken: string) {
       email,
       name,
       profilePic,
+      role: "author",
       isAdmin: false,
       joiningTime: new Date(),
       lastSeenAt: new Date(),
@@ -50,5 +51,7 @@ export async function googleLogin(accessToken: string) {
     { expiresIn: "7d" }
   )
 
-  return { user, token: appToken };
+
+   return { user, token: appToken }; 
+
 }

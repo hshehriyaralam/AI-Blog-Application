@@ -21,14 +21,14 @@ export default function WriteBlogForm() {
     handleChange,
     handleImageChange,
      addTag,
-     removeTag,
-     addBlogs,
-     CancellBlog,
-     formData,
-     setFormData,
-     tagInput,
-      setTagInput,
-      loading
+    removeTag,
+    addBlogs,
+    CancellBlog,
+    formData,
+    setFormData,
+    tagInput,
+    setTagInput,
+    loading
   } = BlogFormFunctions();
   
   const {generateSummary}  = GenerateSummaryFunction(setFormData);
@@ -110,21 +110,6 @@ export default function WriteBlogForm() {
         {/* Action Buttons - Centered */}
         <CenteredButtons   CancellBlog={CancellBlog} 
         text={loading ?  <ButtonLoader /> : "Publish"} />
-           {/* <div className="mt-6 flex justify-center gap-3">
-            <Button
-            onClick={CancellBlog}
-            variant="outline"
-            className={`px-4 py-2 border border-gray-500 ${themeValue ? 'text-gray-800' : 'text-gray-300'} cursor-pointer  `}
-            >
-            Cancel
-            </Button>
-            <Button
-            type={'submit'} 
-            className="px-4 py-2 bg-blue-600 text-gray-100 hover:bg-blue-700 cursor-pointer  "
-            >
-            {loading ? <ButtonLoader /> : "Publish"}
-            </Button>
-        </div> */}
       </form>
     </div>
     

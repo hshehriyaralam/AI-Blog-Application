@@ -16,7 +16,13 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error: any) {
-    console.error("API /auth error:", error);
-    return new Response(JSON.stringify({ error: error.message || "Server error" }), { status: 500 });
-  }
+  console.error("API /auth error:", error);
+
+  const errorMessage =
+    typeof error === "string"
+      ? error
+      : error?.message || JSON.stringify(error);
+
+  return new Response(JSON.stringify({ error: errorMessage }), { status: 500 });
+}
 }
