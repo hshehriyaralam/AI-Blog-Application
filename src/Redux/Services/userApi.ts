@@ -10,12 +10,16 @@ export const userApi = createApi({
     tagTypes: ["User"],
     endpoints : (builder) => ({
         getUser  : builder.query({
-            query : () => "user",
+            query : () => "User",
             providesTags: ["User"]
+        }),
+        allUser : builder.query({
+            query : () => "AllUsers",
+            providesTags : ["User"]
         })
     })
 })
 
 
 
-export const {useGetUserQuery} = userApi
+export const {useGetUserQuery,useAllUserQuery} = userApi

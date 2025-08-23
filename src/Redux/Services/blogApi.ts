@@ -7,7 +7,7 @@
         tagTypes : ["Blog"],
         endpoints : (builder) => ({
             fetchBlog : builder.query({
-                query : () => 'FetchBlog',
+                query : () => 'AllBlogs',
                 providesTags : ["Blog"]
             }),
             addBlog : builder.mutation({

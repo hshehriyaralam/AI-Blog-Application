@@ -8,6 +8,7 @@ import { useContext } from 'react';
 
 
 export default function Hero() {
+  
   const {themeValue, light ,dark} = useContext(ContextTheme)
   return (
   <div className={`min-h-screen w-full  pb-5    ${themeValue ? light : dark}`}>

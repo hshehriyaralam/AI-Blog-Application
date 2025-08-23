@@ -2,8 +2,8 @@
 import Script from "next/script";
 import { useDispatch, useSelector } from "react-redux";
 import {googleLoginThunk} from "../../Redux/Slices/authSlice"
-import type { AppDispatch,RootState } from "../../Redux/store";    
-import   {useGetUserQuery}  from '../../Redux/Services/userApi'
+import type { AppDispatch } from "../../Redux/store";    
+import   {useGetUserQuery,}  from '../../Redux/Services/userApi'
 
 
 
@@ -14,6 +14,7 @@ export default function Profile(){
         refetchOnMountOrArgChange: true,
         pollingInterval: 10000,
         })
+
 
     const handleGoogleLgin = () => {
             dispatch(googleLoginThunk())
