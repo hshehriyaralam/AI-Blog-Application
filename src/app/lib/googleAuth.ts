@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "./Models/user";
+import { User } from "./Models/user";
 import { connectDB } from "./dbConnect";
 
 export async function googleLogin(accessToken: string) {
@@ -46,7 +46,7 @@ export async function googleLogin(accessToken: string) {
 
   // Create app JWT
   const appToken = jwt.sign(
-    { id: user._id, email: user.email, role: user.role, isAdmin: user.isAdmin },
+    { id: user._id, email: user.email, role: user.role,  },
     process.env.JWT_SECRET as string,
     { expiresIn: "7d" }
   )
