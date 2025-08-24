@@ -10,9 +10,8 @@ import InputTags from '../../components/CreateBlogComponent/InputTags';
 import PreviewBlog from '../../components/CreateBlogComponent/PreviewBlog';
 import CenteredButtons from '../../components/CreateBlogComponent/CenteredButtons';
 import BlogFormFunctions  from '../../utilities/BlogFornFunc'
-import GenerateSummaryFunction from '../../utilities/AI-Functions/GenerateSumary'
-import GenerateTagsFunction from '../../utilities/AI-Functions/GenerateTags'
 import ButtonLoader from '../../components/Common/BtnLoader'
+import useAIGenerate from '../../utilities/AI-Functions/AI-Generate'
 
 
 export default function WriteBlogForm() {
@@ -31,8 +30,8 @@ export default function WriteBlogForm() {
     loading
   } = BlogFormFunctions();
   
-  const {generateSummary}  = GenerateSummaryFunction(setFormData);
-  const {generateTags} = GenerateTagsFunction(setFormData);
+const { handleSuggest, aiLoading } = useAIGenerate(setFormData, formData);
+
 
 
 
@@ -81,24 +80,16 @@ export default function WriteBlogForm() {
                 AI Assistance
               </h2>
               <div className="space-y-2">
-                <Button
-                type='button'
-                  onClick={generateSummary}
-                  variant="outline"
-                  className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'} cursor-pointer `}
-                >
-                  <span >Generate Summary</span>
-                  <span className="text-xs">⌘S</span>
-                </Button>
-                <Button
-                type='button'
-                  onClick={generateTags}
-                  variant="outline"
-                  className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'} cursor-pointer `}
-                >
-                  <span>Suggest Tags</span>
-                  <span className="text-xs">⌘T</span>
-                </Button>
+             <Button
+              type="button"
+              onClick={handleSuggest}
+              variant="outline"
+              disabled={aiLoading}
+              className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'} cursor-pointer`}
+            >
+              {aiLoading ? <ButtonLoader /> : <span>Generate Summary & Tags</span>}
+              {!aiLoading && <span className="text-xs">⌘S</span>}
+            </Button>
               </div>
             </div>
 

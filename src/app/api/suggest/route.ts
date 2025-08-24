@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const prompt = `
       You are an assistant for a blog platform.
       Given a blog title and content, write:
-      1) a concise yet information-dense summary (120–180 words),
+      1) a concise yet information-dense summary (150–200 words),
       2) exactly 4 topic tags (single or two-word phrases).
 
       Return STRICT JSON only (no prose, no markdown), like:

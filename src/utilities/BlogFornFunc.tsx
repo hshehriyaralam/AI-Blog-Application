@@ -109,28 +109,30 @@ export default function  BlogFormFunctions(){
   };
  
 
+const addBlogs = async (e: any) => {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    const imageURL = await handleImageUpload();
+    const blogPayload = {
+      blogTitle: formData.title,
+      blogContent: formData.content,
+      blogSummary: formData.summary,
+      blogTags: formData.tags,
+      blogImage: imageURL,
+      userId: data?.user.id,
+    };
+    await addBlogMutation(blogPayload).unwrap();
+    showAlert('success', 'Article Published Successfully');
+    CancellBlog();
+  } catch (error) {
+    console.error("Failed to add blog:", error);
+    showAlert('error', 'Failed to publish');
+  } finally {
+    setLoading(false);
+  }
+};
 
- const addBlogs = async (e:any) => {
-    try {
-      e.preventDefault()
-      setLoading(true)
-      const imageURL = await handleImageUpload();
-      const blogPayload = {
-        blogTitle: formData.title,
-        blogContent: formData.content,
-        blogSummary: formData.summary,
-        blogTags: formData.tags,
-        blogImage: imageURL,
-        userId: data?.user.id,
-      };
-      const result = await addBlogMutation(blogPayload).unwrap();
-      showAlert('success', 'Article Published Successfully')
-      CancellBlog();
-      setLoading(false)
-    } catch (error) {
-      console.error("Failed to add blog:", error);
-    }
-  };
 
 
  
