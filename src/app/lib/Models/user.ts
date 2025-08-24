@@ -6,8 +6,6 @@ export interface IUser extends Document {
   name: string;
   profilePic?: string | null;
   role: "author" | "admin";
-  isAdmin: boolean; 
-  bio?: string;
   blogCount: number;
   isBanned: boolean;
   joiningTime: Date;
@@ -27,7 +25,6 @@ const userSchema = new Schema<IUser>(
       enum: ["author", "admin"],
       default: "author",
     },
-    bio: { type: String, default: "" },
     blogCount: { type: Number, default: 0 },
     isBanned: { type: Boolean, default: false },
     joiningTime: { type: Date, default: Date.now },
@@ -50,7 +47,7 @@ userSchema.set("toJSON", {
   },
 });
 
-const User: Model<IUser> =
+export const User: Model<IUser> =
   mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 
-export default User;
+ 

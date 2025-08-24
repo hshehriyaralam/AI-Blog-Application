@@ -1,16 +1,16 @@
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken'
 import { connectDB } from "../../lib/dbConnect";
-import User from '../../lib/Models/user'
+import {User} from '../../lib/Models/user'
 
 export async function GET(req:Request){
     try{
         await connectDB()
 
         // Token ko cookies se read kro 
-        const cookieStore = await cookies()
+        const cookieStore = await cookies() 
         const token = cookieStore.get("token")?.value;
-
+  
         if(!token){
             return new Response(JSON.stringify({error : 'Unauthorized'}), {status : 401})
         }

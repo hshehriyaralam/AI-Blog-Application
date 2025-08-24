@@ -3,7 +3,6 @@ import { useFetchBlogQuery } from "../../Redux/Services/blogApi";
 import { ContextTheme } from '../../Context/DarkTheme'
 import Link from 'next/link';
 import { useContext } from 'react';
-import Image from 'next/image';
 
 export default function AllBlogs() {
     const { data} = useFetchBlogQuery([]);

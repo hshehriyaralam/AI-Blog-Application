@@ -1,6 +1,8 @@
 import { Blogs } from "../../lib/Models/Blog";
 import { NextResponse } from "next/server";
 import { connectDB } from "../../lib/dbConnect";
+import { User } from "../../lib/Models/user";
+
 
 export async function POST(req: Request) {
   try {
@@ -13,7 +15,7 @@ export async function POST(req: Request) {
       blogSummary,
       blogTags,
       blogImage,
-      userId, 
+      userId,  
     } = body;
 
     if (!blogTitle || !blogContent || !blogSummary || !blogImage || !blogTags || !userId) {
@@ -31,6 +33,12 @@ export async function POST(req: Request) {
       blogImage,
       userId: userId || null,
     });
+
+    await User.findByIdAndUpdate(
+      userId,
+      { $inc: { blogCount: 1 } },
+      { new : true}
+    )
 
     return NextResponse.json(
       { message: "Blog created successfully", blog: newBlog },
