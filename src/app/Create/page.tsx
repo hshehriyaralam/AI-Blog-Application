@@ -12,6 +12,7 @@ import CenteredButtons from '../../components/CreateBlogComponent/CenteredButton
 import BlogFormFunctions  from '../../utilities/BlogFornFunc'
 import ButtonLoader from '../../components/Common/BtnLoader'
 import useAIGenerate from '../../utilities/AI-Functions/AI-Generate'
+import AILoader from '../../components/Common/AILoader';
 
 
 export default function WriteBlogForm() {
@@ -75,23 +76,45 @@ const { handleSuggest, aiLoading } = useAIGenerate(setFormData, formData);
 
           {/* Right Column - AI Tools */}
           <div className="space-y-3">
-            <div className={`p-3 rounded-lg ${themeValue ? 'bg-gray-50' : 'bg-gray-800'}`}>
-              <h2 className={`text-sm font-medium mb-2 ${themeValue ? lightText : DarkText}`}>
-                AI Assistance
-              </h2>
-              <div className="space-y-2">
-             <Button
-              type="button"
-              onClick={handleSuggest}
-              variant="outline"
-              disabled={aiLoading}
-              className={`w-full flex justify-between items-center text-xs ${themeValue ? '' : 'border-gray-500'} cursor-pointer`}
-            >
-              {aiLoading ? <ButtonLoader /> : <span>Generate Summary & Tags</span>}
-              {!aiLoading && <span className="text-xs">⌘S</span>}
-            </Button>
+          <div className={`p-4 rounded-2xl shadow-sm transition-all ${
+          themeValue ? "bg-gray-50" : "bg-gray-900 border border-gray-700"
+        }`}
+      >
+        <h2
+          className={`text-sm font-semibold mb-3 tracking-wide ${
+            themeValue ? "text-gray-700" : "text-gray-200"
+          }`}
+        >
+          🤖 AI Assistance
+        </h2>
+        <div className="space-y-2">
+          <Button
+            type="button"
+            onClick={handleSuggest}
+            variant="outline"
+            disabled={aiLoading}
+            className={`w-full flex justify-between items-center rounded-xl px-3 py-2 text-xs font-medium transition-all cursor-pointer
+              ${
+                themeValue
+                  ? "border-gray-300 text-gray-700 hover:bg-gray-100"
+                  : "border-gray-600 text-gray-200 hover:bg-gray-800"
+              }
+              disabled:opacity-60 disabled:cursor-not-allowed`}
+          >
+            {aiLoading ? (
+              <div className="flex items-center gap-2 w-full justify-center">
+                <AILoader /> {/* Loader from earlier */}
               </div>
-            </div>
+            ) : (
+              <>
+                <span>Generate Summary & Tags</span>
+                <span className="text-[11px] opacity-70">⌘S</span>
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
+
 
             {/* Preview Blogs  */}
             <PreviewBlog  formData={formData} />
