@@ -2,7 +2,6 @@
 import {ContextTheme} from '../../Context/DarkTheme'
 import Link from 'next/link';
 import { useContext } from 'react';
-import Image from 'next/image';
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
 
 
@@ -45,11 +44,11 @@ export default function Blogs(){
                 className="w-full h-full object-cover"
               />
               <div className="absolute bottom-2 left-2 flex flex-wrap gap-1">
-                {blog.blogTags.slice(0, 2).map((tag: string, tagIndex: number) => (
+                {blog.blogTags.slice(0, 3).map((tag: string, tagIndex: number) => (
                   <span
                     key={tagIndex}
-                    className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium shadow-sm
-                      ${themeValue ? `${light} text-blue-800` : `${dark} text-gray-200`}
+                    className={`inline-flex items-center px-2 py-1 rounded-full text-xs border border-gray-700 font-medium shadow-sm
+                      ${themeValue ? `${light} text-blue-800` : `${dark} text-gray-200 `}
                     `}
                   >
                     {tag}
