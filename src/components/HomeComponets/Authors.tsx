@@ -41,7 +41,7 @@ export default function TopAuthors() {
     <div className={`p-6 rounded-lg shadow-md ${themeValue ? light : `border border-gray-500 ${dark}`}`}>
       <h3 className={`text-lg font-semibold mb-4 ${themeValue ? lightText : DarkText}`}>Top Authors</h3>
       <ul className="space-y-3">
-        {data?.data?.map((user: any, index: number) => (
+        {data?.data?.slice(0,6).map((user: any, index: number) => (
           <AuthorItem 
             key={index} 
             user={user} 
