@@ -36,12 +36,23 @@ function AuthorItem({ user, themeValue, lightText, DarkText }: any) {
 export default function TopAuthors() {
   const { data } = useAllUserQuery(undefined)
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme)
-
+  
+  const Authors  =  data?.data.map((user: any) => {
+    return{
+      name : user.name,
+      blogCount : user.blogCount,
+      profilePic : user.profilePic
+    }
+  } );
+  // Sort descending (zyada blogCount wale pehle)
+  const sortedAuthorsDesc = Authors?.sort(
+  (a: any, b: any) => b.blogCount - a.blogCount
+);
   return (
     <div className={`p-6 rounded-lg shadow-md ${themeValue ? light : `border border-gray-500 ${dark}`}`}>
       <h3 className={`text-lg font-semibold mb-4 ${themeValue ? lightText : DarkText}`}>Top Authors</h3>
       <ul className="space-y-3">
-        {data?.data?.slice(0,6).map((user: any, index: number) => (
+        {sortedAuthorsDesc?.map((user: any, index: number) => (
           <AuthorItem 
             key={index} 
             user={user} 
