@@ -27,7 +27,7 @@ export default function Blogs(){
 
         return (
           <Link
-            href={`/blog/${blog._id}`}
+            href={`/Blogs/${blog._id}`}
             key={blog._id}
             className={`
               ${colSpanClass} ${orderClass}

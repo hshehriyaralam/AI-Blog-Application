@@ -5,10 +5,17 @@ export const blogApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
   tagTypes: ["Blog"],
   endpoints: (builder) => ({
+    //All Blogs
     fetchBlog: builder.query({
       query: () => "AllBlogs",
       providesTags: ["Blog"],
     }),
+    //Single Blog
+    singleBlog: builder.query({
+        query : (id: string) => `AllBlogs/${id}`,
+        providesTags : ["Blog"]
+      }),
+    // Add Blog
     addBlog: builder.mutation({
       query: (newBlog) => ({
         url: "addBlog",
@@ -35,5 +42,6 @@ export const blogApi = createApi({
 export const {
   useAddBlogMutation,
   useFetchBlogQuery,
+  useSingleBlogQuery,
   useSuggestSummaryTagsMutation,
 } = blogApi;

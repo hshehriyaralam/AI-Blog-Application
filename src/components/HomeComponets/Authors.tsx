@@ -45,14 +45,14 @@ export default function TopAuthors() {
     }
   } );
   // Sort descending (zyada blogCount wale pehle)
-  const sortedAuthorsDesc = Authors?.sort(
+  const TopAuthors = Authors?.sort(
   (a: any, b: any) => b.blogCount - a.blogCount
 );
   return (
     <div className={`p-6 rounded-lg shadow-md ${themeValue ? light : `border border-gray-500 ${dark}`}`}>
       <h3 className={`text-lg font-semibold mb-4 ${themeValue ? lightText : DarkText}`}>Top Authors</h3>
       <ul className="space-y-3">
-        {sortedAuthorsDesc?.map((user: any, index: number) => (
+        {TopAuthors?.map((user: any, index: number) => (
           <AuthorItem 
             key={index} 
             user={user} 
