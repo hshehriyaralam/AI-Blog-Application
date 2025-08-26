@@ -8,7 +8,7 @@ export async function GET(req:Request , { params }: { params: { id: string } }){
     try{
         await connectDB()
         const {id} = params
-        const singleBlog = await Blogs.findById(id)
+        const singleBlog = await Blogs.findById(id).populate("userId", "name profilePic")
         if(!singleBlog){
             return NextResponse.json({error:"Blog not found"}, {status:404})
         }
