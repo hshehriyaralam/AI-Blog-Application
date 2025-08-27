@@ -9,12 +9,16 @@ export const userApi = createApi({
     baseQuery : fetchBaseQuery({baseUrl : "/api"}),
     tagTypes: ["User"],
     endpoints : (builder) => ({
-        getUser  : builder.query({
+        getProfile  : builder.query({
             query : () => "User",
             providesTags: ["User"]
         }),
         allUser : builder.query({
             query : () => "AllUsers",
+            providesTags : ["User"]
+        }),
+        singleUser : builder.query({
+            query : (id: string) => `AllUsers/${id}`,
             providesTags : ["User"]
         })
     })
@@ -22,4 +26,4 @@ export const userApi = createApi({
 
 
 
-export const {useGetUserQuery,useAllUserQuery} = userApi
+export const {useGetProfileQuery,useAllUserQuery, useSingleUserQuery} = userApi

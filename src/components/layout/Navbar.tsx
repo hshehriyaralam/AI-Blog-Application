@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import {ContextTheme} from '../../Context/DarkTheme'
-import { useGetUserQuery } from "../../Redux/Services/userApi";
+import { useGetProfileQuery } from "../../Redux/Services/userApi";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import {googleLoginThunk} from "../../Redux/Slices/authSlice"
@@ -14,7 +14,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const {themeValue,changeTheme, light ,dark} = useContext(ContextTheme)
-  const { data, isLoading, refetch} = useGetUserQuery({});
+  const { data, isLoading, refetch} = useGetProfileQuery({});
     const router = useRouter();
   
   

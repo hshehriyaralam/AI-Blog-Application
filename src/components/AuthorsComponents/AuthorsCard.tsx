@@ -2,14 +2,14 @@
 import { ContextTheme } from "../../Context/DarkTheme";
 import { useContext } from "react";
 import { User, Mail, Calendar, Eye, FileText, ArrowRight, Circle } from "lucide-react";
+import Link from "next/link";
 
 
-export default function AuthorsCard({key,user,isYou,joinedDate,lastSeen}:any){
+export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
     const { themeValue } = useContext(ContextTheme);
     
     return(
          <div
-        key={key}
         className={`group rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300
             border hover:border-indigo-400 hover:shadow-xl hover:scale-105 
             min-w-[320px]
@@ -98,10 +98,15 @@ export default function AuthorsCard({key,user,isYou,joinedDate,lastSeen}:any){
                 </div>
 
                 {/* View Profile Button */}
-                <button className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg text-sm font-medium hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105">
+                <Link
+                href={`/Authors/${user.id}`}
+                className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg text-sm font-medium hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105"
+                >
+                <button className="flex justify-center items-center" >
                   View Profile
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </button>
+                </Link>
               </div>
     )
 }

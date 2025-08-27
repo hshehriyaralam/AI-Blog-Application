@@ -3,14 +3,14 @@ import Script from "next/script";
 import { useDispatch, useSelector } from "react-redux";
 import {googleLoginThunk} from "../../Redux/Slices/authSlice"
 import type { AppDispatch } from "../../Redux/store";    
-import   {useGetUserQuery,}  from '../../Redux/Services/userApi'
+import   {useGetProfileQuery}  from '../../Redux/Services/userApi'
 
 
 
 
 export default function Profile(){
     const dispatch = useDispatch<AppDispatch>();
-    const { data, isLoading} = useGetUserQuery(undefined, {
+    const { data, isLoading} = useGetProfileQuery(undefined, {
         refetchOnMountOrArgChange: true,
         pollingInterval: 10000,
         })

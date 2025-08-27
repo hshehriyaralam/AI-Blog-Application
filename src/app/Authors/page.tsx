@@ -1,11 +1,11 @@
 "use client";
 import { ContextTheme } from "../../Context/DarkTheme";
 import { useContext } from "react";
-import { useAllUserQuery,useGetUserQuery } from "../../Redux/Services/userApi";
+import { useAllUserQuery,useGetProfileQuery } from "../../Redux/Services/userApi";
 import AuthorsCard from "../../components/AuthorsComponents/AuthorsCard"
 
 export default function Authors() {
-    const { data : loggedInUser} = useGetUserQuery(undefined)
+    const { data : loggedInUser} = useGetProfileQuery(undefined)
     const { data:allUsers } = useAllUserQuery(undefined);
     const { themeValue, light, dark } = useContext(ContextTheme);
 
@@ -51,13 +51,14 @@ export default function Authors() {
               : "N/A";
 
             return (
+              <div key={index}>
               <AuthorsCard
-              key={index}
               user={user}
               isYou={isYou}
               joinedDate={joinedDate}
               lastSeen={lastSeen}
               />
+              </div>
               );
           })}
         </div>
