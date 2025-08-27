@@ -14,8 +14,6 @@ export default function Profile(){
         refetchOnMountOrArgChange: true,
         pollingInterval: 10000,
         })
-
-
     const handleGoogleLgin = () => {
             dispatch(googleLoginThunk())
     }

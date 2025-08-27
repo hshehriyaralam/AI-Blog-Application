@@ -2,16 +2,16 @@
 import { ContextTheme } from "../../Context/DarkTheme";
 import { useContext } from "react";
 import { User, Mail, Calendar, Eye, FileText, ArrowRight, Circle } from "lucide-react";
-import { useAllUserQuery } from "../../Redux/Services/userApi";
-
-// TODO: Replace this with actual logged-in user ID from auth context/store
-const loggedInUserId = "12345"; 
+import { useAllUserQuery,useGetUserQuery } from "../../Redux/Services/userApi";
 
 export default function Authors() {
-  const { data } = useAllUserQuery(undefined);
-  const { themeValue, light, dark } = useContext(ContextTheme);
+    const { data : loggedInUser} = useGetUserQuery(undefined)
+    const { data:allUsers } = useAllUserQuery(undefined);
+    const { themeValue, light, dark } = useContext(ContextTheme);
 
-  const users = data?.data || [];
+    
+    const loggedInUserId =  loggedInUser?.user?.id;
+    const users = allUsers?.data || [];
 
   return (
     <div className={`w-full min-h-screen px-4 py-8 ${themeValue ? light : dark}`}>
@@ -29,7 +29,7 @@ export default function Authors() {
       <div className="max-w-6xl mx-auto">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {users.map((user: any, index: number) => {
-            const isYou = user._id === loggedInUserId;
+            const isYou = user.id === loggedInUserId;
 
           const joinedDate = user.createdAt
             ? new Date(user.createdAt).toLocaleDateString("en-US", {
