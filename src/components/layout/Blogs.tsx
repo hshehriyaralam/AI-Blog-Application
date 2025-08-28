@@ -1,5 +1,6 @@
 'use client'
 import {ContextTheme} from '../../Context/DarkTheme'
+import { User } from "lucide-react";
 import Link from 'next/link';
 import { useContext } from 'react';
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
@@ -72,9 +73,12 @@ export default function Blogs(){
                 {/* Fake author info (remove if not needed) */}
                 <div className="flex items-center">
                   <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 mr-2">
-                    <img 
-                      width={32} height={32}
-                      src={blog.userId?.profilePic || "/placeholder.png"}  alt="Author-pic" className="w-8 h-8 rounded-full object-cover" />
+                      { blog.userId?.profilePic ? 
+                                    (<img 
+                                   width={32} height={32}
+                                   src={blog.userId?.profilePic}
+                                   alt="Author-pic" className="w-8 h-8 rounded-full object-cover" />)
+                                   : (<User className="w-7 h-7 text-gray-700" />)}
                   </div>
                   <span className={`text-sm font-medium ${themeValue ? lightText : DarkText}`}>{blog.userId?.name || "Unknown"}</span>
                 </div>
