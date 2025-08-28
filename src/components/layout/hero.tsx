@@ -2,7 +2,7 @@
 import TopAuthors from '../HomeComponets/Authors';
 import HeroTopCard from '../HomeComponets/HeroTopCard';
 import Tags from '../HomeComponets/Tags';
-import Blogs from './Blogs';
+import Blogs from './HomeBlogs';
 import {ContextTheme} from '../../Context/DarkTheme'
 import { useContext } from 'react';
 
