@@ -2,7 +2,7 @@
 import { useGetProfileQuery } from "../../Redux/Services/userApi";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Loader from "../Common/Loader";
+import LoadingPage from '../../components/layout/LoadingPage'
 
 export default function AdminProtectedRoute({ children }: { children: React.ReactNode }) {
   const { data, isLoading } = useGetProfileQuery(undefined, {
@@ -17,7 +17,7 @@ export default function AdminProtectedRoute({ children }: { children: React.Reac
     }
   }, [data, isLoading, router]);
 
-  if (isLoading) return <div className="w-full h-screen flex justify-center items-center"  > <Loader /> </div>;
+  if (isLoading) return <LoadingPage />
 
   return <>{children}</>;
 }

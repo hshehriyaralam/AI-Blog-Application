@@ -7,15 +7,13 @@ import Link from "next/link";
 
 export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
     const { themeValue } = useContext(ContextTheme);
-    
     return(
          <div
         className={`group rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300
             border hover:border-indigo-400 hover:shadow-xl hover:scale-105 
             min-w-[320px]
             ${themeValue ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"}
-        `}
-              >
+        `}>
                 {/* Profile Image */}
                 <div className="relative mb-4">
                   {user.profilePic ? (
@@ -29,19 +27,11 @@ export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
                       <User className="w-8 h-8 text-gray-600 dark:text-gray-300" />
                     </div>
                   )}
-
-                  {/* Active Badge */}
-                  {user.isOnline && (
-                    <span className="absolute bottom-1 right-1 flex h-4 w-4">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75">Online</span>
-                      <Circle className="relative w-4 h-4 text-green-500 fill-green-500 rounded-full" />
-                    </span>
-                  )}
                 </div>
 
                 {/* Author Info */}
                 <h2 className={`text-lg font-semibold mb-1 ${themeValue ? "text-gray-800" : "text-white"}`}>
-                  {user.name} {isYou && <span className="text-sm text-indigo-500">(You)</span>}
+                  {user.name} {isYou && <span className="text-sm text-indigo-500 font-bold">(You)</span>}
                 </h2>
 
                 {/* Role Badge */}

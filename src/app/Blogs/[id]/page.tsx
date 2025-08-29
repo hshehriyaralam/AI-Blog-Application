@@ -3,10 +3,12 @@ import { useParams } from "next/navigation";
 import { useSingleBlogQuery } from "../../../Redux/Services/blogApi"; 
 import { ContextTheme } from "../../../Context/DarkTheme";
 import { useContext } from "react";
-import { Heart, Share2, Bookmark, Volume2, User } from "lucide-react";
 import BlogTags from "../../../components/BlogDetails/blogTags"
 import ActionRow from "../../../components/BlogDetails/ActionRow";
 import AuthorInfo from "../../../components/BlogDetails/AuthorInfo";
+import LoadingPage from  '../../../components/layout/LoadingPage'
+
+
 
 
 export default function BlogDetail() {
@@ -16,11 +18,13 @@ export default function BlogDetail() {
   const { data, isLoading, error } = useSingleBlogQuery(id);
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
 
-  if (isLoading) return <p className="text-center py-10">Loading...</p>;
-  if (error) return <p className="text-center py-10 text-red-500">Error fetching blog details.</p>;
+  if (isLoading) return <LoadingPage />;
+  if (error) return <div className={`w-full h-screen flex justify-center
+    text-red-500 font-bold text-2xl items-center 
+    ${themeValue ? {light}  : {dark}}`}>Error fetching blog details.</div>;
 
   const blog = data?.data;
-  if (!blog) return <p className="text-center py-10">Blog not found!</p>;
+  if (!blog) return <div className={`w-full h-screen flex justify-center items-center text-2xl font-bold ${themeValue ?  light :  `text-gray-300 ${dark}`}`}   >Blog not found!</div>;
 
   // Format date
   const formattedDate = new Date(blog.createdAt).toLocaleDateString("en-US", {
