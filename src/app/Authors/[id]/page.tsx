@@ -1,7 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useSingleUserQuery } from "../../../Redux/Services/userApi";
-import { useFetchBlogQuery } from "../../../Redux/Services/blogApi";
 import { ContextTheme } from "../../../Context/DarkTheme";
 import { useContext } from "react";
 import {
@@ -19,11 +18,9 @@ export default function AuthorsDetail() {
   const params = useParams();
   const id = params?.id as string;
   const { data: SingleUser, isLoading, error } = useSingleUserQuery(id);
-  const { data } = useFetchBlogQuery([]);
   const { themeValue } = useContext(ContextTheme);
 
   const user = SingleUser?.data;
-  const blogs = data?.data;
 
   if (isLoading) return <LoadingPage />;
   if (error)
@@ -174,45 +171,13 @@ export default function AuthorsDetail() {
                     : "text-gray-500"
                 }`}
               >
-                {user.isBanned ? "Banned" : "Active"}
+                 {user.isBanned ? "Banned" : "Active"}
               </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Blog Section */}
-      <div className="w-3/4 mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {data?.data?.length > 0 ? (
-          data?.data?.slice(0, 3).map((blog: any) => (
-            <div
-              key={blog._id}
-              className={`p-6 rounded-xl shadow ${
-                themeValue ? "bg-white" : "bg-gray-800"
-              }`}
-            >
-              <h3
-                className={`text-lg font-bold mb-2 ${
-                  themeValue ? "text-gray-800" : "text-white"
-                }`}
-              >
-                {blog.title}
-              </h3>
-              <p
-                className={`text-sm line-clamp-3 ${
-                  themeValue ? "text-gray-600" : "text-gray-400"
-                }`}
-              >
-                {blog.content}
-              </p>
-            </div>
-          ))
-        ) : (
-          <div className="col-span-3 text-center text-gray-500">
-            No blogs published yet.
-          </div>
-        )}
-      </div>
-    </div>
+     </div>
   );
 }

@@ -1,19 +1,23 @@
 import { NextResponse } from "next/server";
 import { connectDB } from '../../../lib/dbConnect'
-import {Blogs} from '../../../lib/Models/Blog'
+import { Blogs } from '../../../lib/Models/Blog'
 
+export async function GET(
+  req: Request,
+  context: { params: { id: string } }
+) {
+  try {
+    await connectDB();
 
+    const id = context.params.id;   
+    const singleBlog = await Blogs.findById(id).populate("userId", "name profilePic");
 
-export async function GET(req:Request , { params }: { params: { id: string } }){
-    try{
-        await connectDB()
-        const {id} = params
-        const singleBlog = await Blogs.findById(id).populate("userId", "name profilePic")
-        if(!singleBlog){
-            return NextResponse.json({error:"Blog not found"}, {status:404})
-        }
-        return NextResponse.json({data : singleBlog},{status:200})
-    }catch(error){
-        return NextResponse.json({error:error}, {status:500})
+    if (!singleBlog) {
+      return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
+
+    return NextResponse.json({ data: singleBlog }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: error }, { status: 500 });
+  }
 }
