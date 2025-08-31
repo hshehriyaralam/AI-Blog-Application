@@ -92,7 +92,7 @@ export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
                 href={`/Authors/${user.id}`}
                 className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg text-sm font-medium hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105"
                 >
-                <button className="flex justify-center items-center" >
+                <button className="flex justify-center items-center cursor-pointer" >
                   View Profile &  Blogs
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </button>

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSingleUserQuery } from "../../../Redux/Services/userApi";
 import { ContextTheme } from "../../../Context/DarkTheme";
@@ -139,7 +140,7 @@ export default function AuthorsDetail() {
 
       {/* ---------- Blogs Section ---------- */}
       <div className="w-3/4 space-y-6">
-        <h3 className="text-2xl font-bold mb-4 text-indigo-600 dark:text-indigo-400">
+         <h3 className="text-2xl font-bold mb-4 text-indigo-600 dark:text-indigo-400">
           Blogs by {user.name}
         </h3>
 
@@ -153,8 +154,9 @@ export default function AuthorsDetail() {
           </p>
         ) : (
           blogs.map((blog: any) => (
+            <div key={blog._id} >
+            <Link href={`/Blogs/${blog._id}`}>
             <div
-              key={blog._id}
               className={`rounded-xl shadow-md border p-6 flex flex-col md:flex-row gap-6
               ${themeValue ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"}`}
             >
@@ -200,6 +202,8 @@ export default function AuthorsDetail() {
                   })}
                 </p>
               </div>
+            </div>
+            </Link>
             </div>
           ))
         )}
