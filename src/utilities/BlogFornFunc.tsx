@@ -3,7 +3,7 @@ import { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { toBase64 } from '../utilities/file';
 import {useAddBlogMutation } from '../Redux/Services/blogApi'
-import   {useGetUserQuery}  from '../Redux/Services/userApi'
+import   {useGetProfileQuery }  from '../Redux/Services/userApi'
 import { useAlert } from '../Context/AlertContext'
 
 
@@ -20,7 +20,7 @@ interface BlogFormDataTypes {
 
 export default function  BlogFormFunctions(){
   const { showAlert } = useAlert()
-  const { data} = useGetUserQuery(undefined)
+  const { data} = useGetProfileQuery (undefined)
   const [addBlogMutation] = useAddBlogMutation();
   const [loading , setLoading] = useState(false)
     const [formData, setFormData] = useState<BlogFormDataTypes>({

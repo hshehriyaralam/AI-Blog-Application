@@ -15,7 +15,7 @@ export async function GET(
     // ✅ pehle user find karo
     const singleAuthor = await User.findById(id);
     if (!singleAuthor) {
-      return NextResponse.json({ error: "Author not found" }, { status: 404 });
+      return NextResponse.json({ error: "Author not found" }, { status:404 });
     }
 
     // ✅ us user ke blogs lao
