@@ -24,8 +24,15 @@ export const blogApi = createApi({
       }),
       invalidatesTags: ["Blog"],
     }),
-
-    // ✅ AI Suggestion endpoint
+    // Delete my Blog
+    deleteBlog: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `User/blog/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Blog"], 
+    }),
+    //  AI Suggestion 
     suggestSummaryTags: builder.mutation<
       { summary: string; tags: string[] },
       { blogTitle: string; blogContent: string; lang?: "en" | "ur" } 
@@ -44,4 +51,5 @@ export const {
   useFetchBlogQuery,
   useSingleBlogQuery,
   useSuggestSummaryTagsMutation,
+  useDeleteBlogMutation
 } = blogApi;
