@@ -3,7 +3,7 @@ import Script from "next/script";
 import { useDispatch } from "react-redux";
 import { googleLoginThunk } from "../../Redux/Slices/authSlice";
 import type { AppDispatch } from "../../Redux/store";
-import { useGetProfileQuery } from "../../Redux/Services/userApi";
+import { useGetProfileQuery,useDeleteProfileMutation } from "../../Redux/Services/userApi";
 import { Button } from "../../components/ui/button";
 import { useDeleteBlogMutation } from "../../Redux/Services/blogApi";
 
@@ -14,10 +14,10 @@ export default function Profile() {
     pollingInterval: 10000,
   });
 
-
+  const [deleteProfile] = useDeleteProfileMutation()
   const [deleteBlog, { isLoading: deleting }] = useDeleteBlogMutation();
 
-  const handleDelete = async (id: string) => {
+  const handleDeleteBlog = async (id: string) => {
     try {
       await deleteBlog(id).unwrap();
       alert("Blog deleted successfully ✅");
@@ -26,6 +26,18 @@ export default function Profile() {
       alert("Failed to delete blog ❌");
     }
   };
+
+ const DeleteAccount =  async () => {
+ try {
+      await deleteProfile().unwrap();
+      alert("user deleted successfully ✅");
+    } catch (error) {
+      console.error("Delete failed:", error);
+      alert("Failed to delete user ❌");
+    }
+ }
+
+
 
   const handleGoogleLogin = () => {
     dispatch(googleLoginThunk());
@@ -48,8 +60,14 @@ export default function Profile() {
       <p>Email : {Profile?.user?.email}</p>
       <p>Role : {Profile?.user?.role}</p>
       <p>BlogCount : {Profile?.blogs?.length}</p>
-      <p>Id : {Profile?.user?._id}</p>
+      <p>Id : {Profile?.user?.id}</p>
       <img src={Profile?.user?.profilePic} width={100} height={100} alt="user" />
+
+      <Button 
+      onClick={DeleteAccount}
+      className="p-2 bg-red-700 text-white my-2 mx-10 rounded-xl cursor-pointer" >
+        Delele Account
+      </Button>
 
       {Profile?.blogs?.length > 0 ? (
         Profile.blogs.map((blog: any) => (
@@ -68,7 +86,7 @@ export default function Profile() {
 
             {/* ✅ Delete Button */}
             <Button
-              onClick={() => handleDelete(blog._id)}
+              onClick={() => handleDeleteBlog(blog._id)}
               className="border rounded-xl mx-2 cursor-pointer bg-red-500 text-white"
               disabled={deleting}
             >

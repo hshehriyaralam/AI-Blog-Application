@@ -33,7 +33,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
             });
         }
 
-           // user fetch
+        // user fetch
         const user = await User.findById(decode.id).select("-password");
         if (!user) {
         // ✅ Delete cookie if user not found
@@ -43,7 +43,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         });
         }
 
-    const deleteBlog = await Blogs.findOneAndDelete({ 
+            const deleteBlog = await Blogs.findOneAndDelete({ 
             _id: params.id,  
             userId: user._id 
             });
