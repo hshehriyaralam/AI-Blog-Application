@@ -1,31 +1,48 @@
 'use client'
 import { useContext } from 'react';
-import {ContextTheme} from '../../Context/DarkTheme'
+import { ContextTheme } from '../../Context/DarkTheme'
 import { useFetchBlogQuery } from '../../Redux/Services/blogApi';
+import { Hash } from 'lucide-react';
 
-
-
-export default   function Tags(){
-  const {themeValue, light ,dark ,  lightText, DarkText} = useContext(ContextTheme)
-  const {data } = useFetchBlogQuery([])
+export default function Tags() {
+  const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme)
+  const { data } = useFetchBlogQuery([])
 
   const allTags = data?.data.map((blogs: { blogTags: string[] }) => blogs.blogTags).flat() || [];
   const uniqueTags = [...new Set(allTags)]
 
-    return(
-        <div className={` p-4 rounded-lg shadow-md   ${themeValue ? light : `border border-gray-500 ${dark}` } }`}>
-        <h3 className={`text-lg font-semibold  mb-4  ${themeValue ? lightText : DarkText}`}>Popular Tags</h3>
-        <div className="flex flex-wrap gap-2">
-          {uniqueTags.slice(0,8).map((tag:any, index:any) => (
-            <span
-              key={index}
-              className={`inline-flex items-center px-3 py-1 rounded-full text-[12px] font-medium
-               ${themeValue ? 'bg-gray-100 text-gray-800 hover:bg-gray-200' : 'bg-gray-800 text-gray-100 hover:bg-gray-600'}   cursor-pointer`}
-            >
-              {tag}
-            </span>
-          ))}
+  return (
+    <div className={`p-5 rounded-xl ${themeValue 
+      ? `bg-white shadow-md border border-gray-100`
+      : `bg-gray-800/30 backdrop-blur-sm border border-gray-700/30 shadow-lg`
+    }`}>
+      <div className="flex items-center gap-2 mb-4">
+        <div className={`p-2 rounded-lg ${themeValue 
+          ? 'bg-indigo-100 text-indigo-600' 
+          : 'bg-indigo-900/30 text-indigo-300'
+        }`}>
+          <Hash size={18} />
         </div>
+        <h3 className={`text-lg font-semibold ${themeValue ? lightText : DarkText}`}>
+          Popular Tags
+        </h3>
       </div>
-    )
+      
+      <div className="flex flex-wrap gap-2">
+        {uniqueTags.slice(0, 8).map((tag: any, index: any) => (
+          <span
+            key={index}
+            className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer group ${
+              themeValue 
+                ? 'bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 hover:from-indigo-100 hover:to-purple-100 hover:text-indigo-800 shadow-sm' 
+                : 'bg-gradient-to-r from-indigo-900/30 to-purple-900/30 text-indigo-200 hover:from-indigo-900/40 hover:to-purple-900/40 hover:text-white shadow-md'
+            }`}
+          >
+            <Hash size={12} className="mr-1 opacity-70 group-hover:opacity-100" />
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
 }
