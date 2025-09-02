@@ -47,7 +47,7 @@ const ThemeContext = ({ children }: ThemeProviderProps) => {
 
   
   const light = 'bg-white '
-  const dark =  'bg-gray-900  '
+  const dark =  "bg-black"
   const lightText = 'text-gray-900'
   const DarkText= 'text-gray-200'
 
