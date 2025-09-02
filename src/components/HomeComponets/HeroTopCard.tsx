@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function HeroTopCard(){
     const router = useRouter();
     return(
-      <div className="relative w-full lg:w-[74%] h-[400px] md:h-[450px] rounded-xl overflow-hidden  shadow-lg group">
+      <div className="relative w-full lg:w-[74%] h-[500px] md:h-[600px] rounded-xl overflow-hidden  shadow-lg group">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0">
           <Image
