@@ -5,13 +5,14 @@ import { User,  TrendingUp, ArrowRight } from "lucide-react";
 import { useAllUserQuery } from "../../Redux/Services/userApi"
 import Link from 'next/link';
 
-function AuthorItem({ user, themeValue, index }: any) {
+function AuthorItem({ user, themeValue, index, }: any) {
   const [imgError, setImgError] = useState(false);
   const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
 
   return (
-    <li className="flex items-center gap-3 p-2.5 rounded-lg transition-all duration-200 hover:bg-gray-200  group">
-   
+    <Link  href={`/Authors/${user.id}`}>
+    <li className={`flex items-center gap-3  p-2.5 rounded-lg transition-all duration-200
+     ${themeValue ? `hover:bg-gray-300 `  : `hover:bg-gray-800 `}  group`}>
       {/* Author Avatar - Slightly Larger */}
       <div className="flex-shrink-0">
         <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-0.5">
@@ -31,7 +32,7 @@ function AuthorItem({ user, themeValue, index }: any) {
       </div>
 
       {/* Author Info - Slightly Larger */}
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 ">
         <p className={`text-sm font-semibold truncate ${themeValue ? 'text-gray-800' : 'text-white'}`}>
           {user.name}
         </p>
@@ -43,6 +44,7 @@ function AuthorItem({ user, themeValue, index }: any) {
         </div>
       </div>   
     </li>
+      </Link>
   )
 }
 
@@ -54,7 +56,7 @@ export default function TopAuthors() {
     name: user.name,
     blogCount: user.blogCount || 0,
     profilePic: user.profilePic,
-    id: user._id
+    id: user.id 
   })) || [];
 
   // Sort descending (most articles first)
@@ -94,7 +96,7 @@ export default function TopAuthors() {
 
       {/* View All Link - Slightly Larger */}
       {Authors.length > 6 && (
-        <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700/50">
+        <div className="mt-2 pt-2 border-t border-gray-700/50">
           <Link href={'/Authors'}>
           <button className={`flex items-center gap-1.5 text-sm font-medium transition-all hover:underline w-full justify-center  cursor-pointer ${
             themeValue 
