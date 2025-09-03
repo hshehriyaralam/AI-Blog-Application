@@ -2,11 +2,36 @@
 import { useContext } from 'react';
 import { ContextTheme } from '../../Context/DarkTheme'
 import { useFetchBlogQuery } from '../../Redux/Services/blogApi';
-import { Hash } from 'lucide-react';
+import { Hash, Loader2 } from 'lucide-react';
 
 export default function Tags() {
-  const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme)
-  const { data } = useFetchBlogQuery([])
+  const { themeValue, lightText, DarkText } = useContext(ContextTheme)
+  const { data, isLoading, isError } = useFetchBlogQuery([])
+
+  if (isLoading) {
+    return (
+      <div className={`p-5 rounded-xl flex items-center justify-center ${
+        themeValue 
+          ? `bg-white shadow-md border border-gray-100`
+          : `bg-gray-800/30 backdrop-blur-sm border border-gray-700/30 shadow-lg`
+      }`}>
+        <Loader2 className="animate-spin text-indigo-500" size={24} />
+      </div>
+    )
+  }
+
+  // Agar error aaya ho
+  if (isError) {
+    return (
+      <div className={`p-5 rounded-xl text-center ${
+        themeValue 
+          ? `bg-white shadow-md border border-gray-100`
+          : `bg-gray-800/30 backdrop-blur-sm border border-gray-700/30 shadow-lg`
+      }`}>
+        <p className={`text-sm ${themeValue ? lightText : DarkText}`}>Failed to load tags 😢</p>
+      </div>
+    )
+  }
 
   const allTags = data?.data.map((blogs: { blogTags: string[] }) => blogs.blogTags).flat() || [];
   const uniqueTags = [...new Set(allTags)]
