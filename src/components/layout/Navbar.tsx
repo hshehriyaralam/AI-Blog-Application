@@ -159,9 +159,9 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu Dropdown */}
-      <div className={`lg:hidden overflow-hidden transition-all duration-300 ${
+      <div className={`lg:hidden overflow-hidden transition-all duration-600 ${
         menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-      } ${themeValue ? 'bg-white ' : 'bg-gray-900 text-gray-200'}`}>
+      } ${themeValue ? `${light}` : `${dark} text-gray-200`}`}>
         <div className="px-6 py-2 space-y-3">
           <Link 
             href="/" 
@@ -203,6 +203,17 @@ export default function Navbar() {
             <Users size={16} />
             <h2 className='text-[16px] font-semibold' >
             Authors
+            </h2>
+            
+          </button>
+
+           <button 
+            onClick={() => handleNavigate('/Authors')}
+            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium transition-all hover:bg-indigo-200 hover:text-gray-900 w-full text-left"
+          >
+             <Bookmark size={16} />
+            <h2 className='text-[16px] font-semibold' >
+            Collection
             </h2>
             
           </button>
