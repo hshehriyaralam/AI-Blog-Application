@@ -1,5 +1,5 @@
 'use client'
-import { X, CheckCircle, AlertCircle, Info } from "lucide-react";
+import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
 import React, { JSX } from "react";
 
@@ -30,43 +30,70 @@ const barColorMap: Record<AlertType, string> = {
   info: "bg-blue-600",
 };
 
-export default function Alert({
-  type = "info",
-  message,
-  onClose,
-  progress = 100,
-}: AlertProps) {
-  return (
-    <motion.div
-      initial={{ y: -60, opacity: 0, scale: 0.95 }}
-      animate={{ y: 0, opacity: 1, scale: 1 }}
-      exit={{ y: -60, opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className={`w-[90vw] max-w-md rounded-xl shadow-xl overflow-hidden backdrop-blur-md ${styleMap[type]}`}
-    >
-      {/* Header */}
-      <div className="flex items-start gap-3 px-4 py-3">
-        <div className="pt-1">{iconMap[type]}</div>
-        <div className="flex-1 text-sm font-medium leading-relaxed">
-          {message}
-        </div>
-        <button
-          onClick={onClose}
-          className="rounded-full hover:bg-black/10 p-1 transition"
-        >
-          <X className="w-4 h-4 mt-0.5 text-gray-600 hover:text-gray-900" />
-        </button>
-      </div>
+const Alert = ({ type, message, progress, onClose }: AlertProps) => {
+  const getAlertConfig = () => {
+    switch (type) {
+      case "success":
+        return {
+          bg: "bg-green-50 border-green-200",
+          text: "text-green-800",
+          icon: <CheckCircle className="w-5 h-5 text-green-600" />,
+          progress: "bg-green-500",
+        };
+      case "error":
+        return {
+          bg: "bg-red-50 border-red-200",
+          text: "text-red-800",
+          icon: <AlertCircle className="w-5 h-5 text-red-600" />,
+          progress: "bg-red-500",
+        };
+      case "error":
+        return {
+          bg: "bg-amber-50 border-amber-200",
+          text: "text-amber-800",
+          icon: <AlertTriangle className="w-5 h-5 text-amber-600" />,
+          progress: "bg-amber-500",
+        };
+      case "info":
+      default:
+        return {
+          bg: "bg-blue-50 border-blue-200",
+          text: "text-blue-800",
+          icon: <Info className="w-5 h-5 text-blue-600" />,
+          progress: "bg-blue-500",
+        };
+    }
+  };
 
+  const config = getAlertConfig();
+
+  return (
+    <div className={`relative w-96 max-w-sm rounded-xl border shadow-lg backdrop-blur-sm ${config.bg}`}>
       {/* Progress Bar */}
-      <div className="w-full h-1 relative bg-gray-200">
-        <motion.div
-          className={`${barColorMap[type]} h-full absolute top-0 left-0 rounded-r`}
-          initial={{ width: "100%" }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.2, ease: "linear" }}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 rounded-t-xl">
+        <div
+          className={`h-full rounded-t-xl transition-all duration-300 ${config.progress}`}
+          style={{ width: `${progress}%` }}
         />
       </div>
-    </motion.div>
+
+      {/* Alert Content */}
+      <div className="p-4 flex items-start gap-3">
+        <div className="flex-shrink-0 mt-0.5">{config.icon}</div>
+        
+        <div className="flex-1 min-w-0">
+          <p className={`text-sm font-medium ${config.text}`}>{message}</p>
+        </div>
+
+        <button
+          onClick={onClose}
+          className="flex-shrink-0 p-1 hover:bg-black/5 rounded-md transition-colors"
+        >
+          <X className="w-4 h-4 text-gray-500" />
+        </button>
+      </div>
+    </div>
   );
-}
+};
+
+export default Alert;

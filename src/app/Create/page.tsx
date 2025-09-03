@@ -26,7 +26,7 @@ export default function WriteBlogForm() {
     CancellBlog,
     formData,
     setFormData,
-    tagInput,
+      tagInput,
     setTagInput,
     loading
   } = BlogFormFunctions();

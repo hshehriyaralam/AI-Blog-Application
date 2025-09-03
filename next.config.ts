@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    
    images: {
     domains: [
       'popupdomination.com',
@@ -14,6 +15,11 @@ const nextConfig: NextConfig = {
       
     ],
   },
+
+  server : {
+    host: true,
+    port: 3000,
+  }
   
 };
 
