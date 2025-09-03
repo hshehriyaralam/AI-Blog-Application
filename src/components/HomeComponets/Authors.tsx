@@ -63,7 +63,7 @@ export default function TopAuthors() {
       }`}>
         <Loader2 className="animate-spin text-indigo-500" size={24} />
         <span className={`ml-2 text-sm ${themeValue ? 'text-gray-700' : 'text-gray-200'}`}>
-          Loading authors...
+          Loading...
         </span>
       </div>
     )

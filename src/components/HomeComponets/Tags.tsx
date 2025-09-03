@@ -16,6 +16,9 @@ export default function Tags() {
           : `bg-gray-800/30 backdrop-blur-sm border border-gray-700/30 shadow-lg`
       }`}>
         <Loader2 className="animate-spin text-indigo-500" size={24} />
+        <span className={`ml-2 text-sm ${themeValue ? 'text-gray-700' : 'text-gray-200'}`}>
+          Loading...
+        </span>
       </div>
     )
   }
@@ -54,7 +57,7 @@ export default function Tags() {
       </div>
       
       <div className="flex flex-wrap gap-2">
-        {uniqueTags.slice(0, 8).map((tag: any, index: any) => (
+        {uniqueTags.slice(0, 6).map((tag: any, index: any) => (
           <span
             key={index}
             className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer group ${

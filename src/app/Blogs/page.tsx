@@ -2,7 +2,7 @@
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
 import { ContextTheme } from '../../Context/DarkTheme'
 import { useContext } from 'react';
-import BlogsList from "../../components/BlogsComponents/BLogList";
+import BlogsList from "../../components/BlogsComponents/BLogCard.tsx";
 
 
 export default function AllBlogs() {
