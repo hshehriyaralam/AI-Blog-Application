@@ -14,13 +14,7 @@ const nextConfig: NextConfig = {
       'content.altexsoft.com',
       
     ],
-  },
-
-  server : {
-    host: true,
-    port: 3000,
-  }
-  
+  },  
 };
 
 export default nextConfig;
