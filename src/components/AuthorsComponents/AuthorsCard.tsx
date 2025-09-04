@@ -1,12 +1,14 @@
 'use client'
 import { ContextTheme } from "../../Context/DarkTheme";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { User, Mail, Calendar, Eye, FileText, ArrowRight, Circle } from "lucide-react";
 import Link from "next/link";
 
 
 export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
     const { themeValue } = useContext(ContextTheme);
+    const [imgError, setImgError] = useState(false);
+    const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
     return(
          <div
         className={`group rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300
@@ -16,11 +18,13 @@ export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
         `}>
                 {/* Profile Image */}
                 <div className="relative mb-4">
-                  {user.profilePic ? (
+                  {hasImage ? (
                     <img
                       src={user.profilePic}
                       alt={user.name}
                       className="w-20 h-20 rounded-full object-cover border-2 border-indigo-400"
+                      onError={() => setImgError(true)}
+
                     />
                   ) : (
                     <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-600 border-2 border-indigo-400">

@@ -17,7 +17,7 @@ function AuthorItem({ user, themeValue, index }: any) {
         {/* Author Avatar */}
         <div className="flex-shrink-0">
           <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-0.5">
-            <div className="w-full h-full rounded-full bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
+            <div className="w-full h-full rounded-full bg-white  flex items-center justify-center overflow-hidden">
               {hasImage ? (
                 <img
                   src={user.profilePic}

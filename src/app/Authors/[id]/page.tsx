@@ -40,6 +40,8 @@ export default function AuthorsDetail() {
       </div>
     );
 
+    
+
   // Date formatting
   const joinedDate = user.createdAt
     ? new Date(user.createdAt).toLocaleDateString("en-US", {

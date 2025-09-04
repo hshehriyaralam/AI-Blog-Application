@@ -42,25 +42,6 @@ export default function HomeBlogs() {
           );
         })}
       </div>
-
-      {/* Bottom View All Button for Mobile */}
-      <div className="lg:hidden flex justify-center mt-4">
-        <Link href="/blogs">
-          <Button
-            className={`flex items-center gap-2 group ${
-              themeValue 
-                ? 'bg-indigo-600 text-white hover:bg-indigo-700' 
-                : 'bg-indigo-500 text-white hover:bg-indigo-600'
-            }`}
-          >
-            View All Articles
-            <ArrowRight 
-              size={16} 
-              className="group-hover:translate-x-1 transition-transform" 
-            />
-          </Button>
-        </Link>
-      </div>
     </div>
   );
 }

@@ -2,12 +2,15 @@
 import Link from 'next/link';
 import { User  } from "lucide-react";
 import Loader from '../Common/Loader';
+import { useState } from 'react';
 
 
 
 
 export default function BlogCard({ blog, isFeatured, themeValue, lightText, DarkText,isLoading }: any) {
-
+    const [imgError, setImgError] = useState(false);
+  const hasImage = blog.userId.profilePic && blog.userId.profilePic.trim() !== "" && !imgError;
+  
   if (isLoading) return <Loader />
   return (
     <Link href={`/Blogs/${blog._id}`}>
@@ -54,12 +57,14 @@ export default function BlogCard({ blog, isFeatured, themeValue, lightText, Dark
           <div className="flex items-center">
             <div className="relative">
               <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-0.5">
-                <div className="w-9 h-9 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
-                  {blog.userId?.profilePic ? (
+                <div className="w-9 h-9 rounded-full bg-white  flex items-center justify-center overflow-hidden">
+                  {hasImage ? (
                     <img 
                       src={blog.userId.profilePic}
-                      alt="Author-pic" 
-                      className="w-9 h-9 rounded-full object-cover" 
+                     alt={`${blog.userId?.name || "Author"}-pic`}
+                     className="w-9 h-9 rounded-full object-cover" 
+                     onError={() => setImgError(true)}
+                      
                     />
                   ) : (
                     <User className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
