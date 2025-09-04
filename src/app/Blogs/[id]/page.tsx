@@ -39,7 +39,7 @@ export default function BlogDetail() {
   // Short Title (first 3 words instead of last chars)
   const words = blog.blogTitle?.split(" ") || [];
   const shortTitle = words.slice(0, 4).join(" ");
-
+  
   return (
     <div
       className={`w-full min-h-screen px-4 sm:px-6 py-10 ${

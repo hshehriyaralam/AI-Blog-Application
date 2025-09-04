@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "../components/layout/Navbar";
 import ClientProviders from "./ClientProviders";
 import ProtectedRoute from '../components/layout/ProtectedRoutes'
+import ScrollToTop from "../components/Common/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
         <ClientProviders>
           <ProtectedRoute>
           <Navbar />
+          <ScrollToTop />
           {children}
           </ProtectedRoute>
         </ClientProviders>

@@ -4,7 +4,7 @@ import { User } from "lucide-react";
 
 export default function AuthorInfo({blog,themeValue,lightText,DarkText}:any){
     return(
-        <div className="flex items-center gap-3 mt-12 border-t pt-6">
+        <div className={`flex items-center gap-3 mt-12 border-t  ${themeValue ? "border-gray-700" : "border-gray-400"} pt-6`}>
   {blog.userId?.profilePic ? (
     <img
       src={blog.userId.profilePic}

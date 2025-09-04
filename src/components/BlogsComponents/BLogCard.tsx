@@ -1,14 +1,14 @@
 'use client'
-import { ContextTheme } from '../../Context/DarkTheme'
 import Link from 'next/link';
-import { useContext } from 'react';
-import { User, Clock, Eye, Heart } from "lucide-react";
+import { User  } from "lucide-react";
+import Loader from '../Common/Loader';
 
 
 
 
-export default function BlogCard({ blog, isFeatured, themeValue, lightText, DarkText }: any) {
+export default function BlogCard({ blog, isFeatured, themeValue, lightText, DarkText,isLoading }: any) {
 
+  if (isLoading) return <Loader />
   return (
     <Link href={`/Blogs/${blog._id}`}>
       {/* Image Container */}
@@ -23,7 +23,7 @@ export default function BlogCard({ blog, isFeatured, themeValue, lightText, Dark
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
         
         {/* Tags */}
-        <div className="absolute bottom-3 left-3 flex flex-wrap gap-2">
+        <div className="absolute bottom-2 left-3 flex flex-wrap gap-2">
           {blog.blogTags.slice(0, 2).map((tag: string, tagIndex: number) => (
             <span
               key={tagIndex}

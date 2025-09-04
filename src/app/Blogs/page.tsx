@@ -6,7 +6,7 @@ import BlogCard from "../../components/BlogsComponents/BLogCard";
 import { Search, Filter, Calendar, User, Tag, ArrowDown, Grid, List } from "lucide-react";
 
 export default function AllBlogs() {
-  const { data } = useFetchBlogQuery([]);
+  const { data, isLoading } = useFetchBlogQuery([]);
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
@@ -177,6 +177,7 @@ export default function AllBlogs() {
                   themeValue={themeValue}
                   lightText={lightText}
                   DarkText={DarkText}
+                  isLoading={isLoading}
                 />
               </div>        
             );
