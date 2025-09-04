@@ -27,7 +27,7 @@ export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
 
                     />
                   ) : (
-                    <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-600 border-2 border-indigo-400">
+                    <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gray-300  border-2 border-indigo-400">
                       <User className="w-8 h-8 text-gray-600 dark:text-gray-300" />
                     </div>
                   )}
