@@ -41,9 +41,10 @@ const { handleSuggest, aiLoading } = useAIGenerate(setFormData, formData);
       <form 
       onSubmit={addBlogs}
       className="max-w-6xl mx-auto px-4 py-4">
-        <h1 className={`text-xl font-semibold mb-4 text-center ${themeValue ? lightText : DarkText}`}>
+          <h1 className="text-4xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent text-center">
           Add Article
         </h1>
+          
 
         {/* Main Editor Grid */}
         <div
