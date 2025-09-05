@@ -307,13 +307,6 @@ export default function AuthorsDetail() {
                   </p>
                 </div>
               </div>
-              <span
-                className={`text-xs font-medium ${
-                  themeValue ? "text-indigo-600" : "text-indigo-400"
-                }`}
-              >
-                Read more →
-              </span>
             </div>
           </div>
         </div>

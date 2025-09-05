@@ -6,7 +6,7 @@ import Link from "next/link";
 
 
 export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
-    const { themeValue } = useContext(ContextTheme);
+    const { themeValue,light,dark } = useContext(ContextTheme);
     const [imgError, setImgError] = useState(false);
     const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
     return(
@@ -14,7 +14,7 @@ export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
         className={`group rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300
             border hover:border-indigo-400 hover:shadow-xl hover:scale-105 
             min-w-[320px]
-            ${themeValue ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"}
+            ${themeValue ? `${light} border-gray-300` : `${dark} border-gray-700`}
         `}>
                 {/* Profile Image */}
                 <div className="relative mb-4">
