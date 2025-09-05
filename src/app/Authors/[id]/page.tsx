@@ -19,6 +19,7 @@ import {
   BarChart3
 } from "lucide-react";
 import LoadingPage from "../../../components/layout/LoadingPage";
+import BlogCard from "../../../components/BlogsComponents/BLogCard";
 
 export default function AuthorsDetail() {
   const params = useParams();
@@ -68,8 +69,6 @@ export default function AuthorsDetail() {
         month: "long",
         day: "numeric",
         year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
       })
     : "Recently active";
 
@@ -220,68 +219,109 @@ export default function AuthorsDetail() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {blogs.map((blog: any) => (
-                <Link key={blog._id} href={`/Blogs/${blog._id}`}>
-                  <div className={`rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
-                    themeValue ? 'bg-white border border-gray-200' : 'bg-gray-800 border border-gray-700'
-                  }`}>
-                    {/* Blog Image */}
-                    <div className="relative h-48 overflow-hidden">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {blogs.map((blog: any, index: number) => {
+    const hasImage =
+      blog.userId?.profilePic &&
+      blog.userId.profilePic.trim() !== "" 
+
+    return (
+      <Link key={blog._id} href={`/Blogs/${blog._id}`}>
+        <div
+          className={`rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer
+            ${themeValue ? `${light} border border-gray-200` : `${dark} border border-gray-700`}
+          `}
+        >
+          {/* Image with Gradient */}
+          <div className="relative h-48 overflow-hidden">
+            <img
+              src={blog.blogImage}
+              alt={blog.blogTitle}
+              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+
+            {/* Tags */}
+            {blog.blogTags.length > 0 && (
+              <div className="absolute bottom-2 left-3 flex flex-wrap gap-2">
+                {blog.blogTags.slice(0, 2).map((tag: string, idx: number) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Content */}
+          <div className="p-5">
+            <h3
+              className={`font-semibold mb-2 text-lg ${
+                themeValue ? "text-gray-800" : "text-white"
+              }`}
+            >
+              {blog.blogTitle}
+            </h3>
+
+            <p
+              className={`text-sm mb-3 line-clamp-2 ${
+                themeValue ? "text-gray-600" : "text-gray-300"
+              }`}
+            >
+              {blog.blogSummary}
+            </p>
+
+            {/* Author + Date */}
+            <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-0.5">
+                  <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                    {hasImage ? (
                       <img
-                        src={blog.blogImage}
-                        alt={blog.blogTitle}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                        src={blog.userId.profilePic}
+                        alt={blog.userId?.name || "Author"}
+                        className="w-9 h-9 rounded-full object-cover"
                       />
-                      <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full bg-black/50 text-white text-xs">
-                        <Clock size={12} />
-                        <span>{Math.ceil((blog.blogContent?.split(/\s+/).length || 0) / 200)}m</span>
-                      </div>
-                    </div>
-
-                    {/* Blog Content */}
-                    <div className="p-4">
-                      <h3 className={`font-semibold mb-2 text-lg ${themeValue ? 'text-gray-800' : 'text-white'}`}>
-                        {blog.blogTitle}
-                      </h3>
-                      <p className={`text-sm mb-3 ${themeValue ? 'text-gray-600' : 'text-gray-300'} line-clamp-2`}>
-                        {blog.blogSummary}
-                      </p>
-                      
-                      {/* Tags */}
-                      {blog.blogTags.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mb-3">
-                          {blog.blogTags.slice(0, 2).map((tag: string, idx: number) => (
-                            <span
-                              key={idx}
-                              className="px-2 py-1 text-xs bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300 rounded-full"
-                            >
-                              #{tag}
-                            </span>
-                          ))}
-                          {blog.blogTags.length > 2 && (
-                            <span className="px-2 py-1 text-xs text-gray-500">
-                              +{blog.blogTags.length - 2} more
-                            </span>
-                          )}
-                        </div>
-                      )}
-
-                      <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
-                        <span className={`text-xs ${themeValue ? 'text-gray-500' : 'text-gray-400'}`}>
-                          {new Date(blog.createdAt).toLocaleDateString()}
-                        </span>
-                        <span className={`text-xs font-medium ${
-                          themeValue ? 'text-indigo-600' : 'text-indigo-400'
-                        }`}>
-                          Read more →
-                        </span>
-                      </div>
-                    </div>
+                    ) : (
+                      <span className="text-xs text-indigo-600">No Pic</span>
+                    )}
                   </div>
-                </Link>
-              ))}
+                </div>
+                <div className="ml-3">
+                  <p
+                    className={`text-sm font-medium ${
+                      themeValue ? "text-gray-800" : "text-white"
+                    }`}
+                  >
+                    {blog.userId?.name || "Unknown Author"}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
+              </div>
+              <span
+                className={`text-xs font-medium ${
+                  themeValue ? "text-indigo-600" : "text-indigo-400"
+                }`}
+              >
+                Read more →
+              </span>
             </div>
+          </div>
+        </div>
+      </Link>
+    );
+  })}
+</div>
+
           )}
         </div>
       </div>
