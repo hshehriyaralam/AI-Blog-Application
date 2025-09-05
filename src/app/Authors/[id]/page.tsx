@@ -93,15 +93,15 @@ export default function AuthorsDetail() {
             <div className="md:w-1/3 p-8 flex flex-col items-center justify-center">
               <div className="relative">
                 <div className="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-1.5">
-                  <div className="w-full h-full rounded-full bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
+                  <div className="w-full h-full rounded-full bg-white  flex items-center justify-center overflow-hidden">
                     {user.profilePic ? (
                       <img
                         src={user.profilePic}
-                        alt={`${ <User className="w-12 h-12 text-indigo-600 dark:text-indigo-400" />}`}
+                        alt={`${ <User className="w-12 h-12 text-indigo-600 " />}`}
                         className="w-full h-full object-cover rounded-full"
                       />
                     ) : (
-                      <User className="w-12 h-12 text-indigo-600 dark:text-indigo-400" />
+                      <User className="w-12 h-12 text-indigo-600 " />
                     )}
                   </div>
                 </div>
@@ -170,25 +170,25 @@ export default function AuthorsDetail() {
                   themeValue ? 'bg-indigo-50' : 'bg-indigo-900/30'
                 }`}>
                   <div className="text-2xl font-bold text-indigo-600">{blogs.length}</div>
-                  <div className="text-xs text-indigo-600 dark:text-indigo-400">Articles</div>
+                  <div className="text-xs text-indigo-600 ">Articles</div>
                 </div>
                 <div className={`p-3 rounded-xl text-center ${
-                  themeValue ? 'bg-green-50' : 'bg-green-900/30'
+                  themeValue ? 'bg-green-100' : 'bg-green-900/30'
                 }`}>
                   <div className="text-2xl font-bold text-green-600">{totalViews}</div>
-                  <div className="text-xs text-green-600 dark:text-green-400">Total Views</div>
+                  <div className="text-xs text-green-600 ">Total Views</div>
                 </div>
                 <div className={`p-3 rounded-xl text-center ${
-                  themeValue ? 'bg-blue-50' : 'bg-blue-900/30'
+                  themeValue ? 'bg-blue-100' : 'bg-blue-900/30'
                 }`}>
                   <div className="text-2xl font-bold text-blue-600">{avgReadTime}m</div>
-                  <div className="text-xs text-blue-600 dark:text-blue-400">Avg Read</div>
+                  <div className="text-xs text-blue-600 ">Avg Read</div>
                 </div>
                 <div className={`p-3 rounded-xl text-center ${
-                  themeValue ? 'bg-purple-50' : 'bg-purple-900/30'
+                  themeValue ? 'bg-purple-100' : 'bg-purple-900/30'
                 }`}>
                   <div className="text-2xl font-bold text-purple-600">24</div>
-                  <div className="text-xs text-purple-600 dark:text-purple-400">Followers</div>
+                  <div className="text-xs text-purple-600 ">Followers</div>
                 </div>
               </div>
             </div>
@@ -214,7 +214,7 @@ export default function AuthorsDetail() {
               <h3 className={`text-lg font-semibold mb-2 ${themeValue ? 'text-gray-800' : 'text-white'}`}>
                 No articles yet
               </h3>
-              <p className={`text-gray-600 dark:text-gray-400`}>
+              <p className={`text-gray-600 `}>
                 {user.name} hasn't published any articles yet.
               </p>
             </div>
@@ -275,7 +275,7 @@ export default function AuthorsDetail() {
             </p>
 
             {/* Author + Date */}
-            <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between pt-3 border-t border-gray-200 ">
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-0.5">
                   <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center overflow-hidden">
@@ -298,7 +298,7 @@ export default function AuthorsDetail() {
                   >
                     {blog.userId?.name || "Unknown Author"}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-500 ">
                     {new Date(blog.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "short",
