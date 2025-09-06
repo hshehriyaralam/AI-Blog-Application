@@ -9,6 +9,8 @@ import { User, Trash2, Plus, Mail, Calendar, Eye, FileText, LogOut } from "lucid
 import { useState, useContext } from "react";
 import { ContextTheme } from "../../Context/DarkTheme";
 import Link from "next/link";
+import { taintObjectReference } from "next/dist/server/app-render/entry-base";
+
 
 export default function Profile() {
   const dispatch = useDispatch<AppDispatch>();
@@ -213,12 +215,12 @@ export default function Profile() {
               {/* Delete Confirmation */}
               {showDeleteConfirm && (
                 <div className={`p-4 rounded-xl mt-4 ${
-                  themeValue ? 'bg-red-50 border border-red-200' : 'bg-red-900/20 border border-red-800'
+                  themeValue ? 'bg-red-500 border border-red-200' : 'bg-red-900/20 border border-red-800'
                 }`}>
-                  <h4 className="font-semibold text-red-800 dark:text-red-200 mb-2">
+                  <h4 className="font-semibold text-red-800  mb-2">
                     Confirm Account Deletion
                   </h4>
-                  <p className="text-red-600 dark:text-red-300 text-sm mb-4">
+                  <p className="text-red-200  text-sm mb-4">
                     This action cannot be undone. All your data will be permanently deleted.
                   </p>
                   <div className="flex gap-2">
@@ -226,6 +228,7 @@ export default function Profile() {
                       variant="destructive" 
                       size="sm"
                       onClick={handleDeleteAccount}
+                      className="border border-red-600 cursor-pointer"
                     >
                       Confirm Delete
                     </Button>
@@ -233,6 +236,7 @@ export default function Profile() {
                       variant="outline" 
                       size="sm"
                       onClick={() => setShowDeleteConfirm(false)}
+                      className="border border-amber-500 text-gray-100 cursor-pointer"
                     >
                       Cancel
                     </Button>
@@ -256,7 +260,7 @@ export default function Profile() {
 
           {blogs.length === 0 ? (
             <div className={`text-center py-12 rounded-2xl ${
-              themeValue ? 'bg-white shadow-lg' : 'bg-gray-800 shadow-xl'
+              themeValue ? `${light} shadow-lg` : `${dark} shadow-xl`
             }`}>
               <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
               <h3 className={`text-lg font-semibold mb-2 ${themeValue ? 'text-gray-800' : 'text-white'}`}>
@@ -265,17 +269,19 @@ export default function Profile() {
               <p className={`text-gray-600 dark:text-gray-400`}>
                 Start writing your first article to share with the world!
               </p>
-              <Button className="mt-4 bg-gradient-to-r from-indigo-600 to-purple-600">
+              <Link  href='/Create'>
+              <Button className="mt-4 bg-gradient-to-r from-indigo-600 to-purple-600   cursor-pointer"  >
                 <Plus className="w-4 h-4 mr-2" />
                 Create Article
               </Button>
+              </Link>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {blogs.map((blog: any) => (
                 <Link key={blog._id} href={`/Blogs/${blog._id}`}>
                   <div className={`rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
-                    themeValue ? 'bg-white border border-gray-200' : 'bg-gray-800 border border-gray-700'
+                    themeValue ? `${light} border border-gray-200` : `${dark} border border-gray-700`
                   }`}>
                     {/* Blog Image */}
                     <div className="relative h-48 overflow-hidden">
@@ -304,7 +310,7 @@ export default function Profile() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
+                          className={`${themeValue ? 'text-red-600 hover:text-red-700 hover:bg-red-50' : 'text-red-600  hover:text-red-500   '}   cursor-pointer `}
                           onClick={(e) => {
                             e.preventDefault();
                             handleDeleteBlog(blog._id);
