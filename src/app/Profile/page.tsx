@@ -6,7 +6,7 @@ import { useGetProfileQuery, useDeleteProfileMutation } from "../../Redux/Servic
 import { useDeleteBlogMutation } from "../../Redux/Services/blogApi";
 import { Button } from "../../components/ui/button";
 import { Plus, FileText } from "lucide-react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ContextTheme } from "../../Context/DarkTheme";
 import { useAlert } from '../../Context/AlertContext';
 import Link from "next/link";
@@ -14,18 +14,23 @@ import LoadingPage from "../../components/layout/LoadingPage";
 import UserNotFoundPage from '../../components/ProfileComponents/userPage'
 import ProfileSection from '../../components/ProfileComponents/ProfilSection'
 import ProfileBlogsSections from '../../components/ProfileComponents/BlogsSection'
+import { useSelector } from "react-redux";
+import type { RootState } from "../../Redux/store";
+import { useRouter } from "next/navigation";
+
 
 
 
 export default function Profile() {
-    const { showAlert } = useAlert();
+    const router = useRouter();
+  const { showAlert } = useAlert();
   const dispatch = useDispatch<AppDispatch>();
+  const Googleloading = useSelector((state: RootState) => state.auth.loading);
   const { themeValue, light, dark } = useContext(ContextTheme);
   const { data: Profile, isLoading } = useGetProfileQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-
-  const [deleteProfile] = useDeleteProfileMutation();
+  const [deleteProfile , { isLoading: DeleteProfileLoader}] = useDeleteProfileMutation();
   const [deleteBlog, { isLoading: deleting }] = useDeleteBlogMutation();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -40,11 +45,12 @@ export default function Profile() {
       showAlert('error', 'Blog deletion failed. Please try again.');
     }
   };
-
+  
   const handleDeleteAccount = async () => {
     try {
       await deleteProfile().unwrap();
       showAlert('success', 'Goodbye! Your account is gone.');
+      window.location.replace('/')
     } catch {
      showAlert('error', 'Account deletion failed ❌');
     }
@@ -82,6 +88,7 @@ export default function Profile() {
   // Calculate total views
   const totalViews = blogs.reduce((sum: number, blog: any) => sum + (blog.views || 0), 0);
 
+
   return (
     <div className={`min-h-screen ${themeValue ? light : dark} py-8`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -99,6 +106,8 @@ export default function Profile() {
         setShowDeleteConfirm={setShowDeleteConfirm}
         handleDeleteAccount={handleDeleteAccount}
         showDeleteConfirm={showDeleteConfirm}
+        Googleloading={Googleloading}
+        DeleteProfileLoader={DeleteProfileLoader}
         />
         {/* Blogs Section */}
         <div className="mb-8">

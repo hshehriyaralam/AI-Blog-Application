@@ -1,6 +1,8 @@
 'use client'
 import { User, Trash2,  Mail, Calendar, Eye, FileText, LogOut } from "lucide-react";
 import { Button } from "../ui/button";
+import ButtonLoader from '../../components/Common/BtnLoader'
+
 
 
 export default function ProfileSection({
@@ -15,7 +17,9 @@ export default function ProfileSection({
  handleGoogleLogin,
  setShowDeleteConfirm,
  handleDeleteAccount,
- showDeleteConfirm
+ showDeleteConfirm,
+ Googleloading,
+ DeleteProfileLoader,
 }:any){
     return(
          <div className={`rounded-2xl border ${
@@ -122,8 +126,14 @@ export default function ProfileSection({
                           onClick={handleGoogleLogin}
                           className={`flex items-center gap-2    cursor-pointer  bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-indigo-600 hover:to-purple-600 shadow-md `}
                         >
-                          <LogOut className="w-4 h-4" />
-                          Switch Account
+                        {Googleloading ? (
+                          <ButtonLoader />
+                        ) : (
+                          <>
+                            <LogOut className="w-4 h-4 mr-2" />
+                            Switch Account
+                          </>
+                        )}    
                         </Button>
                         <Button 
                           onClick={() => setShowDeleteConfirm(true)}
@@ -153,7 +163,7 @@ export default function ProfileSection({
                               onClick={handleDeleteAccount}
                               className="border border-red-600 cursor-pointer"
                             >
-                              Confirm Delete
+                              {DeleteProfileLoader ? <ButtonLoader /> : "Confirm Delete" }
                             </Button>
                             <Button 
                               variant="outline" 

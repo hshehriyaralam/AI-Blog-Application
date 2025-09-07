@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { googleLoginThunk } from "../../Redux/Slices/authSlice";
 import type { AppDispatch } from "../../Redux/store";    
-import Loader from '../Common/Loader';
 import { Button } from '../ui/button';
 
 export default function Navbar() {
