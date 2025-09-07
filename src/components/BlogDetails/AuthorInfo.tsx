@@ -1,40 +1,72 @@
 'use client'
+import Link from "next/link";
 import { User } from "lucide-react";
 import { useState } from "react";
 
+export default function AuthorInfo({ blog, themeValue, lightText, DarkText }: any) {
+  const [imgError, setImgError] = useState(false);
 
-export default function AuthorInfo({blog,themeValue,lightText,DarkText}:any){
-     const [imgError, setImgError] = useState(false);
-    const hasImage = blog.userId.profilePic && blog.userId.profilePic.trim() !== "" && !imgError;
-    return(
-        <div className={`flex items-center gap-3 mt-12 border-t  ${themeValue ? "border-gray-700" : "border-gray-400"} pt-6`}>
-  {hasImage ? (
-    <img
-      src={blog.userId.profilePic}
-      alt={blog.userId.name}
-      className="w-12 h-12 rounded-full object-cover border"
-      onError={() => setImgError(true)}
+  if (!blog) return null; 
+  const rawUser = blog.userId;
 
-    />
-  ) : (
-    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-300 ">
-      <User className="w-6 h-6 text-gray-600 " />
+  let authorId: string | undefined;
+  let authorName: string | undefined;
+  let authorPic: string | undefined;
+  if (!rawUser) {
+  } else if (typeof rawUser === "string") {
+    authorId = rawUser;
+  } else if (typeof rawUser === "object") {
+    authorId =
+      rawUser._id?.toString?.() ??
+      rawUser.id?.toString?.() ??
+      (rawUser.toString ? rawUser.toString() : undefined);
+
+    authorName = rawUser.name ?? rawUser.username ?? undefined;
+    authorPic = rawUser.profilePic ?? rawUser.avatar ?? undefined;
+  }
+
+
+  const displayName = authorName || blog.authorName || "Unknown Author";
+  const displayPic = authorPic || blog.authorPic || "";
+  const hasImage = !!(displayPic && displayPic.trim() !== "" && !imgError);
+
+  const href = authorId ? `/Authors/${encodeURIComponent(authorId)}` : `/Authors`;
+
+  return (
+    <div className={`flex items-center gap-3 mt-12 border-t ${themeValue ? "border-gray-400" : "border-gray-700"} pt-6`}>
+      {hasImage ? (
+        <Link href={href}>
+        <img
+          src={displayPic}
+          alt={displayName}
+          className="w-12 h-12 rounded-full object-cover border"
+          onError={() => setImgError(true)}
+          />
+          </Link>
+      ) : (
+        <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-300">
+          <User className="w-6 h-6 text-gray-600" />
+        </div>
+      )}
+      <div>
+        <Link href={href}>
+          <p className={`font-semibold cursor-pointer ${themeValue ? lightText : DarkText}`}>
+            {displayName}
+          </p>
+        </Link>
+
+        <p className="text-xs text-gray-400 dark:text-gray-500">
+          {blog.createdAt
+            ? new Date(blog.createdAt).toLocaleString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : ""}
+        </p>
+      </div>
     </div>
-  )}
-  <div>
-    <p className={`font-semibold ${themeValue ? lightText : DarkText}`}>
-      {blog.userId?.name || "Unknown Author"}
-    </p>
-    <p className="text-xs text-gray-400 dark:text-gray-500">
-      {new Date(blog.createdAt).toLocaleString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })}
-    </p>
-  </div>
-</div>
-    )
+  );
 }

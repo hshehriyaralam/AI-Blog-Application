@@ -31,9 +31,6 @@ export default function AllBlogs() {
           Explore our collection of insightful articles, tutorials, and stories from talented writers around the world.
         </p>
       </div>
-
-         
-
         {/* Filters and Search Section */}
         <div className={`mb-4 rounded-xl ${themeValue ? `${light} shadow-md` : `${dark} shadow-xl `} p-6`}>
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
@@ -82,15 +79,12 @@ export default function AllBlogs() {
                 light={light}
                 dark={dark}
                 />
-           
               </div>
-
               {/* Filter Actions */}
               <FilterActions 
                themeValue={themeValue}
                 light={light}
-                dark={dark}
-              />
+                dark={dark} />
             </div>
           )}
         </div>
@@ -99,27 +93,15 @@ export default function AllBlogs() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {data?.data?.map((blog: any, index: number) => {
             const isFeatured = index % 6 === 0;
-
-
             return (
-              <div
-                key={blog._id}
-                className={`
-              border
-              ${isFeatured ? 'lg:col-span-2' : ''}
-              ${themeValue ? `${light}  border-gray-200 ` : `${dark} border-gray-700 `} 
-              rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300
-              hover:scale-[1.02] cursor-pointer 
-            `}
-              >
+              <div key={blog._id} className={`border ${isFeatured ? 'lg:col-span-2' : ''} ${themeValue ? `${light}  border-gray-200 ` : `${dark} border-gray-700 `} rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer `}>
                 <BlogCard 
-                   blog={blog}
+                  blog={blog}
                   isFeatured={isFeatured}
                   themeValue={themeValue}
                   lightText={lightText}
                   DarkText={DarkText}
-                  isLoading={isLoading}
-                />
+                  isLoading={isLoading} />
               </div>        
             );
           })}
