@@ -15,12 +15,14 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { themeValue, changeTheme, light, dark } = useContext(ContextTheme);
-  const { data, isLoading, refetch } = useGetProfileQuery({});
+  const { data, isLoading, refetch } =  useGetProfileQuery(undefined, {
+  refetchOnMountOrArgChange: false,
+  refetchOnReconnect: false,
+  refetchOnFocus: false,
+});;
   const router = useRouter();
   
   const handleNavigate = async (link: string) => {
-    if (isLoading) return <div className="w-full h-screen flex justify-center items-center"><Loader /></div>
-
     if (!data?.user) {
       try {
         const res = await dispatch(googleLoginThunk()).unwrap();
@@ -159,14 +161,14 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu Dropdown */}
-      <div className={`lg:hidden overflow-hidden transition-all duration-600 ${
+      <div className={`lg:hidden overflow-hidden  ${
         menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
       } ${themeValue ? `${light}` : `${dark} text-gray-200`}`}>
         <div className="px-6 py-2 space-y-3">
           <Link 
             href="/" 
             onClick={() => setMenuOpen(false)}
-            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer rounded-lg text-lg font-medium transition-all hover:bg-indigo-200 hover:text-gray-900"
+            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer rounded-lg text-lg font-medium  hover:bg-indigo-200 hover:text-gray-900"
           >
             <Home size={16} />
             <h2 className='text-[16px] font-semibold' >
@@ -176,7 +178,7 @@ export default function Navbar() {
           
           <button 
             onClick={() => handleNavigate('/Create')}
-            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium transition-all hover:bg-indigo-200 hover:text-gray-900  w-full text-left"
+            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium  hover:bg-indigo-200 hover:text-gray-900  w-full text-left"
           >
             <PenSquare size={16} />
             <h2 className='text-[16px] font-semibold' >
@@ -187,7 +189,7 @@ export default function Navbar() {
           
           <button 
             onClick={() => handleNavigate('/Blogs')}
-            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium transition-all hover:bg-indigo-200 hover:text-gray-900 w-full text-left"
+            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium  hover:bg-indigo-200 hover:text-gray-900 w-full text-left"
           >
             <BookOpen size={16} />
              <h2 className='text-[16px] font-semibold' >
@@ -198,7 +200,7 @@ export default function Navbar() {
           
           <button 
             onClick={() => handleNavigate('/Authors')}
-            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium transition-all hover:bg-indigo-200 hover:text-gray-900 w-full text-left"
+            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium  hover:bg-indigo-200 hover:text-gray-900 w-full text-left"
           >
             <Users size={16} />
             <h2 className='text-[16px] font-semibold' >
@@ -209,7 +211,7 @@ export default function Navbar() {
 
            <button 
             onClick={() => handleNavigate('/Authors')}
-            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium transition-all hover:bg-indigo-200 hover:text-gray-900 w-full text-left"
+            className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium  hover:bg-indigo-200 hover:text-gray-900 w-full text-left"
           >
              <Bookmark size={16} />
             <h2 className='text-[16px] font-semibold' >
@@ -221,7 +223,7 @@ export default function Navbar() {
           <div className="pt-3 border-t border-gray-200 dark:border-gray-700 mt-3">
             <Button 
               onClick={() => handleNavigate('/Profile')}
-              className={`flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium transition-all w-full ${
+              className={`flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium  w-full ${
                 themeValue 
                   ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700' 
                   : 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-indigo-600 hover:to-purple-600'
