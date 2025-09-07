@@ -40,7 +40,7 @@ function AuthorItem({ user, themeValue, index }: any) {
           <div className="flex items-center gap-1.5 mt-1">
             <TrendingUp size={12} className="text-indigo-500" />
             <p className="text-xs text-indigo-600 font-medium">
-              {user?.blogCount || 0} Articles
+              {user?.blogCount} Articles
             </p>
           </div>
         </div>   
@@ -50,9 +50,9 @@ function AuthorItem({ user, themeValue, index }: any) {
 }
 
 export default function TopAuthors() {
-  const { data, isLoading, isError } = useAllUserQuery(undefined)
+  const { data, isLoading, isError } = useAllUserQuery({})
   const { themeValue } = useContext(ContextTheme)
-
+ console
   // 🔹 Loading State
   if (isLoading) {
     return (
@@ -86,11 +86,11 @@ export default function TopAuthors() {
 
   const Authors = data?.data.map((user: any) => ({
     name: user.name,
-    blogCount: user.blogCount || 0,
+    blogCount: user.blogCount,
     profilePic: user.profilePic,
     id: user.id 
-  })) || [];
-
+  }))
+    
   // Sort descending (most articles first)
   const TopAuthors = Authors.sort((a: any, b: any) => b.blogCount - a.blogCount).slice(0, 5);
 

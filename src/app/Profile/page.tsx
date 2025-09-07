@@ -41,6 +41,7 @@ export default function Profile() {
     try {
       await deleteBlog(id).unwrap();
       showAlert('success', 'Blog erased successfully ✨');
+      window.location.reload()
     } catch {
       showAlert('error', 'Blog deletion failed. Please try again.');
     }

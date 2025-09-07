@@ -86,7 +86,7 @@ export default function ProfileSection({
                         <div className="flex items-center gap-3">
                           <FileText className="w-5 h-5 text-green-500" />
                           <span className={themeValue ? "text-gray-700" : "text-gray-300"}>
-                            {blogs.length} articles published
+                            {user.blogCount} articles published
                           </span>
                         </div>
                       </div>
@@ -97,7 +97,7 @@ export default function ProfileSection({
                         <div className={`p-3 rounded-xl text-center ${
                           themeValue ? 'bg-indigo-100' : 'bg-indigo-900/30'
                         }`}>
-                          <div className="text-2xl font-bold text-indigo-600 ">{blogs.length}</div>
+                          <div className="text-2xl font-bold text-indigo-600 ">{user.blogCount}</div>
                           <div className="text-xs text-indigo-600 ">Articles</div>
                         </div>
                         <div className={`p-3 rounded-xl text-center ${

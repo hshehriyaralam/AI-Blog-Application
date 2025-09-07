@@ -1,6 +1,8 @@
 'use client'
 import { Trash2  } from "lucide-react";
 import { Button } from "../ui/button";
+import ButtonLoader from '../../components/Common/BtnLoader'
+
 
 
 export default function ProfileBlogsSections({themeValue,dark,blog,light, handleDeleteBlog,deleting}:any){
@@ -42,7 +44,7 @@ export default function ProfileBlogsSections({themeValue,dark,blog,light, handle
             }}
             disabled={deleting}
         >
-            <Trash2 className="w-4 h-4" />
+            {deleting   ? <ButtonLoader /> : <Trash2 className="w-4 h-4" />  }
         </Button>
         </div>
     </div>
