@@ -1,8 +1,13 @@
 'use client'
 import {Tag} from 'lucide-react'
+import { useFetchBlogQuery } from '../../Redux/Services/blogApi';
 
 
 export default function TagsFilter({themeValue,light,dark}:any){
+    const { data, isLoading, isError } = useFetchBlogQuery([])
+
+    const allTags = data?.data.map((blogs: { blogTags: string[] }) => blogs.blogTags).flat() || [];
+    const uniqueTags = [...new Set(allTags)]
     return(
         <div>
         <label className={`flex items-center gap-2 text-sm font-medium mb-2 ${themeValue ? 'text-gray-700' : 'text-gray-300'}`}>
@@ -14,10 +19,11 @@ export default function TagsFilter({themeValue,light,dark}:any){
             ? `${light} border-gray-300 text-gray-800` 
             : `${dark} border-gray-600 text-white`
         }`}>
-        <option value="">All Tags</option>
-        <option value="technology">Technology</option>
-        <option value="design">Design</option>
-        <option value="business">Business</option>
+        {uniqueTags.slice(0,10).map((tag, index) => (
+        <option value={String(tag)} key={index}>
+            {String(tag)}
+        </option>
+        ))}
         </select>
     </div>
     )

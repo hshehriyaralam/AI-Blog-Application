@@ -84,7 +84,7 @@ export default function TopAuthors() {
     )
   }
 
-  const Authors = data?.data.map((user: any) => ({
+  const Authors = data?.data?.map((user: any) => ({
     name: user.name,
     blogCount: user.blogCount,
     profilePic: user.profilePic,

@@ -20,6 +20,18 @@ export default function AllBlogs() {
   const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState("")
 
+  const blogsCreateDates = data?.data?.map((blog: any) => {
+  return new Date(blog.createdAt).toDateString();
+});
+
+  const BlogsDate = [...new Set(blogsCreateDates)]
+
+
+
+
+
+
+
   // filter Blogs
   const filteredBlogs = data?.data?.filter((blog: any) => {
   const query = searchQuery.toLowerCase();
@@ -85,6 +97,7 @@ export default function AllBlogs() {
                 themeValue={themeValue}
                 light={light}
                 dark={dark}
+                BlogsDate={BlogsDate}
                 />
 
                 {/* Tags Filter */}
