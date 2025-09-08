@@ -1,8 +1,6 @@
 'use client'
 import { Search } from "lucide-react";
 
-
-
 export default function SearchInput({themeValue, light, dark,value,onChange}:any){
     return(
          <div className="flex-1 relative">

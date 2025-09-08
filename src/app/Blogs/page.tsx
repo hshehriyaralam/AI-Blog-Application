@@ -1,7 +1,7 @@
 'use client'
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
 import { ContextTheme } from '../../Context/DarkTheme'
-import { useContext, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import BlogCard from "../../components/BlogsComponents/BLogCard";
 
 // Components
@@ -13,125 +13,230 @@ import DateFilter from "../../components/BlogsComponents/DateFilter";
 import Tags from '../../components/BlogsComponents/TagsFilter'
 import FilterActions from '../../components/BlogsComponents/FilterActions'
 
+type DraftFilters = {
+  authorId: string;
+  title: string;
+  date: string; 
+  tag: string;
+};
 
 export default function AllBlogs() {
   const { data, isLoading } = useFetchBlogQuery([]);
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
+
   const [showFilters, setShowFilters] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const blogsCreateDates = data?.data?.map((blog: any) => {
-  return new Date(blog.createdAt).toDateString();
-});
+  // 1) unique dates for dropdown
+  const blogsCreateDates: string[] = useMemo(() => {
+    const list = data?.data?.map((blog: any) =>
+      blog?.createdAt ? new Date(blog.createdAt).toDateString() : ""
+    ).filter(Boolean) || [];
+    return Array.from(new Set(list));
+  }, [data]);
 
-  const BlogsDate = [...new Set(blogsCreateDates)]
+  // 2) draft vs applied filters
+  const [draftFilters, setDraftFilters] = useState<DraftFilters>({
+    authorId: "",
+    title: "",
+    date: "",
+    tag: ""
+  });
+  const [appliedFilters, setAppliedFilters] = useState<DraftFilters>(draftFilters);
+
+  const handleApply = () => {
+    setAppliedFilters({ ...draftFilters });
+  };
+
+  const handleClear = () => {
+    const empty: DraftFilters = { authorId: "", title: "", date: "", tag: "" };
+    setDraftFilters(empty);
+    setAppliedFilters(empty);
+    setSearchQuery("");
+  };
+
+  // 3) filtering (search + applied filters)
+  const filteredBlogs = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+
+    return (data?.data || []).filter((blog: any) => {
+      let ok = true;
+
+      // 🔍 search across title/content/author
+      if (q) {
+        const title = blog?.blogTitle?.toLowerCase() || "";
+        const content = blog?.blogContent?.toLowerCase() || "";
+        const authorName = blog?.userId?.name?.toLowerCase?.() || "";
+        ok = ok && (title.includes(q) || content.includes(q) || authorName.includes(q));
+      }
+
+      if (appliedFilters.authorId) {
+        const blogAuthorId = typeof blog?.userId === "object"
+          ? blog?.userId?._id
+          : blog?.userId;
+
+        ok = ok && String(blogAuthorId || "") === String(appliedFilters.authorId);
+      }
 
 
+      // 📝 Title filter
+      if (appliedFilters.title) {
+        ok =
+          ok &&
+          (blog?.blogTitle || "")
+            .toLowerCase()
+            .includes(appliedFilters.title.toLowerCase());
+      }
 
+      // 📅 Date filter
+      if (appliedFilters.date) {
+        const d = blog?.createdAt ? new Date(blog.createdAt).toDateString() : "";
+        ok = ok && d === appliedFilters.date;
+      }
 
+      // 🏷️ Tags filter
+      if (appliedFilters.tag) {
+        const tags: string[] =
+          blog?.blogTags?.map((t: string) => t.toLowerCase()) || [];
+        ok = ok && tags.includes(appliedFilters.tag.toLowerCase());
+      }
 
-
-
-  // filter Blogs
-  const filteredBlogs = data?.data?.filter((blog: any) => {
-  const query = searchQuery.toLowerCase();
-  return (
-    blog.blogTitle.toLowerCase().includes(query) ||
-    blog.blogContent.toLowerCase().includes(query) ||
-    blog.userId?.name?.toLowerCase().includes(query)
-  );
-});
-
+      return ok;
+    });
+  }, [data, searchQuery, appliedFilters]);
 
   return (
     <div className={`min-h-screen ${themeValue ? `${light}` : `${dark}`} py-8`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
+        {/* Header */}
         <div className="max-w-6xl mx-auto text-center mb-4">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
-         Discover Amazing Content
-        </h1>
-        <p className={`text-lg ${themeValue ? "text-gray-600" : "text-gray-400"} max-w-2xl mx-auto`}>
-          Explore our collection of insightful articles, tutorials, and stories from talented writers around the world.
-        </p>
-      </div>
-        {/* Filters and Search Section */}
-        <div className={`mb-4 rounded-xl ${themeValue ? `${light} shadow-md` : `${dark} shadow-xl `} p-6`}>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
+            Discover Amazing Content
+          </h1>
+          <p
+            className={`text-lg ${themeValue ? "text-gray-600" : "text-gray-400"} max-w-2xl mx-auto`}
+          >
+            Explore our collection of insightful articles, tutorials, and stories
+            from talented writers around the world.
+          </p>
+        </div>
+
+        {/* Filters + Search */}
+        <div
+          className={`mb-4 rounded-xl ${themeValue ? `${light} shadow-md` : `${dark} shadow-xl `} p-6`}
+        >
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            {/* Search Input */}
-            <SearchInput   
-            themeValue={themeValue}
-            light={light}
-            dark={dark}
-            value={searchQuery}
-            onChange={(e: any) => setSearchQuery(e.target.value)}
+            <SearchInput
+              themeValue={themeValue}
+              light={light}
+              dark={dark}
+              value={searchQuery}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchQuery(e.target.value)
+              }
             />
 
-            {/* Filter Toggle */}
-            <FilterToogle  
-            onClick={() => setShowFilters(!showFilters)}
-            showFilters={showFilters}
+            <FilterToogle
+              onClick={() => setShowFilters(!showFilters)}
+              showFilters={showFilters}
             />
           </div>
 
-          {/* Expanded Filters */}
           {showFilters && (
             <div className="mt-6 pt-6 border-t border-gray-500">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* Author Filter */}
-                <AuthorsFilter 
-                themeValue={themeValue}
-                light={light}
-                dark={dark}
-                />
-                {/* Title Filter */}
-
-                <TitleFilter 
-                themeValue={themeValue}
-                light={light}
-                dark={dark}
+                <AuthorsFilter
+                  themeValue={themeValue}
+                  light={light}
+                  dark={dark}
+                  value={draftFilters.authorId}
+                  onChange={(val: string) =>
+                    setDraftFilters((s) => ({ ...s, authorId: val }))
+                  }
                 />
 
-                {/* Date Filter */}
-                <DateFilter 
-                themeValue={themeValue}
-                light={light}
-                dark={dark}
-                BlogsDate={BlogsDate}
+                <TitleFilter
+                  themeValue={themeValue}
+                  light={light}
+                  dark={dark}
+                  value={draftFilters.title}
+                  onChange={(val: string) =>
+                    setDraftFilters((s) => ({ ...s, title: val }))
+                  }
                 />
 
-                {/* Tags Filter */}
-                <Tags 
-                themeValue={themeValue}
-                light={light}
-                dark={dark}
+                <DateFilter
+                  themeValue={themeValue}
+                  light={light}
+                  dark={dark}
+                  BlogsDate={blogsCreateDates}
+                  value={draftFilters.date}
+                  onChange={(val: string) =>
+                    setDraftFilters((s) => ({ ...s, date: val }))
+                  }
+                />
+
+                <Tags
+                  themeValue={themeValue}
+                  light={light}
+                  dark={dark}
+                  value={draftFilters.tag}
+                  onChange={(val: string) =>
+                    setDraftFilters((s) => ({ ...s, tag: val }))
+                  }
                 />
               </div>
-              {/* Filter Actions */}
-              <FilterActions 
-               themeValue={themeValue}
+
+              <FilterActions
+                themeValue={themeValue}
                 light={light}
-                dark={dark} />
+                dark={dark}
+                onApply={handleApply}
+                onClear={handleClear}
+              />
             </div>
           )}
         </div>
 
         {/* Blog Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-       {filteredBlogs?.map((blog: any, index: number) => {
-        const isFeatured = index % 6 === 0;
-        return (
-          <div key={blog._id} className={`border ${isFeatured ? 'lg:col-span-2' : ''} ${themeValue ? `${light}  border-gray-200 ` : `${dark} border-gray-700 `} rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer `}>
-            <BlogCard 
-              blog={blog}
-              isFeatured={isFeatured}
-              themeValue={themeValue}
-              lightText={lightText}
-              DarkText={DarkText}
-              isLoading={isLoading} />
-          </div>        
-        );
-      })}
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className={`h-64 rounded-xl animate-pulse ${
+                  themeValue ? "bg-gray-200" : "bg-gray-800"
+                }`}
+              />
+            ))
+          ) : filteredBlogs.length === 0 ? (
+            <div className="col-span-3 text-center py-16 opacity-80">
+              No matching articles found.
+            </div>
+          ) : (
+            filteredBlogs.map((blog: any, index: number) => {
+              const isFeatured = index % 6 === 0;
+              return (
+                <div
+                  key={blog._id}
+                  className={`border ${isFeatured ? "lg:col-span-2" : ""} ${
+                    themeValue
+                      ? `${light}  border-gray-200 `
+                      : `${dark} border-gray-700 `
+                  } rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer `}
+                >
+                  <BlogCard
+                    blog={blog}
+                    isFeatured={isFeatured}
+                    themeValue={themeValue}
+                    lightText={lightText}
+                    DarkText={DarkText}
+                    isLoading={isLoading}
+                  />
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>
