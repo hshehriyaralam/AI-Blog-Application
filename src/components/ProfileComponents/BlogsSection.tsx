@@ -5,7 +5,7 @@ import ButtonLoader from '../../components/Common/BtnLoader'
 
 
 
-export default function ProfileBlogsSections({themeValue,dark,blog,light, handleDeleteBlog,deleting}:any){
+export default function ProfileBlogsSections({themeValue,dark,blog,light, handleDeleteBlog,deletingId}:any){
     return(
 <div className={`rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
     themeValue ? `${light} border border-gray-200` : `${dark} border border-gray-700`
@@ -42,9 +42,8 @@ export default function ProfileBlogsSections({themeValue,dark,blog,light, handle
             e.preventDefault();
             handleDeleteBlog(blog._id);
             }}
-            disabled={deleting}
-        >
-            {deleting   ? <ButtonLoader /> : <Trash2 className="w-4 h-4" />  }
+             disabled={deletingId === blog._id}>
+            {deletingId === blog._id ? <ButtonLoader /> : <Trash2 className="w-4 h-4" />}
         </Button>
         </div>
     </div>

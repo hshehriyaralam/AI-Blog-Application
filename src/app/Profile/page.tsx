@@ -32,18 +32,22 @@ export default function Profile() {
   });
   const [deleteProfile , { isLoading: DeleteProfileLoader}] = useDeleteProfileMutation();
   const [deleteBlog, { isLoading: deleting }] = useDeleteBlogMutation();
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const user = Profile?.user;
   const blogs = Profile?.blogs || [];
 
   const handleDeleteBlog = async (id: string) => {
     try {
+      setDeletingId(id)
       await deleteBlog(id).unwrap();
       showAlert('success', 'Blog erased successfully ✨');
       window.location.reload()
     } catch {
       showAlert('error', 'Blog deletion failed. Please try again.');
+    }finally{
+      setDeletingId(null)
     }
   };
   
@@ -149,7 +153,7 @@ export default function Profile() {
                   blog={blog}
                   light={light}
                   handleDeleteBlog={handleDeleteBlog}
-                  deleting={deleting}
+                  deletingId={deletingId}
                   />
                 </Link>
               ))}
