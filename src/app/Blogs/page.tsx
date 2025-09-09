@@ -145,47 +145,47 @@ export default function AllBlogs() {
           </div>
 
           {showFilters && (
-            <div className="mt-6 pt-6 border-t border-gray-500">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <AuthorsFilter
-                  themeValue={themeValue}
-                  light={light}
-                  dark={dark}
-                  value={draftFilters.authorId}   
-                  onChange={(val: string) =>
-                    setDraftFilters((s) => ({ ...s, authorId: val }))
-                  }
-                />
-                <DateFilter
-                  themeValue={themeValue}
-                  light={light}
-                  dark={dark}
-                  BlogsDate={blogsCreateDates}
-                  value={draftFilters.date}
-                  onChange={(val: string) =>
-                    setDraftFilters((s) => ({ ...s, date: val }))
-                  }
-                />
+           <div className="mt-4 pt-4 border-t border-gray-500">
+  <div className="flex  flex-wrap gap-6  md:flex-row sm:flex-col    ">
+    <AuthorsFilter
+      themeValue={themeValue}
+      light={light}
+      dark={dark}
+      value={draftFilters.authorId}   
+      onChange={(val: string) =>
+        setDraftFilters((s) => ({ ...s, authorId: val }))
+      }
+    />
+    <DateFilter
+      themeValue={themeValue}
+      light={light}
+      dark={dark}
+      BlogsDate={blogsCreateDates}
+      value={draftFilters.date}
+      onChange={(val: string) =>
+        setDraftFilters((s) => ({ ...s, date: val }))
+      }
+    />
+    <Tags
+      themeValue={themeValue}
+      light={light}
+      dark={dark}
+      value={draftFilters.tag}
+      onChange={(val: string) =>
+        setDraftFilters((s) => ({ ...s, tag: val }))
+      }
+    />
+  </div>
 
-                <Tags
-                  themeValue={themeValue}
-                  light={light}
-                  dark={dark}
-                  value={draftFilters.tag}
-                  onChange={(val: string) =>
-                    setDraftFilters((s) => ({ ...s, tag: val }))
-                  }
-                />
-              </div>
+  <FilterActions
+    themeValue={themeValue}
+    light={light}
+    dark={dark}
+    onApply={handleApply}
+    onClear={handleClear}
+  />
+</div>
 
-              <FilterActions
-                themeValue={themeValue}
-                light={light}
-                dark={dark}
-                onApply={handleApply}
-                onClear={handleClear}
-              />
-            </div>
           )}
         </div>
 
