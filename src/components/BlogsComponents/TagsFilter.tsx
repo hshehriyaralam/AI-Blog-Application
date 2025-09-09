@@ -5,8 +5,27 @@ import { useFetchBlogQuery } from '../../Redux/Services/blogApi';
 export default function TagsFilter({ themeValue, light, dark, value, onChange }: any) {
   const { data } = useFetchBlogQuery([])
 
-  const allTags = data?.data?.map((b: { blogTags: string[] }) => b.blogTags).flat() || [];
-  const uniqueTags: string[] = Array.from(new Set(allTags));
+const allTags = data?.data?.map((b: { blogTags: string[] }) => b.blogTags).flat() || [];
+
+// Count frequency of each tag
+const freqMap: Record<string, number> = {};
+allTags.forEach((tag:any) => {
+  const key = tag.toLowerCase().trim();
+  freqMap[key] = (freqMap[key] || 0) + 1;
+});
+
+// Sort by frequency (desc) & keep top 15
+const sortedTags = Object.entries(freqMap)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 15)   // 👈 yahan limit set karo (10–15)
+  .map(([tag]) => tag);
+
+// Map back to original casing
+const finalTags = sortedTags.map(tag =>
+  allTags.find((original: string) => original.toLowerCase().trim() === tag) || tag
+);
+
+
 
   return (
     <div>
@@ -29,7 +48,7 @@ export default function TagsFilter({ themeValue, light, dark, value, onChange }:
           }`}
       >
         <option value="">All tags</option>
-        {uniqueTags.map((tag, index) => (
+        {finalTags.map((tag:any, index:number) => (
           <option key={index} value={String(tag)}>
             {String(tag)}
           </option>
