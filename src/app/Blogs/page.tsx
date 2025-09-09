@@ -72,7 +72,7 @@ export default function AllBlogs() {
 
       if (appliedFilters.authorId) {
         const blogAuthorId = typeof blog?.userId === "object"
-          ? blog?.userId?._id
+          ? blog?.userId?.id
           : blog?.userId;
 
         ok = ok && String(blogAuthorId || "") === String(appliedFilters.authorId);
@@ -104,6 +104,8 @@ export default function AllBlogs() {
       return ok;
     });
   }, [data, searchQuery, appliedFilters]);
+
+  console.log("draftFilters.authorId", draftFilters.authorId)
 
   return (
     <div className={`min-h-screen ${themeValue ? `${light}` : `${dark}`} py-8`}>
@@ -149,22 +151,11 @@ export default function AllBlogs() {
                   themeValue={themeValue}
                   light={light}
                   dark={dark}
-                  value={draftFilters.authorId}
+                  value={draftFilters.authorId}   
                   onChange={(val: string) =>
                     setDraftFilters((s) => ({ ...s, authorId: val }))
                   }
                 />
-
-                <TitleFilter
-                  themeValue={themeValue}
-                  light={light}
-                  dark={dark}
-                  value={draftFilters.title}
-                  onChange={(val: string) =>
-                    setDraftFilters((s) => ({ ...s, title: val }))
-                  }
-                />
-
                 <DateFilter
                   themeValue={themeValue}
                   light={light}
@@ -210,8 +201,8 @@ export default function AllBlogs() {
               />
             ))
           ) : filteredBlogs.length === 0 ? (
-            <div className="col-span-3 text-center py-16 opacity-80">
-              No matching articles found.
+            <div className={`col-span-3 text-center py-16 opacity-80  `}>
+              <p className={`${themeValue ? "text-gray-900" : "text-gray-300"}`} >No matching articles found.</p>
             </div>
           ) : (
             filteredBlogs.map((blog: any, index: number) => {
