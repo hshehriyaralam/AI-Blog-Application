@@ -143,7 +143,7 @@ export default function AllBlogs() {
 
           {showFilters && (
            <div className="mt-4 pt-4 border-t border-gray-500">
-  <div className="flex  flex-wrap gap-6  md:flex-row sm:flex-col    ">
+  <div className="flex  flex-wrap gap-6  md:flex-row sm:flex-col">
     <AuthorsFilter
       themeValue={themeValue}
       light={light}

@@ -2,11 +2,11 @@
 import { useParams } from "next/navigation";
 import { useSingleBlogQuery } from "../../../Redux/Services/blogApi"; 
 import { ContextTheme } from "../../../Context/DarkTheme";
-import { useContext, useState } from "react";
-import BlogTags from "../../../components/BlogDetails/blogTags"
+import { useContext, useState, useEffect } from "react";
+import BlogTags from "../../../components/BlogDetails/blogTags";
 import ActionRow from "../../../components/BlogDetails/ActionRow";
 import AuthorInfo from "../../../components/BlogDetails/AuthorInfo";
-import LoadingPage from  '../../../components/layout/LoadingPage'
+import LoadingPage from  '../../../components/layout/LoadingPage';
 
 export default function BlogDetail() {
   const params = useParams();
@@ -21,21 +21,36 @@ export default function BlogDetail() {
     index: null,
   });
 
-  if (isLoading) return <LoadingPage />;
-  if (error) return (
-    <div className={`w-full h-screen flex justify-center
-      text-red-500 font-bold text-2xl items-center 
-      ${themeValue ? light : dark}`}>
-      Error fetching blog details.
-    </div>
-  );
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel(); 
+    };
+  }, []);
+
+  
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+
+  if (error) {
+    return (
+      <div className={`w-full h-screen flex justify-center
+        text-red-500 font-bold text-2xl items-center 
+        ${themeValue ? light : dark}`}>
+        Error fetching blog details.
+      </div>
+    );
+  }
 
   const blog = data?.data;
-  if (!blog) return (
-    <div className={`w-full h-screen flex justify-center items-center text-2xl font-bold ${themeValue ?  light : `text-gray-300 ${dark}`}`}>
-      Blog not found!
-    </div>
-  );
+  if (!blog) {
+    return (
+      <div className={`w-full h-screen flex justify-center items-center text-2xl font-bold ${themeValue ? light : `text-gray-300 ${dark}`}`}>
+        Blog not found!
+      </div>
+    );
+  }
 
   const formattedDate = new Date(blog.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -51,9 +66,9 @@ export default function BlogDetail() {
   const summaryWords = blog.blogSummary?.split(" ") || [];
 
   return (
-    <div className={`w-full min-h-screen px-4 sm:px-6 py-10 ${ themeValue ? light : dark}`}>
+    <div className={`w-full min-h-screen px-4 sm:px-6 py-10 ${themeValue ? light : dark}`}>
       <div className="max-w-full sm:max-w-4xl md:max-w-5xl mx-auto">
-        
+
         {/* Blog Image */}
         <div className="w-full flex justify-center mb-6">
           <img
@@ -76,11 +91,7 @@ export default function BlogDetail() {
 
         {/* Blog Content */}
         <div className="mb-12 px-2 sm:px-6">
-          <h3
-            className={`text-2xl font-semibold mb-4 ${
-              themeValue ? lightText : DarkText
-            } ${currentIndex.section === "content-heading" ? "bg-yellow-300 px-2 rounded  text-gray-700" : ""}`}
-          >
+          <h3 className={`text-2xl font-semibold mb-4 ${themeValue ? lightText : DarkText} ${currentIndex.section === "content-heading" ? "bg-yellow-300 px-2 rounded text-gray-700" : ""}`}>
             Content
           </h3>
           <p className={`leading-8 text-justify text-lg flex flex-wrap gap-1 ${ themeValue ? lightText : "text-gray-300"}`}>
@@ -89,7 +100,7 @@ export default function BlogDetail() {
                 key={i}
                 className={
                   currentIndex.section === "content" && i === currentIndex.index
-                    ? `bg-yellow-300 px-1 rounded text-gray-700    `
+                    ? "bg-yellow-300 px-1 rounded text-gray-700"
                     : ""
                 }
               >
@@ -102,11 +113,7 @@ export default function BlogDetail() {
         {/* Blog Summary */}
         {blog.blogSummary && (
           <div className="mb-12 px-2 sm:px-6">
-            <h3
-              className={`text-2xl font-semibold mb-4 ${
-                themeValue ? lightText : DarkText
-              } ${currentIndex.section === "summary-heading" ? "bg-yellow-300 px-2 rounded text-gray-700" : ""}`}
-            >
+            <h3 className={`text-2xl font-semibold mb-4 ${themeValue ? lightText : DarkText} ${currentIndex.section === "summary-heading" ? "bg-yellow-300 px-2 rounded text-gray-700" : ""}`}>
               AI Summary
             </h3>
             <p className={`leading-8 text-justify text-lg flex flex-wrap gap-1 ${ themeValue ? lightText : "text-gray-300"}`}>
@@ -116,9 +123,7 @@ export default function BlogDetail() {
                   className={
                     currentIndex.section === "summary" && i === currentIndex.index
                       ? "bg-yellow-300 px-1 rounded text-gray-700"
-                      : ""
-                  }
-                >
+                      : ""}>
                   {word}
                 </span>
               ))}

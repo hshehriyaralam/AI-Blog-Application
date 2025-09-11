@@ -1,6 +1,7 @@
 "use client"
 import { Heart, Share2, Bookmark, Volume2 } from "lucide-react";
-import ListeBlog from '../BlogDetails/ListenBlog'
+import ListeBlogEng from './ListenBlogEng'
+import ListeBlogUrdu  from './ListenBlogUrdu'
 
 export default function ActionRow({
   blogContent,
@@ -16,17 +17,22 @@ export default function ActionRow({
   setCurrentIndex: (v: { section: string; index: number | null }) => void;
 }) {
 
+
+
  
   return (
     <div className="flex items-center justify-between mt-8">
       {/* Listen Button */}
-      <ListeBlog
+
+      <div  className="flex gap-6">
+      <ListeBlogEng
         isPlaying={isPlaying}
         blogContent={blogContent}
         blogSummary={blogSummary}
         setCurrentIndex={setCurrentIndex}
         setIsPlaying={setIsPlaying}
       />
+        </div>
 
       {/* Like / Share / Bookmark */}
       <div className="flex gap-3 sm:gap-4">
