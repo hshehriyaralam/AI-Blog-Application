@@ -22,6 +22,10 @@ export default function Navbar() {
   const router = useRouter();
   
   const handleNavigate = async (link: string) => {
+
+    // setMenuOpen(false);
+    //   router.push(link);
+
     if (!data?.user) {
       try {
         const res = await dispatch(googleLoginThunk()).unwrap();

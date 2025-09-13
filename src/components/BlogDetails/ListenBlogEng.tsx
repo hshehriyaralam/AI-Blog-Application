@@ -12,6 +12,9 @@ export default function ListeBlogEng({
     if (!isPlaying) {
       const synth = window.speechSynthesis;
 
+      // 🔹 queue clear kar do
+      synth.cancel();
+
       const sections = [
         { section: "content-heading", text: "Content" },
         { section: "content", text: blogContent || "" },
@@ -24,28 +27,30 @@ export default function ListeBlogEng({
 
       let allWords: { section: string; word: string; localIndex: number }[] = [];
       sections.forEach((sec) => {
-        sec.text.split(/\s+/).forEach((w:any, idx:number) => {
+        sec.text.split(/\s+/).forEach((w: any, idx: number) => {
           allWords.push({ section: sec.section, word: w, localIndex: idx });
         });
       });
 
       const fullText = sections.map((s) => s.text).join(" ");
       const utter = new SpeechSynthesisUtterance(fullText);
-      utter.lang = "en-US"; 
-      utter.rate = 1.1;
+      utter.lang = "en-US";
+      utter.rate = 1.05;
       utter.pitch = 1;
 
-      utter.onboundary = (event) => {
-        if (event.name === "word" || event.charIndex !== undefined) {
-          const currentChar = event.charIndex;
+      let fallbackInterval: any = null;
 
+      // ✅ Desktop highlight
+      utter.onboundary = (event) => {
+        if (event.charIndex !== undefined) {
+          const currentChar = event.charIndex;
           let cumulative = 0;
           for (let i = 0; i < allWords.length; i++) {
             cumulative += allWords[i].word.length + 1;
             if (currentChar < cumulative) {
               setCurrentIndex({
                 section: allWords[i].section,
-                index: allWords[i].localIndex, 
+                index: allWords[i].localIndex,
               });
               break;
             }
@@ -53,11 +58,37 @@ export default function ListeBlogEng({
         }
       };
 
+      // ✅ Mobile Fallback highlight
+      utter.onstart = () => {
+        // agar mobile par onboundary fire hi na ho
+        if (!(typeof utter.onboundary === "function")) {
+          let i = 0;
+          const avgTimePerWord = (fullText.length / allWords.length) * 30;
+          fallbackInterval = setInterval(() => {
+            if (i < allWords.length && isPlaying) {
+              setCurrentIndex({
+                section: allWords[i].section,
+                index: allWords[i].localIndex,
+              });
+              i++;
+            } else {
+              clearInterval(fallbackInterval);
+            }
+          }, avgTimePerWord);
+        }
+      };
+
       utter.onend = () => {
+        if (fallbackInterval) clearInterval(fallbackInterval);
         setCurrentIndex({ section: "", index: null });
         setIsPlaying(false);
       };
-      synth.speak(utter);
+
+      // 🔹 Mobile Chrome ke liye ek chhoti si delay
+      setTimeout(() => {
+        synth.speak(utter);
+      }, 100);
+
       setIsPlaying(true);
     } else {
       window.speechSynthesis.cancel();

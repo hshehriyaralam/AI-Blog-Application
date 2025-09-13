@@ -79,15 +79,6 @@ export default function AllBlogs() {
       }
 
 
-      // 📝 Title filter
-      if (appliedFilters.title) {
-        ok =
-          ok &&
-          (blog?.blogTitle || "")
-            .toLowerCase()
-            .includes(appliedFilters.title.toLowerCase());
-      }
-
       // 📅 Date filter
       if (appliedFilters.date) {
         const d = blog?.createdAt ? new Date(blog.createdAt).toDateString() : "";

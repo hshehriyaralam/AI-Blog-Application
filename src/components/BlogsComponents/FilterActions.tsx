@@ -1,6 +1,6 @@
 'use client'
 
-export default function FilterActions({ themeValue, light, dark, onApply, onClear }: any) {
+export default function FilterActions({ themeValue, onApply, onClear }: any) {
   return (
     <div className="flex gap-3 mt-4 justify-end">
       <button
