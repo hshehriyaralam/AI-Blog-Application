@@ -1,8 +1,8 @@
 import mongoose, { Document, Model, Schema, Types } from "mongoose";
 
 export interface IUser extends Document {
-  _id: Types.ObjectId; 
-  uid: string; 
+  _id: Types.ObjectId;
+  uid: string;
   email: string;
   name: string;
   profilePic?: string | null;
@@ -13,12 +13,14 @@ export interface IUser extends Document {
   lastSeenAt: Date;
   createdAt: Date;
   updatedAt: Date;
+  likedBlogs: Types.ObjectId[];  
+  totalLikes: number;
 }
 
 const userSchema = new Schema<IUser>(
   {
-    uid: { type: String, required: true, },
-    email: { type: String, required: true,  lowercase: true },
+    uid: { type: String, required: true },
+    email: { type: String, required: true, lowercase: true },
     name: { type: String, required: true },
     profilePic: { type: String, default: null },
     role: {
@@ -30,14 +32,18 @@ const userSchema = new Schema<IUser>(
     isBanned: { type: Boolean, default: false },
     joiningTime: { type: Date, default: Date.now },
     lastSeenAt: { type: Date, default: Date.now },
+    likedBlogs: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Blog" }],
+      default: [],
+    },
+    totalLikes: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
 
-// Indexes for performance
 userSchema.index({ role: 1 });
-userSchema.index({ email: 1 });
-
+userSchema.index({ email: 1});
+userSchema.index({ totalLikes: -1 });
 
 userSchema.set("toJSON", {
   transform: (_doc, ret: any) => {
@@ -50,5 +56,3 @@ userSchema.set("toJSON", {
 
 export const User: Model<IUser> =
   mongoose.models.User || mongoose.model<IUser>("User", userSchema);
-
- 
