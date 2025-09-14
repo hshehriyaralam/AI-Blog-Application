@@ -8,7 +8,7 @@ export async function GET(req: Request) {
   try {
     await connectDB();
 
-    // Token ko cookies se read kro
+    // ✅ Token read
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
@@ -18,7 +18,7 @@ export async function GET(req: Request) {
       });
     }
 
-    // verify JWT
+    // ✅ Verify JWT
     let decode: any;
     try {
       decode = jwt.verify(token, process.env.JWT_SECRET as string);
@@ -28,25 +28,42 @@ export async function GET(req: Request) {
       });
     }
 
-    // user fetch
-    const user = await User.findById(decode.id).select("-password");
+    // ✅ User fetch
+    const user = await User.findById(decode.id)
+      .select("-password")
+      .populate({
+        path: "likedBlogs",
+        select: "blogTitle blogImage likesCount", // user ne kaunse blogs like kiye
+      });
+
     if (!user) {
-      // ✅ Delete cookie if user not found
       (await cookies()).delete("token");
       return new Response(JSON.stringify({ error: "User Not Found" }), {
         status: 404,
       });
     }
 
-    // ✅ user ke blogs fetch karo
-    const blogs = await Blogs.find({ userId: user._id });
+    // ✅ User ke apne blogs + jin users ne like kiya
+    const blogs = await Blogs.find({ userId: user._id })
+      .select("blogTitle blogImage likesCount likes")
+      .populate("likes", "name profilePic"); // jin users ne like kiya unki list
 
     return new Response(
-      JSON.stringify({ user, blogs }),
+      JSON.stringify({
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          profilePic: user.profilePic,
+          totalLikes: user.totalLikes, // ✅ author ke total likes
+          likedBlogs: user.likedBlogs, // ✅ user ne kaunse blogs like kiye
+        },
+        blogs, // ✅ user ke blogs + likes count + kisne like kiya
+      }),
       { status: 200 }
     );
   } catch (error: any) {
-    console.error("API /user error:", error);
+    console.error("API /profile error:", error);
     return new Response(
       JSON.stringify({ error: error.message || "Server error" }),
       { status: 500 }

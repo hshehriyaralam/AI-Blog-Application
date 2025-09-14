@@ -11,13 +11,11 @@ export default function HeroTopCard(){
       <div className="relative w-full lg:w-[74%] h-[500px] md:h-[600px] rounded-xl overflow-hidden  shadow-lg group">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0">
-          {/* <Image
+          <img
             className="w-full h-full object-cover rounded-xl transform group-hover:scale-105 transition-transform duration-700"
-            placeholder="blur" 
-            blurDataURL="/placeholder.png"
-            src={Blog_Banner}
+            src={Blog_Banner.src}
             alt="IntelliBlog Background"
-          /> */}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/40 to-transparent"></div>
         </div>
 
