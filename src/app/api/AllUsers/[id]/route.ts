@@ -19,7 +19,7 @@ export async function GET(
     }
 
     // ✅ us user ke blogs lao
-    const userBlogs = await Blogs.find({ userId: id }).populate("userId", "name profilePic");
+    const userBlogs = await Blogs.find({ userId: id }).populate("userId", "name profilePic totalLikes");
 
     return NextResponse.json(
       { data: { user: singleAuthor, blogs: userBlogs } },

@@ -7,7 +7,7 @@ export async function GET() {
     await connectDB();
 
     const blogs = await Blogs.find()
-      .populate("userId", "name profilePic")
+      .populate("userId", "name profilePic ")
       .sort({ createdAt: -1 });
 
     return NextResponse.json({ data: blogs }, { status: 200 });
