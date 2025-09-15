@@ -50,7 +50,7 @@ export default function ProfileSection({
                             ? "bg-red-100 text-red-800  "
                             : "bg-indigo-100 text-indigo-800  "
                         }`}>
-                          {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                          {/* {user.role.charAt(0).toUpperCase() + user.role.slice(1)} */}
                         </span>
                       </div>
                     </div>

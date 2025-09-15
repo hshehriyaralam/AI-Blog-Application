@@ -4,6 +4,12 @@ import LikeButton from "./LikeButton";
 import ShareButton from "./ShareButton";
 import BookmarkButton from './BookmarkButton'
 
+interface User {
+  _id: string;
+  name: string;
+  profilePic: string;
+}
+
 export default function ActionRow({
   blogContent,
   blogSummary,
@@ -13,6 +19,7 @@ export default function ActionRow({
   blogId,
   likes,
   likesCount,
+  
 }: {
   blogContent: string;
   blogSummary?: string;
@@ -20,7 +27,7 @@ export default function ActionRow({
   setIsPlaying: (v: boolean) => void;
   setCurrentIndex: (v: { section: string; index: number | null }) => void;
   blogId: string;
-  likes: string[];
+  likes: User[]
   likesCount: number;
 }) {
   return (

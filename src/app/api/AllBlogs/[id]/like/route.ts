@@ -7,13 +7,13 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
 export async function POST(
-  req: Request,
-  { params }: { params: { id: string } }
+   req: Request,
+  context: { params: { id: string } }
 ) {
   try {
     await connectDB();
 
-    const blogId = params.id;
+    const blogId = context.params.id;
 
     // Token ko cookies se uthao
     const cookieStore = await cookies();
@@ -98,13 +98,18 @@ export async function POST(
     await blog.save();
     await user.save();
 
+    const updatedBlog = await Blogs.findById(blogId).populate("likes", "name profilePic");
+
     return NextResponse.json({
       success: true,
       message,
-      blogLikes: blog.likesCount,
+      blogLikes: updatedBlog?.likes.length || 0,
+      likedUsers: updatedBlog?.likes || [],
       authorTotalLikes: author?.totalLikes || 0,
       userLikedBlogs: user.likedBlogs,
     });
+
+
   } catch (error) {
     console.error("Like API Error:", error);
     return NextResponse.json(

@@ -4,13 +4,15 @@ import { Blogs } from '../../../lib/Models/Blog'
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }   
+  context: { params: { id: string } }   
 ) {
   try {
     await connectDB();
 
-    const {id} = await context.params;   
-    const singleBlog = await Blogs.findById(id).populate("userId", "name profilePic ");
+     const { id } = context.params;   
+    const singleBlog = await Blogs.findById(id)
+  .populate("userId", "name profilePic")  
+  .populate("likes", "name profilePic");  
 
     if (!singleBlog) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
