@@ -9,7 +9,6 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
   try {
     await connectDB();
 
-    // Token ko cookies se read kro
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
@@ -19,7 +18,6 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       });
     }
 
-    // verify JWT
     let decode: any;
     try {
       decode = jwt.verify(token, process.env.JWT_SECRET as string);
@@ -29,7 +27,6 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       });
     }
 
-    // user fetch
     const user = await User.findById(decode.id).select("-password");
     if (!user) {
       (await cookies()).delete("token");
@@ -51,12 +48,19 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       );
     }
 
+    // 🔥 Remove this blog from all users' likedBlogs
+    await User.updateMany(
+      { likedBlogs: deleteBlog._id },
+      { $pull: { likedBlogs: deleteBlog._id }, $inc: { totalLikes: -1 } }
+    );
+
+    // decrement blogCount
     await User.findByIdAndUpdate(user._id, {
       $inc: { blogCount: -1 },
     });
 
     return NextResponse.json(
-      { message: "Blog deleted successfully" },
+      { message: "Blog deleted successfully and likes cleaned" },
       { status: 200 }
     );
   } catch (error) {

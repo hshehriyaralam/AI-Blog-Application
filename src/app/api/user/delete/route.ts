@@ -5,9 +5,6 @@ import { User } from "../../../lib/Models/user";
 import { Blogs } from "../../../lib/Models/Blog";
 import { NextResponse } from "next/server";
 
-
-
-
 export async function DELETE(req: Request) {
   try {
     await connectDB();
@@ -26,28 +23,41 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
-    // Fetch user
     const user = await User.findById(decode.id).select("-password");
     if (!user) {
       (await cookies()).delete("token");
       return NextResponse.json({ error: "User Not Found" }, { status: 404 });
     }
 
-    // Delete blogs first
+    // 🔥 Get all blogs of this user
+    const blogs = await Blogs.find({ userId: user._id });
+
+    // remove these blogs from other users' likedBlogs
+    for (const blog of blogs) {
+      await User.updateMany(
+        { likedBlogs: blog._id },
+        { $pull: { likedBlogs: blog._id }, $inc: { totalLikes: -1 } }
+      );
+    }
+
+    // delete all blogs
     await Blogs.deleteMany({ userId: user._id });
 
-    // Delete user account
+    // delete user account
     await User.findByIdAndDelete(user._id);
 
-    // Delete cookie session
+    // clear token
     (await cookies()).delete("token");
 
     return NextResponse.json(
-      { message: "User and all related blogs deleted successfully" },
+      { message: "User and all blogs (with likes) deleted successfully" },
       { status: 200 }
     );
   } catch (error: any) {
     console.error("Delete Account Error:", error);
-    return NextResponse.json({ error: error.message || "Server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message || "Server error" },
+      { status: 500 }
+    );
   }
 }
