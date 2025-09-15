@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const blogApi = createApi({
   reducerPath: "blogApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
-  tagTypes: ["Blog"],
+  tagTypes: ["Blog", "User"],
   endpoints: (builder) => ({
     //All Blogs
     fetchBlog: builder.query({
@@ -43,6 +43,13 @@ export const blogApi = createApi({
         body,
       }),
     }),
+    likeBlog: builder.mutation({
+      query: (id: string) => ({
+        url: `AllBlogs/${id}/like`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Blog", "User"], 
+    }),
   }),
 });
 
@@ -51,5 +58,6 @@ export const {
   useFetchBlogQuery,
   useSingleBlogQuery,
   useSuggestSummaryTagsMutation,
-  useDeleteBlogMutation
+  useDeleteBlogMutation,
+  useLikeBlogMutation
 } = blogApi;

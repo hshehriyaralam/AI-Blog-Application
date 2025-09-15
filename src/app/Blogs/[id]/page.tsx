@@ -44,6 +44,7 @@ export default function BlogDetail() {
   }
 
   const blog = data?.data;
+  // console.log("Single Blog ", blog)
   if (!blog) {
     return (
       <div className={`w-full h-screen flex justify-center items-center text-2xl font-bold ${themeValue ? light : `text-gray-300 ${dark}`}`}>
@@ -135,13 +136,16 @@ export default function BlogDetail() {
         <BlogTags blog={blog} />
 
         {/* Actions Row */}
-        <ActionRow 
+          <ActionRow 
+          blogId={blog._id} 
+          likes={blog.likes} 
+          likesCount={blog.likesCount}
           blogContent={blog.blogContent} 
           blogSummary={blog.blogSummary}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           setCurrentIndex={setCurrentIndex}
-        />
+/>
 
         {/* Author Info Bottom */}
         <AuthorInfo 
