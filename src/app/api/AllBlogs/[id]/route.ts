@@ -4,12 +4,12 @@ import { Blogs } from '../../../lib/Models/Blog'
 
 export async function GET(
   req: Request,
-  context: { params: { id: string } }   
+  context: { params: Promise<{ id: string }> }  
 ) {
   try {
     await connectDB();
 
-     const { id } = context.params;   
+    const { id } = await context.params;   
     const singleBlog = await Blogs.findById(id)
   .populate("userId", "name profilePic")  
   .populate("likes", "name profilePic");  

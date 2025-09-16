@@ -5,7 +5,7 @@ import ShareButton from "./ShareButton";
 import BookmarkButton from './BookmarkButton'
 
 interface User {
-  _id: string;
+  id: string;
   name: string;
   profilePic: string;
 }

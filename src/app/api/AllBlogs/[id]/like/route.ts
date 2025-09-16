@@ -8,12 +8,12 @@ import jwt from "jsonwebtoken";
 
 export async function POST(
    req: Request,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
 
-    const blogId = context.params.id;
+    const { id: blogId } = await context.params;
 
     // Token ko cookies se uthao
     const cookieStore = await cookies();

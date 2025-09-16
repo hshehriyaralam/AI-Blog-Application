@@ -6,7 +6,7 @@ import { useGetProfileQuery } from "../../Redux/Services/userApi";
 import LikedByUser from "./likedbyUser";
 
 export interface IUser {
-  _id: string;
+  id: string;
   name: string;
   profilePic: string;
 }
@@ -21,14 +21,14 @@ export default function LikeButton({
   likesCount: number;
 }) {
   const { data: loggedInUser } = useGetProfileQuery(undefined);
-  const currentUserId = loggedInUser?.user?.id; // ✅ use _id
+  const currentUserId = loggedInUser?.user?.id; 
 
   const [likeBlog] = useLikeBlogMutation();
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(likesCount);
 
   useEffect(() => {
-    if (currentUserId && likes.some((u) => u._id === currentUserId)) {
+    if (currentUserId && likes.some((u) => u.id === currentUserId)) {
       setLiked(true);
     }
   }, [likes, currentUserId]);
