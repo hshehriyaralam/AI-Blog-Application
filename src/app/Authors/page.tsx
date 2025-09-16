@@ -10,7 +10,7 @@ export default function Authors() {
     const { themeValue, light, dark } = useContext(ContextTheme);
 
     
-    const loggedInUserId =  loggedInUser?.user?.id;
+    const loggedInUserId =  loggedInUser?.user?._id;
     const users = allUsers?.data || [];
 
   return (
