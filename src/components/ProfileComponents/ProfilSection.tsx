@@ -1,9 +1,8 @@
 'use client'
-import { User, Trash2,  Mail, Calendar, Eye, FileText, LogOut } from "lucide-react";
+import { User, Trash2,  Mail, Calendar, Eye, FileText, LogOut, ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 import ButtonLoader from '../../components/Common/BtnLoader'
-
-
+import { useRouter } from "next/navigation";
 
 export default function ProfileSection({
  themeValue,
@@ -12,7 +11,6 @@ export default function ProfileSection({
  user,
  joinedDate,
  lastSeen,
- blogs,
  totalViews,
  handleGoogleLogin,
  setShowDeleteConfirm,
@@ -22,6 +20,14 @@ export default function ProfileSection({
  DeleteProfileLoader,
  totalLikes,
 }:any){
+
+  const router = useRouter();
+  console.log("user.role",user.role)
+  const GoAdminPage = () => {
+    if(user.role === 'admin'){
+      router.push('/Admin')
+    }
+  }
     return(
          <div className={`rounded-2xl border ${
             themeValue ? `${light} shadow-lg border-gray-200` : `${dark} shadow-xl border-gray-700`
@@ -144,6 +150,14 @@ export default function ProfileSection({
                           <Trash2 className="w-4 h-4" />
                           Delete Account
                         </Button>
+                        {user.role === 'admin'  &&  (<Button
+                        onClick={GoAdminPage}
+                        variant="destructive"
+                        className={`flex items-center cursor-pointer   bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 shadow-md`}>
+                          <ArrowRight className="w-5 h-5" />
+                          Go To Admin Page
+                        </Button>) }
+                        
                       </div>
         
                       {/* Delete Confirmation */}

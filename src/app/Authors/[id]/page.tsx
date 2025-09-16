@@ -20,6 +20,8 @@ export default function AuthorsDetail() {
   const user = SingleUser?.data?.user;
   const blogs = SingleUser?.data?.blogs || [];
 
+
+  
   if (isLoading) return <LoadingPage />;
   if (error) return <ErrorPage  themeValue={themeValue} light={light} dark={dark}   />
 
@@ -59,6 +61,7 @@ export default function AuthorsDetail() {
     return sum + Math.ceil(wordCount / 200);
   }, 0);
   const avgReadTime = blogs.length > 0 ? Math.round(totalReadTime / blogs.length) : 0;
+  const totalLikes = user?.totalLikes
   return (
     <div className={`min-h-screen ${
         themeValue ? `${light}` : `${dark}`
@@ -75,6 +78,7 @@ export default function AuthorsDetail() {
         blogs={blogs}
         totalViews={totalViews}
         avgReadTime={avgReadTime}
+        totalLikes={totalLikes}
         />
 
 

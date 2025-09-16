@@ -30,11 +30,7 @@ export async function GET(req: Request) {
 
     // ✅ User fetch
       const user = await User.findById(decode.id)
-      .select("-password")
-      .populate({
-        path: "likedBlogs",
-        select: "blogTitle blogImage likesCount",
-      })
+      .populate("likedBlogs") 
       .lean();
 
     if (!user) {
@@ -46,8 +42,8 @@ export async function GET(req: Request) {
 
     // ✅ User ke apne blogs + jin users ne like kiya
     const blogs = await Blogs.find({ userId: user._id })
-      .select("blogTitle blogImage likesCount likes")
-      .populate("likes", "name profilePic"); // jin users ne like kiya unki list
+    .populate("likes", "name profilePic")
+    .lean();
 
       return new Response(JSON.stringify({ user, blogs }), { status: 200 });
   } catch (error: any) {

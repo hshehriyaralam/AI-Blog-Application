@@ -14,6 +14,7 @@ export default function AuthorsProfileSection(
         blogs,
         totalViews,
         avgReadTime,
+        totalLikes
     }:any){
     return(
         <div className={`rounded-2xl border ${
@@ -118,8 +119,8 @@ export default function AuthorsProfileSection(
                 <div className={`p-3 rounded-xl text-center ${
                   themeValue ? 'bg-purple-100' : 'bg-purple-900/30'
                 }`}>
-                  <div className="text-2xl font-bold text-purple-600">24</div>
-                  <div className="text-xs text-purple-600 ">Followers</div>
+                  <div className="text-2xl font-bold text-purple-600">{totalLikes}</div>
+                  <div className="text-xs text-purple-600 ">Likes</div>
                 </div>
               </div>
             </div>

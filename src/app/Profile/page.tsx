@@ -38,8 +38,6 @@ export default function Profile() {
   const user = Profile?.user;
   const blogs = Profile?.blogs || [];
 
-  console.log("Profile Details",user?.totalLikes)
-
   const handleDeleteBlog = async (id: string) => {
     try {
       setDeletingId(id)
