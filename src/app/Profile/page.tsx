@@ -38,6 +38,8 @@ export default function Profile() {
   const user = Profile?.user;
   const blogs = Profile?.blogs || [];
 
+  console.log("Profile Details",user?.totalLikes)
+
   const handleDeleteBlog = async (id: string) => {
     try {
       setDeletingId(id)
@@ -92,6 +94,7 @@ export default function Profile() {
 
   // Calculate total views
   const totalViews = blogs.reduce((sum: number, blog: any) => sum + (blog.views || 0), 0);
+  const totalLikes = user?.totalLikes
 
 
   return (
@@ -113,6 +116,7 @@ export default function Profile() {
         showDeleteConfirm={showDeleteConfirm}
         Googleloading={Googleloading}
         DeleteProfileLoader={DeleteProfileLoader}
+        totalLikes={totalLikes}
         />
         {/* Blogs Section */}
         <div className="mb-8">

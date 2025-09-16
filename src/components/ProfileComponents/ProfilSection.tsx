@@ -20,6 +20,7 @@ export default function ProfileSection({
  showDeleteConfirm,
  Googleloading,
  DeleteProfileLoader,
+ totalLikes,
 }:any){
     return(
          <div className={`rounded-2xl border ${
@@ -50,7 +51,7 @@ export default function ProfileSection({
                             ? "bg-red-100 text-red-800  "
                             : "bg-indigo-100 text-indigo-800  "
                         }`}>
-                          {/* {user.role.charAt(0).toUpperCase() + user.role.slice(1)} */}
+                          {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                         </span>
                       </div>
                     </div>
@@ -115,7 +116,7 @@ export default function ProfileSection({
                         <div className={`p-3 rounded-xl text-center ${
                           themeValue ? 'bg-purple-100' : 'bg-purple-900/30'
                         }`}>
-                          <div className="text-2xl font-bold text-purple-600">42</div>
+                          <div className="text-2xl font-bold text-purple-600">{totalLikes}</div>
                           <div className="text-xs text-purple-600 ">Likes</div>
                         </div>
                       </div>

@@ -29,12 +29,13 @@ export async function GET(req: Request) {
     }
 
     // ✅ User fetch
-    const user = await User.findById(decode.id)
+      const user = await User.findById(decode.id)
       .select("-password")
       .populate({
         path: "likedBlogs",
-        select: "blogTitle blogImage likesCount", // user ne kaunse blogs like kiye
-      });
+        select: "blogTitle blogImage likesCount",
+      })
+      .lean();
 
     if (!user) {
       (await cookies()).delete("token");
@@ -48,20 +49,7 @@ export async function GET(req: Request) {
       .select("blogTitle blogImage likesCount likes")
       .populate("likes", "name profilePic"); // jin users ne like kiya unki list
 
-    return new Response(
-      JSON.stringify({
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          profilePic: user.profilePic,
-          totalLikes: user.totalLikes, // ✅ author ke total likes
-          likedBlogs: user.likedBlogs, // ✅ user ne kaunse blogs like kiye
-        },
-        blogs, // ✅ user ke blogs + likes count + kisne like kiya
-      }),
-      { status: 200 }
-    );
+      return new Response(JSON.stringify({ user, blogs }), { status: 200 });
   } catch (error: any) {
     console.error("API /profile error:", error);
     return new Response(
