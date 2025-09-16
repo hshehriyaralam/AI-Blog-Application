@@ -3,6 +3,7 @@ import ListeBlogEng from './ListenBlogEng'
 import LikeButton from "./LikeButton";
 import ShareButton from "./ShareButton";
 import BookmarkButton from './BookmarkButton'
+import LikedByUser from './likedbyUser';
 
 interface User {
   id: string;
@@ -19,7 +20,6 @@ export default function ActionRow({
   blogId,
   likes,
   likesCount,
-  
 }: {
   blogContent: string;
   blogSummary?: string;
@@ -31,21 +31,32 @@ export default function ActionRow({
   likesCount: number;
 }) {
   return (
-    <div className="flex items-center justify-between mt-8">
-      {/* Listen Button */}
-      <ListeBlogEng
-        isPlaying={isPlaying}
-        blogContent={blogContent}
-        blogSummary={blogSummary}
-        setCurrentIndex={setCurrentIndex}
-        setIsPlaying={setIsPlaying}
-      />
+    <div className="mt-8">
+      {/* Main Row - Listen Button + Action Buttons */}
+      <div className="flex flex-row items-center justify-between gap-4 w-full">
+        
+        {/* 🎧 Listen Button */}
+        <div className="flex-1 min-w-0">
+          <ListeBlogEng
+            isPlaying={isPlaying}
+            blogContent={blogContent}
+            blogSummary={blogSummary}
+            setCurrentIndex={setCurrentIndex}
+            setIsPlaying={setIsPlaying}
+          />
+        </div>
 
-      {/* Like / Share / Bookmark */}
-      <div className="flex gap-3 sm:gap-4 items-center">
-        <LikeButton blogId={blogId} likes={likes} likesCount={likesCount} />
-        <ShareButton />
-        <BookmarkButton />
+        {/* ❤️ Action Buttons */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <LikeButton blogId={blogId} likes={likes} likesCount={likesCount} />
+          <ShareButton />
+          <BookmarkButton />
+        </div>
+      </div>
+
+      {/* ✅ LikedByUser - Always below both sections */}
+      <div className="mt-3 w-full text-end">
+        <LikedByUser likedUsers={likes} />
       </div>
     </div>
   );

@@ -105,7 +105,7 @@ export default function ListeBlogEng({
         hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105 cursor-pointer"
     >
       <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 " />
-      {isPlaying ? "Stop" : "Listen Eng"}
+      {isPlaying ? "Stop" : "Listen"}
     </button>
   );
 }

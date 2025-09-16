@@ -19,31 +19,31 @@ export default function LikedByUser({
   const otherCount = likedUsers.length - 1;
 
   return (
-    <div
-      className={`mt-2 text-sm ${
-        themeValue  ? "text-gray-700" : "text-gray-300"
-      }`}
-    >
-      <span>
-        Liked by{" "}
-        <button
-          onClick={() => setIsOpen(true)}
-          className="font-semibold hover:underline"
-        >
-          {firstUser.name}
-        </button>{" "}
-        {otherCount > 0 && (
-          <span>
-            and{" "}
-            <button
-              onClick={() => setIsOpen(true)}
-              className="font-semibold hover:underline"
-            >
-              {otherCount} others
-            </button>
-          </span>
-        )}
-      </span>
+     <div
+    className={` text-[8px] md:text-[12px]  ${
+      themeValue ? "text-gray-700" : "text-gray-300"
+    }`}
+  >
+    <span>
+      Liked by{" "}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="font-semibold hover:underline"
+      >
+        {firstUser.name}
+      </button>{" "}
+      {otherCount > 0 && (
+        <span>
+          and{" "}
+          <button
+            onClick={() => setIsOpen(true)}
+            className="font-semibold hover:underline"
+          >
+            {otherCount} others
+          </button>
+        </span>
+      )}
+    </span>
 
       {/* Popup / Modal */}
       <Dialog
@@ -57,11 +57,11 @@ export default function LikedByUser({
         {/* Modal Content */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Dialog.Panel
-            className={`w-full max-w-xs sm:max-w-sm rounded-xl shadow-lg p-4 transition 
+            className={`w-full max-w-xs sm:max-w-sm rounded-xl shadow-lg p-4 border transition 
               ${
                 themeValue 
-                  ?  "bg-white text-gray-900" 
-                  : "bg-gray-900 text-gray-100"
+                  ?  "bg-white text-gray-900  border-gray-300" 
+                  : "bg-black text-gray-100  border-gray-800"
               }`}
           >
             <Dialog.Title className="text-base sm:text-lg font-bold mb-3">
@@ -96,7 +96,7 @@ export default function LikedByUser({
 
             <button
               onClick={() => setIsOpen(false)}
-              className="mt-4 w-full bg-pink-600 text-white py-1.5 sm:py-2 rounded-lg hover:bg-pink-700 text-sm sm:text-base"
+              className="mt-4 w-full bg-gradient-to-r from-indigo-600 to-purple-600 cursor-pointer text-white py-1.5 sm:py-2 rounded-lg  text-sm sm:text-base"
             >
               Close
             </button>

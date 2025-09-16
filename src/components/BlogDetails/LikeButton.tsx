@@ -44,28 +44,28 @@ export default function LikeButton({
   };
 
   return (
-    <div className="flex flex-col gap-1">
-      {/* Like button */}
-      <button
-        onClick={handleLike}
-        className={`flex items-center cursor-pointer gap-1.5 px-3 py-2 rounded-full shadow-md transition-all hover:scale-105
-        ${liked ? "bg-pink-700" : "bg-pink-200"}`}
+  <div className="flex items-center gap-3">
+    {/* Like button */}
+    <button
+      onClick={handleLike}
+      className={`flex items-center cursor-pointer gap-1.5 px-3 py-2 rounded-full shadow-md transition-all hover:scale-105
+      ${liked ? "bg-pink-700" : "bg-pink-200"}`}
+    >
+      <Heart
+        className={`w-5 h-5 transition-colors 
+        ${liked ? "text-pink-200 fill-pink-700" : "text-pink-700"}`}
+      />
+      <span
+        className={`text-sm font-medium ${
+          liked ? "text-pink-100" : "text-pink-700"
+        }`}
       >
-        <Heart
-          className={`w-5 h-5 transition-colors 
-          ${liked ? "text-pink-200 fill-pink-700" : "text-pink-700"}`}
-        />
-        <span
-          className={`text-sm font-medium ${
-            liked ? "text-pink-100" : "text-pink-700"
-          }`}
-        >
-          {count}
-        </span>
-      </button>
+        {count}
+      </span>
+    </button>
 
-      {/* ✅ LikedByUser */}
-      <LikedByUser likedUsers={likes} />
-    </div>
+    {/* ✅ LikedByUser side me aa jayega */}
+    {/* <LikedByUser likedUsers={likes} /> */}
+  </div>
   );
 }
