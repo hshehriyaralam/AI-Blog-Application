@@ -3,9 +3,6 @@ import { ContextTheme } from '../../Context/DarkTheme'
 import { useContext } from 'react';
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
 import BlogCard from "../BlogsComponents/BLogCard"
-import { Button } from '../ui/button';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 
 export default function HomeBlogs() {
   const { data } = useFetchBlogQuery([]);

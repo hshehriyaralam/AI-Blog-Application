@@ -4,6 +4,8 @@ import { Dialog } from "@headlessui/react";
 import { IUser } from "./LikeButton";
 import { ContextTheme } from "../../Context/DarkTheme";
 import Link from "next/link";
+import {User} from 'lucide-react'
+
 
 export default function LikedByUser({
   likedUsers,
@@ -17,7 +19,7 @@ export default function LikedByUser({
 
   const firstUser = likedUsers[0];
   const otherCount = likedUsers.length - 1;
-
+  const [imgError, setImgError] = useState(false);
   return (
      <div
     className={` text-[8px] md:text-[12px]  ${
@@ -69,7 +71,9 @@ export default function LikedByUser({
             </Dialog.Title>
 
             <div className="space-y-2 sm:space-y-3 max-h-48 sm:max-h-60 overflow-y-auto">
-              {likedUsers.map((user, index) => (
+              {likedUsers.map((user, index) => {
+                 const hasImage = user.profilePic && user.profilePic.trim() !== "" && !imgError;
+              return   (
                 <div   key={user.id || index}>               
                 <Link href={`/Authors/${user.id}`}
                   className={`flex items-center gap-3 p-2 rounded-md transition 
@@ -79,19 +83,28 @@ export default function LikedByUser({
                         : "hover:bg-black"
                     }`}
                 >
-                  <img
-                    src={user.profilePic}
-                    alt={user.name}
-                    width={28}
-                    height={28}
-                    className="rounded-full object-cover"
-                  />
+                  <div  className="flex items-center justify-center gap-2">      
+                    {hasImage  ? (
+                    <img
+                      src={user.profilePic}
+                      alt={user.name}
+                      width={28}
+                      height={28}
+                      className="rounded-full object-cover"
+                      onError={() => setImgError(true)}
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gray-300">
+                      <User className="w-4 h-4 text-gray-600" />
+                    </div>
+                  )}
                   <span className="font-medium text-sm sm:text-base">
                     {user.name}
                   </span>
+                      </div>
                 </Link>
                  </div>
-              ))}
+              )})}
             </div>
 
             <button
