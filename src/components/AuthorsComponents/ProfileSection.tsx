@@ -14,7 +14,9 @@ export default function AuthorsProfileSection(
         blogs,
         totalViews,
         avgReadTime,
-        totalLikes
+        totalLikes,
+        hasImage,
+        setImgError
     }:any){
     return(
         <div className={`rounded-2xl border ${
@@ -26,10 +28,11 @@ export default function AuthorsProfileSection(
               <div className="relative">
                 <div className="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-1.5">
                   <div className="w-full h-full rounded-full bg-white  flex items-center justify-center overflow-hidden">
-                    {user.profilePic ? (
+                    {hasImage ? (
                       <img
                         src={user.profilePic}
                         alt={`${ <User className="w-12 h-12 text-indigo-600 " />}`}
+                        onError={() => setImgError(true)}
                         className="w-full h-full object-cover rounded-full"
                       />
                     ) : (
@@ -85,16 +88,6 @@ export default function AuthorsProfileSection(
                   </span>
                 </div>
               </div>
-
-              {user.bio && (
-                <div className={`p-4 rounded-xl mb-6 ${
-                  themeValue ? 'bg-gray-50' : 'bg-gray-700/50'
-                }`}>
-                  <p className={`text-sm ${themeValue ? 'text-gray-600' : 'text-gray-300'}`}>
-                    {user.bio}
-                  </p>
-                </div>
-              )}
 
               {/* Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSingleUserQuery } from "../../../Redux/Services/userApi";
 import { ContextTheme } from "../../../Context/DarkTheme";
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import {  BookOpen} from "lucide-react";
 import LoadingPage from "../../../components/layout/LoadingPage";
 import ErrorPage from '../../../components/Common/ErrorPage'
@@ -20,6 +20,8 @@ export default function AuthorsDetail() {
   const user = SingleUser?.data?.user;
   const blogs = SingleUser?.data?.blogs || [];
 
+    const [imgError, setImgError] = useState(false);
+    const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
 
   
   if (isLoading) return <LoadingPage />;
@@ -79,6 +81,8 @@ export default function AuthorsDetail() {
         totalViews={totalViews}
         avgReadTime={avgReadTime}
         totalLikes={totalLikes}
+        hasImage={hasImage}
+        setImgError={setImgError}
         />
 
 
@@ -108,9 +112,7 @@ export default function AuthorsDetail() {
           ) : (
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
   {blogs.map((blog: any, index: number) => {
-    const hasImage =
-      blog.userId?.profilePic &&
-      blog.userId.profilePic.trim() !== "" 
+
 
     return (
       <Link key={blog._id} href={`/Blogs/${blog._id}`}>

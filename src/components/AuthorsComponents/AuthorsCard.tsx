@@ -18,10 +18,11 @@ export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
             src={user.profilePic}
             alt={user.name}
             className="w-20 h-20 rounded-full object-cover border-2 border-indigo-400"
-            onError={() => setImgError(true)}/>
+            onError={() => setImgError(true)}
+            />
             ) : (
               <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gray-300  border-2 border-indigo-400">
-                <User className="w-8 h-8 text-gray-600 dark:text-gray-300" />
+                <User className="w-8 h-8 text-gray-600" />
               </div> )}
               </div>
                 {/* Author Info */}

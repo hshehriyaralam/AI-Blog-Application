@@ -6,7 +6,7 @@ import { useGetProfileQuery, useDeleteProfileMutation } from "../../Redux/Servic
 import { useDeleteBlogMutation } from "../../Redux/Services/blogApi";
 import { Button } from "../../components/ui/button";
 import { Plus, FileText } from "lucide-react";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { ContextTheme } from "../../Context/DarkTheme";
 import { useAlert } from '../../Context/AlertContext';
 import Link from "next/link";
@@ -16,13 +16,11 @@ import ProfileSection from '../../components/ProfileComponents/ProfilSection'
 import ProfileBlogsSections from '../../components/ProfileComponents/BlogsSection'
 import { useSelector } from "react-redux";
 import type { RootState } from "../../Redux/store";
-import { useRouter } from "next/navigation";
 
 
 
 
 export default function Profile() {
-    const router = useRouter();
   const { showAlert } = useAlert();
   const dispatch = useDispatch<AppDispatch>();
   const Googleloading = useSelector((state: RootState) => state.auth.loading);
@@ -37,6 +35,9 @@ export default function Profile() {
 
   const user = Profile?.user;
   const blogs = Profile?.blogs || [];
+  const [imgError, setImgError] = useState(false);
+  const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
+
 
   const handleDeleteBlog = async (id: string) => {
     try {
@@ -115,6 +116,8 @@ export default function Profile() {
         Googleloading={Googleloading}
         DeleteProfileLoader={DeleteProfileLoader}
         totalLikes={totalLikes}
+        hasImage={hasImage}
+        setImgError={setImgError}
         />
         {/* Blogs Section */}
         <div className="mb-8">

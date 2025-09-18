@@ -19,6 +19,8 @@ export default function ProfileSection({
  Googleloading,
  DeleteProfileLoader,
  totalLikes,
+ hasImage,
+ setImgError,
 }:any){
 
   const router = useRouter();
@@ -38,11 +40,12 @@ export default function ProfileSection({
                 <div className="relative">
                 <div className="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-1.5">
                     <div className="w-full h-full rounded-full bg-white  flex items-center justify-center overflow-hidden">
-                    {user.profilePic ? (
+                    {hasImage ? (
                         <img
                         src={user.profilePic}
                         alt={user.name}
                         className="w-full h-full object-cover rounded-full"
+                        onError={() => setImgError(true)}
                         />
                     ) : (
                         <User className="w-12 h-12 text-indigo-600 " />
