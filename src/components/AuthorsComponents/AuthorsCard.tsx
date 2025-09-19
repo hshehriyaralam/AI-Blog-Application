@@ -10,6 +10,9 @@ export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
     const [imgError, setImgError] = useState(false);
     const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
     return(
+      <div>
+
+      <Link href={`/Authors/${user.id}`}>
          <div
         className={`group rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 border hover:border-indigo-400 hover:shadow-xl hover:scale-105  min-w-[320px] ${themeValue ? `${light} border-gray-300` : `${dark} border-gray-700`}`}>
                 {/* Profile Image */}
@@ -88,10 +91,12 @@ export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
                 className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg text-sm font-medium hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105"
                 >
                 <button className="flex justify-center items-center cursor-pointer" >
-                  View Profile &  Blogs
+                  View Profile &  Blogs 
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </button>
                 </Link>
               </div>
+              </Link>
+      </div>
     )
 }

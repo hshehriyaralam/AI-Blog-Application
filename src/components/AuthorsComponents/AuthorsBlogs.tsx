@@ -1,8 +1,12 @@
 'use client'
+import { useState } from "react";
 
 
 
-export default function AuthorsBlog({blog, themeValue, light, dark,hasImage}:any){
+export default function AuthorsBlog({blog, themeValue, light, dark}:any){
+    const [imgError, setImgError] = useState(false);
+    const hasImage = blog?.userId?.profilePic && blog?.userId?.profilePic.trim() !== "" && !imgError;
+
     return(
         <div
           className={`rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer
@@ -61,7 +65,7 @@ export default function AuthorsBlog({blog, themeValue, light, dark,hasImage}:any
                         src={blog.userId.profilePic}
                         alt={blog.userId?.name || "Author"}
                         className="w-9 h-9 rounded-full object-cover"
-                      />
+                        onError={() => setImgError(true)}/>
                     ) : (
                       <span className="text-xs text-indigo-600">No Pic</span>
                     )}
