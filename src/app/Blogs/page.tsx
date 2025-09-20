@@ -8,7 +8,6 @@ import BlogCard from "../../components/BlogsComponents/BLogCard";
 import SearchInput from '../../components/BlogsComponents/SearchINput'
 import FilterToogle from '../../components/BlogsComponents/FilterToggle'
 import AuthorsFilter from '../../components/BlogsComponents/AuthorsFilter'
-import TitleFilter from '../../components/BlogsComponents/TitleFilter'
 import DateFilter from "../../components/BlogsComponents/DateFilter";
 import Tags from '../../components/BlogsComponents/TagsFilter'
 import FilterActions from '../../components/BlogsComponents/FilterActions'

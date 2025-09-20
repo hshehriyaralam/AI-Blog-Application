@@ -18,10 +18,10 @@ export default function BookmarkButton({blogId}:any){
     return(
           <button
           onClick={handleBookmark}
-          className="p-2 sm:p-2.5 rounded-full bg-amber-100  
-          hover:bg-amber-200  transition-all shadow-md hover:scale-110 cursor-pointer ">
-          {/* <Bookmark className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 " /> */}
-{isBookmarked ? "Remove Bookmark" : "Add Bookmark"}
+          className={`p-2 sm:p-2.5 rounded-full ${isBookmarked ? 'bg-amber-500' : 'bg-amber-100'}
+            transition-all shadow-md hover:scale-110 cursor-pointer`}>
+
+          <Bookmark className={`w-4 h-4 sm:w-5 sm:h-5  ${isBookmarked ? "text-amber-800" : "text-amber-500" }`} />
         </button>
     )
 }

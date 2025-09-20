@@ -1,110 +1,96 @@
 "use client";
+import { ContextTheme } from "../../Context/DarkTheme"
 import { useGetBookmarksQuery } from "../../Redux/Services/bookmarkApi";
 import Link from "next/link";
-import { User } from "lucide-react";
-import { useState } from "react";
+import { User, Bookmark, Heart, Eye, Calendar, FileText } from "lucide-react";
+import { useState, useContext } from "react";
+import { Button } from "../../components/ui/button";
+import CollectionsBlogCard from '../../components/CollectionsComponents/BlogCard'
+import LoadingPage from "../../components/layout/LoadingPage";
 
 export default function Collection() {
   const { data, isLoading, isError } = useGetBookmarksQuery();
   const [imgError, setImgError] = useState(false);
+  const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
 
-  if (isLoading) return <p>Loading bookmarks...</p>;
-  if (isError) return <p>Failed to load bookmarks.</p>;
+  if (isLoading) return <LoadingPage />
+  
+  if (isError) return (
+    <div className={`min-h-screen flex items-center justify-center ${themeValue ? light : dark}`}>
+      <div className="text-center">
+        <p className="text-red-500 text-lg mb-4">Failed to load bookmarks</p>
+        <Button 
+          onClick={() => window.location.reload()} 
+          className="bg-indigo-600 hover:bg-indigo-700"
+        >
+          Try Again
+        </Button>
+      </div>
+    </div>
+  );
 
   const bookmarks = data?.bookmarks || [];
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Collections</h1>
-
-      {bookmarks.length === 0 ? (
-        <p>No bookmarks yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {bookmarks.map((bookmark: any) => {
-            const blog = bookmark.blogId;
-            const hasImage =
-              blog?.userId?.profilePic &&
-              blog.userId.profilePic.trim() !== "" &&
-              !imgError;
-
-            return (
-              <Link key={bookmark._id} href={`/Blogs/${blog._id}`}>
-                {/* Image Container */}
-                <div className="relative h-48 overflow-hidden rounded-xl shadow-md">
-                  <img
-                    src={blog.blogImage}
-                    alt={blog.blogTitle}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                    onError={() => setImgError(true)}
-                  />
-
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-
-                  {/* Tags */}
-                  <div className="absolute bottom-2 left-3 flex flex-wrap gap-2">
-                    {blog.blogTags?.slice(0, 2).map(
-                      (tag: string, tagIndex: number) => (
-                        <span
-                          key={tagIndex}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
-                        >
-                          #{tag}
-                        </span>
-                      )
-                    )}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-5">
-                  <h2 className="font-semibold mb-3 text-lg text-gray-800">
-                    {blog.blogTitle}
-                  </h2>
-
-                  <p className="mb-4 line-clamp-2 text-gray-600">
-                    {blog.blogSummary}
-                  </p>
-
-                  {/* Author and Date */}
-                  <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-                    <div className="flex items-center">
-                      <div className="relative">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 p-0.5">
-                          <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center overflow-hidden">
-                            {hasImage ? (
-                              <img
-                                src={blog.userId.profilePic}
-                                alt={`${blog.userId?.name || "Author"}-pic`}
-                                className="w-9 h-9 rounded-full object-cover"
-                              />
-                            ) : (
-                              <User className="w-5 h-5 text-indigo-600" />
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-800">
-                          {blog.userId?.name || "Unknown Author"}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+    <div className={`min-h-screen ${themeValue ? `${light}` :  `${dark}`} py-8`}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
+              Discover Your Saved Collections
+            </h1>
+          <p className={`text-lg ${themeValue ? "text-gray-600" : "text-gray-400"} max-w-2xl mx-auto`}>
+            A curated space where all your saved articles, ideas, and inspirations live together.
+          </p>
         </div>
-      )}
+
+        {bookmarks.length === 0 ? (
+          <div className={`text-center py-16 rounded-2xl ${themeValue ? `${light} shadow-lg` :  `${dark}bg-gray-800 shadow-xl`}`}>
+            <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h2 className={`text-xl font-semibold mb-2 ${themeValue ? 'text-gray-800' : 'text-white'}`}>
+              No collections yet
+            </h2>
+            <p className={`mb-6 ${themeValue ? 'text-gray-600' : 'text-gray-400'}`}>
+              Start saving articles to see them here
+            </p>
+            <Link   href={`/Blogs`}>
+            <Button className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white  cursor-pointer"  >
+              Explore Articles
+            </Button>
+            </Link>
+          </div>
+        ) : (
+          <>
+
+            {/* Bookmarks Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {bookmarks.map((bookmark: any) => {
+                const blog = bookmark.blogId;
+                const hasImage = blog?.userId?.profilePic && blog.userId.profilePic.trim() !== "" && !imgError;
+
+                return (
+                  <div
+                    key={blog._id}
+                    className={`rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
+                      themeValue ? 'bg-white border border-gray-200' : 'bg-gray-800 border border-gray-700'
+                    }`}
+                  >
+                    <CollectionsBlogCard 
+                    bookmark={bookmark}
+                    blog={blog}
+                    setImgError={setImgError}
+                    hasImage={hasImage}
+                    themeValue={themeValue}
+                    light={light}
+                    dark={dark}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
