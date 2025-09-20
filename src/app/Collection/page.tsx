@@ -9,7 +9,9 @@ import CollectionsBlogCard from '../../components/CollectionsComponents/BlogCard
 import LoadingPage from "../../components/layout/LoadingPage";
 
 export default function Collection() {
-  const { data, isLoading, isError } = useGetBookmarksQuery();
+  const { data, isLoading, isError } = useGetBookmarksQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const [imgError, setImgError] = useState(false);
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
 
@@ -17,7 +19,7 @@ export default function Collection() {
   
   if (isError) return (
     <div className={`min-h-screen flex items-center justify-center ${themeValue ? light : dark}`}>
-      <div className="text-center">
+      <div className="text-center"> 
         <p className="text-red-500 text-lg mb-4">Failed to load bookmarks</p>
         <Button 
           onClick={() => window.location.reload()} 
@@ -39,7 +41,7 @@ export default function Collection() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
               Discover Your Saved Collections
             </h1>
-          <p className={`text-lg ${themeValue ? "text-gray-600" : "text-gray-400"} max-w-2xl mx-auto`}>
+          <p className={`text-lg ${themeValue ? "text-gray-600" : "text-gray-400"} max-w-2xl mx-auto my-2 `}>
             A curated space where all your saved articles, ideas, and inspirations live together.
           </p>
         </div>

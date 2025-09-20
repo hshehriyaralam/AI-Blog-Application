@@ -21,7 +21,7 @@ export default function BookmarkButton({blogId}:any){
           className={`p-2 sm:p-2.5 rounded-full ${isBookmarked ? 'bg-amber-500' : 'bg-amber-100'}
             transition-all shadow-md hover:scale-110 cursor-pointer`}>
 
-          <Bookmark className={`w-4 h-4 sm:w-5 sm:h-5  ${isBookmarked ? "text-amber-800" : "text-amber-500" }`} />
+          <Bookmark className={`w-4 h-4 sm:w-5 sm:h-5  ${isBookmarked ? "text-gray-200" : "text-amber-500" }`} />
         </button>
     )
 }
