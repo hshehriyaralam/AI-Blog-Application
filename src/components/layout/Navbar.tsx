@@ -101,7 +101,7 @@ export default function Navbar() {
               </li>
               <li>
                 <button 
-                  onClick={() => handleNavigate('/Authors')} 
+                  onClick={() => handleNavigate('/Collection')} 
                   className="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-indigo-50 hover:text-indigo-700 transition-all cursor-pointer"
                 >
                   <Bookmark size={16} />
@@ -213,7 +213,7 @@ export default function Navbar() {
           </button>
 
            <button 
-            onClick={() => handleNavigate('/Authors')}
+            onClick={() => handleNavigate('/Collection')}
             className="flex items-center gap-2 px-2 py-0.5 cursor-pointer  rounded-lg text-lg font-medium  hover:bg-indigo-200 hover:text-gray-900 w-full text-left"
           >
              <Bookmark size={16} />

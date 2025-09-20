@@ -143,9 +143,7 @@ export default function BlogDetail() {
           blogSummary={blog.blogSummary}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
-          setCurrentIndex={setCurrentIndex}
-
-/>
+          setCurrentIndex={setCurrentIndex}/>
 
         {/* Author Info Bottom */}
         <AuthorInfo 

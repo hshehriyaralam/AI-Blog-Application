@@ -3,7 +3,7 @@
     import authReducer  from './Slices/authSlice'
     import { userApi } from './Services/userApi'
     import { blogApi } from "./Services/blogApi";
-
+    import { bookmarkApi } from "./Services/bookmarkApi";
 
 
 
@@ -12,10 +12,11 @@
             auth : authReducer,
             [userApi.reducerPath]: userApi.reducer,
             [blogApi.reducerPath]: blogApi.reducer,
+            [bookmarkApi.reducerPath]: bookmarkApi.reducer,
         },
 
         middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(userApi.middleware,blogApi.middleware),
+        getDefaultMiddleware().concat(userApi.middleware,blogApi.middleware,bookmarkApi.middleware),
         
     })
 

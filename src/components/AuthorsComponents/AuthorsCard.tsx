@@ -86,15 +86,10 @@ export default function AuthorsCard({user,isYou,joinedDate,lastSeen}:any){
                 </div>
 
                 {/* View Profile Button */}
-                <Link
-                href={`/Authors/${user.id}`}
-                className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg text-sm font-medium hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105"
-                >
-                <button className="flex justify-center items-center cursor-pointer" >
+                <button  className="w-full flex items-center cursor-pointer justify-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg text-sm font-medium hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105" >
                   View Profile &  Blogs 
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </button>
-                </Link>
               </div>
               </Link>
       </div>

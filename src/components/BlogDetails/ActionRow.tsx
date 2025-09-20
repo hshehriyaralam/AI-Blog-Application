@@ -50,7 +50,7 @@ export default function ActionRow({
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <LikeButton blogId={blogId} likes={likes} likesCount={likesCount} />
           <ShareButton   blogId={blogId}  />
-          <BookmarkButton />
+          <BookmarkButton blogId={blogId}  />
         </div>
       </div>
 
