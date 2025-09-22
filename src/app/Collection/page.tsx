@@ -2,7 +2,7 @@
 import { ContextTheme } from "../../Context/DarkTheme"
 import { useGetBookmarksQuery } from "../../Redux/Services/bookmarkApi";
 import Link from "next/link";
-import { User, Bookmark, Heart, Eye, Calendar, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import { useState, useContext } from "react";
 import { Button } from "../../components/ui/button";
 import CollectionsBlogCard from '../../components/CollectionsComponents/BlogCard'

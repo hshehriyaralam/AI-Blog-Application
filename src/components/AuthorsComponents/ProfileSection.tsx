@@ -12,11 +12,11 @@ export default function AuthorsProfileSection(
         joinedDate,
         lastSeen,
         blogs,
-        totalViews,
-        avgReadTime,
         totalLikes,
         hasImage,
-        setImgError
+        setImgError,
+        LikedBlogs,
+        bookmarks
     }:any){
     return(
         <div className={`rounded-2xl border ${
@@ -92,28 +92,28 @@ export default function AuthorsProfileSection(
               {/* Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className={`p-3 rounded-xl text-center ${
-                  themeValue ? 'bg-indigo-50' : 'bg-indigo-900/30'
+                  themeValue ? 'bg-pink-50' : 'bg-pink-900/30'
                 }`}>
-                  <div className="text-2xl font-bold text-indigo-600">{blogs.length}</div>
-                  <div className="text-xs text-indigo-600 ">Articles</div>
-                </div>
-                <div className={`p-3 rounded-xl text-center ${
-                  themeValue ? 'bg-green-100' : 'bg-green-900/30'
-                }`}>
-                  <div className="text-2xl font-bold text-green-600">{totalViews}</div>
-                  <div className="text-xs text-green-600 ">Total Views</div>
+                  <div className="text-2xl font-bold text-pink-600">{blogs.length}</div>
+                  <div className="text-xs text-pink-600 ">Articles</div>
                 </div>
                 <div className={`p-3 rounded-xl text-center ${
                   themeValue ? 'bg-blue-100' : 'bg-blue-900/30'
                 }`}>
-                  <div className="text-2xl font-bold text-blue-600">{avgReadTime}m</div>
-                  <div className="text-xs text-blue-600 ">Avg Read</div>
+                  <div className="text-2xl font-bold text-blue-600">{bookmarks}</div>
+                  <div className="text-xs text-blue-600 ">Bookmarks</div>
                 </div>
                 <div className={`p-3 rounded-xl text-center ${
                   themeValue ? 'bg-purple-100' : 'bg-purple-900/30'
                 }`}>
                   <div className="text-2xl font-bold text-purple-600">{totalLikes}</div>
                   <div className="text-xs text-purple-600 ">Likes</div>
+                </div>
+                <div className={`p-3 rounded-xl text-center ${
+                  themeValue ? 'bg-green-100' : 'bg-green-900/30'
+                }`}>
+                  <div className="text-2xl font-bold text-green-600">{LikedBlogs}</div>
+                  <div className="text-xs text-green-600 ">Liked Blogs</div>
                 </div>
               </div>
             </div>

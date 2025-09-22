@@ -9,21 +9,24 @@ import LoadingPage from "../../../components/layout/LoadingPage";
 import ErrorPage from '../../../components/Common/ErrorPage'
 import AuthorsProfileSection from '../../../components/AuthorsComponents/ProfileSection'
 import AuthorsBlog from "../../../components/AuthorsComponents/AuthorsBlogs"
+import { useGetBookmarksQuery } from "../../../Redux/Services/bookmarkApi";
+
 
 
 export default function AuthorsDetail() {
   const params = useParams();
   const id = params?.id as string;
-  const { data: SingleUser, isLoading, error } = useSingleUserQuery(id);
+  const { data: SingleUser, isLoading, error } = useSingleUserQuery(id)
+  const { data  } = useGetBookmarksQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const { themeValue, light, dark } = useContext(ContextTheme);
-
   const user = SingleUser?.data?.user;
   const blogs = SingleUser?.data?.blogs || [];
+  const [imgError, setImgError] = useState(false);
+  const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
 
-    const [imgError, setImgError] = useState(false);
-    const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
 
-  
   if (isLoading) return <LoadingPage />;
   if (error) return <ErrorPage  themeValue={themeValue} light={light} dark={dark}   />
 
@@ -56,14 +59,11 @@ export default function AuthorsDetail() {
       })
     : "Recently active";
 
-  // Calculate total views and average read time
-  const totalViews = blogs.reduce((sum: number, blog: any) => sum + (blog.views || 0), 0);
-  const totalReadTime = blogs.reduce((sum: number, blog: any) => {
-    const wordCount = blog.blogContent?.split(/\s+/).length || 0;
-    return sum + Math.ceil(wordCount / 200);
-  }, 0);
-  const avgReadTime = blogs.length > 0 ? Math.round(totalReadTime / blogs.length) : 0;
   const totalLikes = user?.totalLikes
+  const LikedBlogs = user?.likedBlogs?.length
+  const bookmarks  = data?.bookmarks.length
+
+
   return (
     <div className={`min-h-screen ${
         themeValue ? `${light}` : `${dark}`
@@ -78,11 +78,11 @@ export default function AuthorsDetail() {
         joinedDate={joinedDate}
         lastSeen={lastSeen}
         blogs={blogs}
-        totalViews={totalViews}
-        avgReadTime={avgReadTime}
         totalLikes={totalLikes}
         hasImage={hasImage}
         setImgError={setImgError}
+        LikedBlogs={LikedBlogs}
+        bookmarks={bookmarks}
         />
 
 
