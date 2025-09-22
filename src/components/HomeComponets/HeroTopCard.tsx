@@ -3,10 +3,37 @@ import Blog_Banner from '../../../public/Blog_Banner.jpg'
 import { Button } from "../ui/button"
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { googleLoginThunk } from "../../Redux/Slices/authSlice";
+import { useGetProfileQuery } from "../../Redux/Services/userApi";
+import type { AppDispatch } from "../../Redux/store"; 
+import { useDispatch } from "react-redux";
+
+
+
 
 
 export default function HeroTopCard(){
-    const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
+    const { data, isLoading, refetch } =  useGetProfileQuery(undefined, {
+    refetchOnMountOrArgChange: false,
+    refetchOnReconnect: false,
+    refetchOnFocus: false,
+  })
+  const router = useRouter()
+  const handleNavigate = async (link: string) => {
+    if (!data?.user) {
+      try {
+        const res = await dispatch(googleLoginThunk()).unwrap();
+        await refetch();
+        router.push(link);
+      } catch (error) {
+        console.error("Google login failed:", error);
+      }
+    } else {
+      router.push(link);
+    }
+  };
+
     return(
       <div className="relative w-full lg:w-[74%] h-[500px] md:h-[600px] rounded-xl overflow-hidden  shadow-lg group">
         {/* Background Image with Overlay */}
@@ -38,16 +65,16 @@ export default function HeroTopCard(){
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 ">
-            <Link  href={'/Blogs'}>
-            <Button className="px-5.5 py-5.5 bg-gradient-to-r from-indigo-600 cursor-pointer to-purple-600 text-[16px] text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-indigo-500/25 transform hover:-translate-y-0.5">
+            <Button
+            onClick={() => handleNavigate('/Blogs')} 
+            className="px-5.5 py-5.5 bg-gradient-to-r from-indigo-600 cursor-pointer to-purple-600 text-[16px] text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-indigo-500/25 transform hover:-translate-y-0.5">
               Start Reading
             </Button>
-            </Link>
-            <Link  href={'/Create'}>
-            <Button className="px-6 py-5 bg-white/10 backdrop-blur-sm cursor-pointer text-white border border-white/20 rounded-lg font-medium hover:bg-white/20 transition-all text-[16px]  ">
+            <Button
+            onClick={() => handleNavigate('/Create')} 
+            className="px-6 py-5 bg-white/10 backdrop-blur-sm cursor-pointer text-white border border-white/20 rounded-lg font-medium hover:bg-white/20 transition-all text-[16px]  ">
               Create Post
             </Button>
-            </Link>
           </div>
         </div>
 

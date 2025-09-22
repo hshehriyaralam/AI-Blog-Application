@@ -7,7 +7,7 @@ import { useGetProfileQuery } from "../../Redux/Services/userApi";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { googleLoginThunk } from "../../Redux/Slices/authSlice";
-import type { AppDispatch } from "../../Redux/store";    
+import type { AppDispatch } from "../../Redux/store"; 
 import { Button } from '../ui/button';
 
 export default function Navbar() {
@@ -18,14 +18,10 @@ export default function Navbar() {
   refetchOnMountOrArgChange: false,
   refetchOnReconnect: false,
   refetchOnFocus: false,
-});;
+})
   const router = useRouter();
   
   const handleNavigate = async (link: string) => {
-
-    // setMenuOpen(false);
-    //   router.push(link);
-
     if (!data?.user) {
       try {
         const res = await dispatch(googleLoginThunk()).unwrap();
