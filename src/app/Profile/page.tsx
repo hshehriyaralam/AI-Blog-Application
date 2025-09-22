@@ -16,6 +16,8 @@ import ProfileSection from '../../components/ProfileComponents/ProfilSection'
 import ProfileBlogsSections from '../../components/ProfileComponents/BlogsSection'
 import { useSelector } from "react-redux";
 import type { RootState } from "../../Redux/store";
+import { useGetBookmarksQuery } from "../../Redux/Services/bookmarkApi";
+
 
 
 
@@ -28,6 +30,9 @@ export default function Profile() {
   const { data: Profile, isLoading } = useGetProfileQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+  const { data  } = useGetBookmarksQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  })
   const [deleteProfile , { isLoading: DeleteProfileLoader}] = useDeleteProfileMutation();
   const [deleteBlog, { isLoading: deleting }] = useDeleteBlogMutation();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -37,6 +42,7 @@ export default function Profile() {
   const blogs = Profile?.blogs || [];
   const [imgError, setImgError] = useState(false);
   const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
+
 
 
   const handleDeleteBlog = async (id: string) => {
@@ -94,6 +100,9 @@ export default function Profile() {
   // Calculate total views
   const totalViews = blogs.reduce((sum: number, blog: any) => sum + (blog.views || 0), 0);
   const totalLikes = user?.totalLikes
+  const LikedBlogs = user?.likedBlogs?.length
+  const bookmarks  = data?.bookmarks.length
+
 
 
   return (
@@ -118,6 +127,8 @@ export default function Profile() {
         totalLikes={totalLikes}
         hasImage={hasImage}
         setImgError={setImgError}
+        LikedBlogs={LikedBlogs}
+        bookmarks={bookmarks}
         />
         {/* Blogs Section */}
         <div className="mb-8">
