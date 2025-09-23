@@ -30,13 +30,13 @@ export default function DashboardLayout({ children }: any) {
     return (
         <section className={`min-h-screen flex ${themeValue ? light : dark}`}>
             {/* Sidebar - Desktop */}
-            <div className={`hidden md:flex w-64 flex-col  border-r ${themeValue ? `${light} border-gray-200  text-black` : `${dark} border-gray-700  text-gray-200`} shadow-lg`}>
+            <div className={`hidden md:flex w-56 flex-col  border-r ${themeValue ? `${light} border-gray-200  text-black` : `${dark} border-gray-700  text-gray-200`} shadow-lg`}>
                 {/* Sidebar Header */}
-                <div className={`p-6 border-b ${themeValue ? 'border-gray-500 ' : 'border-gray-700 '}  `}>
-                    <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                        Admin Dashboard
+                <div className={`p-6 border-b ${themeValue ? 'border-gray-300 ' : 'border-gray-800 '}  `}>
+                    <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent  ">
+                        Admin Control
                     </h1>
-                    <p className={`text-sm  ${themeValue ? 'text-gray-600' : 'text-gray-300'} mt-1`}>Manage your platform</p>
+                    <p className={`text-sm  ${themeValue ? 'text-gray-600' : 'text-gray-300'} `}>Manage your platform</p>
                 </div>
 
                 {/* Navigation Menu */}

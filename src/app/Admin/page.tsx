@@ -1,12 +1,11 @@
 import Link from "next/link"
+import AdminDashboard from "./Dashboard/page"
 
-
-export default function Dashboard(){
-
+export default function AdminHome(){
     
     return(
-       <div className='w-full h-screen' >
-        <h1>Dashboard</h1>
+       <div className='w-full min-h-screen' >
+        <AdminDashboard />
        </div>
     )
 
