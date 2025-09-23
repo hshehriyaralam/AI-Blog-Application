@@ -128,7 +128,7 @@ export default function ProfileSection({
                           themeValue ? 'bg-green-100' : 'bg-green-900/30'
                         }`}>
                           <div className="text-2xl font-bold text-green-600 ">{LikedBlogs}</div>
-                          <div className="text-xs text-green-600 ">LikedBlogs</div>
+                          <div className="text-xs text-green-600 ">Liked Blogs</div>
                         </div>
                       </div>
         

@@ -1,13 +1,13 @@
-import AdminProtectedRoute from "../../components/layout/AdminProtected"
+import Link from "next/link"
 
 
-export default function Admin(){
+export default function Dashboard(){
+
+    
     return(
-        <AdminProtectedRoute>
-        <div>
-            <h1>Admin Dashboard</h1>
-        </div>
-        </AdminProtectedRoute>
-      
+       <div className='w-full h-screen' >
+        <h1>Dashboard</h1>
+       </div>
     )
+
 }
