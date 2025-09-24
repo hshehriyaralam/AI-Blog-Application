@@ -116,7 +116,7 @@ export default function UserAllBlogs() {
               </p>
             </div>
             <Link
-              href="/Admin/allBlogs/new"
+              href="/Create"
               className="mt-4 sm:mt-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-3 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center group"
             >
               <Plus size={20} className="mr-2 group-hover:scale-110 transition-transform" />
@@ -127,7 +127,7 @@ export default function UserAllBlogs() {
         {/* Filters Section */}
         <div className={`mb-6 rounded-2xl shadow-lg border ${
           themeValue ? `${light} border-gray-200` : `${dark} border-gray-700`
-        } p-6`}>
+        } p-4`}>
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <SearchInput
               themeValue={themeValue}
@@ -209,8 +209,8 @@ export default function UserAllBlogs() {
         </div>
 
         {/* Blogs Table */}
-        <div className={`rounded-2xl shadow-lg border overflow-hidden ${
-          themeValue ? 'bg-white border-gray-200' : 'bg-gray-800 border-gray-700'
+        <div className={`rounded-2xl shadow-xl overflow-hidden ${
+          themeValue ? 'bg-white' : 'bg-gray-800 '
         }`}>
           {/* Table Header */}
           <div className={`hidden md:grid grid-cols-12 gap-4 p-6 border-b ${
@@ -219,8 +219,8 @@ export default function UserAllBlogs() {
             <div className="col-span-1" />
             <div className="col-span-5">Blog Post</div>
             <div className="col-span-2">Author</div>
-            <div className="col-span-2">Status</div>
             <div className="col-span-2 text-right">Actions</div>
+            <div className="col-span-2">Status</div>
           </div>
 
           {/* Table Body */}

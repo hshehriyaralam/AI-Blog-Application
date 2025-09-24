@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { FileText, Trash2, Eye, User, Calendar, Edit } from "lucide-react";
+import ActionsAdmin from "./Actions";
 
 interface Blog {
   _id: string;
@@ -41,8 +42,8 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
 
   return (
     <div>
-      <div className={`divide-y ${
-        themeValue ? `${light}` : `${dark}`
+      <div className={`divide ${
+        themeValue ? `${light}  ` : `${dark} `
       }`}>
         {filteredBlogs.length === 0 ? (
           <div className="p-12 text-center">
@@ -60,10 +61,10 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
           filteredBlogs.map((blog: Blog) => (
             <div
               key={blog._id}
-              className={`grid grid-cols-12 gap-4 p-6 transition-colors duration-200 items-center group ${
+              className={`grid grid-cols-12 gap-4 p-4 transition-colors duration-200 items-center group ${
                 themeValue 
-                  ? 'hover:bg-gray-50' 
-                  : 'hover:bg-gray-700/50'
+                  ? 'hover:bg-gray-50 border-b  border-gray-300' 
+                  : 'hover:bg-gray-700/50 border-b  border-gray-700 '
               }`}
             >
               {/* Thumbnail */}
@@ -107,77 +108,54 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
                     {formatDate(blog.createdAt)}
                   </span>
                 </div>
-              </div>
+              </div>  
+              {/* Author + Actions (Mobile ek line me, Desktop alag) */}
+<div className="col-span-12 md:col-span-4 lg:col-span-4 flex items-center justify-between">
+  {/* Author */}
+  <div className="flex items-center space-x-2">
+    {blog?.userId?.profilePic ? (
+      <div className="relative w-8 h-8">
+        <img
+          src={blog.userId.profilePic}
+          alt={blog?.userId?.name || "Author"}
+          className="rounded-full object-cover w-full h-full"
+        />
+      </div>
+    ) : (
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center ${
+          themeValue
+            ? "bg-gradient-to-br from-purple-100 to-pink-100 text-purple-600"
+            : "bg-gradient-to-br from-purple-900/30 to-pink-900/30 text-purple-400"
+        }`}
+      >
+        <User size={14} />
+      </div>
+    )}
+    <span
+      className={`text-sm font-medium truncate max-w-[100px] ${
+        themeValue ? "text-gray-700" : "text-gray-200"
+      }`}
+    >
+      {blog?.userId?.name}
+    </span>
+  </div>
 
-              {/* Author */}
-              <div className="col-span-6 md:col-span-2 lg:col-span-2 flex items-center space-x-3">
-                <div className="flex items-center space-x-2">
-                  {blog?.userId?.profilePic ? (
-                    <div className="relative w-8 h-8">
-                      <img
-                        src={blog.userId.profilePic}
-                        alt={blog?.userId?.name || "Author"}
-                        className="rounded-full object-cover w-full h-full"
-                      />
-                    </div>
-                  ) : (
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      themeValue 
-                        ? 'bg-gradient-to-br from-purple-100 to-pink-100 text-purple-600' 
-                        : 'bg-gradient-to-br from-purple-900/30 to-pink-900/30 text-purple-400'
-                    }`}>
-                      <User size={14} />
-                    </div>
-                  )}
-                  <span className={`text-sm font-medium truncate max-w-[100px] ${
-                    themeValue ? 'text-gray-700' : 'text-gray-200'
-                  }`}>
-                    {blog?.userId?.name}
-                  </span>
-                </div>
-              </div>
+  {/* Actions */}
+  <ActionsAdmin  themeValue={themeValue}   blog={blog} />
+</div>
 
-              {/* Status */}
-              <div className="col-span-3 md:col-span-2 lg:col-span-2">
-                <span
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
-                    getStatusStyles(blog.status)
-                  }`}
-                >
-                  {blog.status?.charAt(0).toUpperCase() + blog.status?.slice(1) || "Published"}
-                </span>
-              </div>
-
-              {/* Actions */}
-              <div className="col-span-3 md:col-span-2 lg:col-span-2 flex items-center justify-end space-x-1">
-                <button
-                  className={`p-2 rounded-lg transition-all duration-200 ${
-                    themeValue
-                      ? 'bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700'
-                      : 'bg-blue-900/30 hover:bg-blue-900/50 text-blue-400 hover:text-blue-300'
-                  } group/tooltip relative`}
-                  title="View Blog"
-                >
-                  <Eye size={16} />
-                  <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap">
-                    View Blog
-                  </span>
-                </button>
-                
-                <button
-                  className={`p-2 rounded-lg transition-all duration-200 ${
-                    themeValue
-                      ? 'bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700'
-                      : 'bg-red-900/30 hover:bg-red-900/50 text-red-400 hover:text-red-300'
-                  } group/tooltip relative`}
-                  title="Delete Blog"
-                >
-                  <Trash2 size={16} />
-                  <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap">
-                    Delete Blog
-                  </span>
-                </button>
-              </div>
+{/* Status (sirf md+ screens par) */}
+<div className="hidden md:flex md:col-span-2 lg:col-span-2 items-center">
+  <span
+    className={`px-3 py-1.5 rounded-full text-xs font-medium border ${getStatusStyles(
+      blog.status
+    )}`}
+  >
+    {blog.status?.charAt(0).toUpperCase() + blog.status?.slice(1) || "Published"}
+  </span>
+</div>
+    
             </div>
           ))
         )}
