@@ -4,7 +4,7 @@
     import { userApi } from './Services/userApi'
     import { blogApi } from "./Services/blogApi";
     import { bookmarkApi } from "./Services/bookmarkApi";
-
+    import { adminApi } from "./Services/AdminApi";
 
 
     export const store = configureStore({
@@ -13,10 +13,11 @@
             [userApi.reducerPath]: userApi.reducer,
             [blogApi.reducerPath]: blogApi.reducer,
             [bookmarkApi.reducerPath]: bookmarkApi.reducer,
+            [adminApi.reducerPath]: adminApi.reducer,
         },
 
         middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(userApi.middleware,blogApi.middleware,bookmarkApi.middleware),
+        getDefaultMiddleware().concat(userApi.middleware,blogApi.middleware,bookmarkApi.middleware,adminApi.middleware),
         
     })
 

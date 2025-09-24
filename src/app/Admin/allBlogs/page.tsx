@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FileText, Edit, Trash2, Eye, Search, Filter, MoreVertical, Calendar, User, ThumbsUp, Bookmark } from "lucide-react";
+import {useAllBlogAdminQuery} from '../../../Redux/Services/AdminApi'
+import AllBlogList  from '../../../components/AdminBlogsComp/BlogsList'
 
 interface Blog {
   id: number;
@@ -26,6 +28,8 @@ export default function UserAllBlogs() {
   const [selectedBlogs, setSelectedBlogs] = useState<number[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [blogToDelete, setBlogToDelete] = useState<number | null>(null);
+  const {  data }  = useAllBlogAdminQuery(undefined)
+  console.log("Admin Blogs", data?.data)
 
   // Sample data - Replace with API call
   useEffect(() => {
@@ -230,50 +234,6 @@ export default function UserAllBlogs() {
           </div>
         </div>
 
-        {/* Stats and Controls */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-            <div className="flex items-center space-x-4">
-              <div className="text-sm text-slate-600">
-                <span className="font-semibold text-slate-900">{filteredBlogs.length}</span> blogs found
-              </div>
-              {selectedBlogs.length > 0 && (
-                <button
-                  onClick={deleteSelectedBlogs}
-                  className="flex items-center text-red-600 hover:text-red-700 text-sm font-medium"
-                >
-                  <Trash2 size={16} className="mr-1" />
-                  Delete Selected ({selectedBlogs.length})
-                </button>
-              )}
-            </div>
-
-            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-              {/* Search */}
-              <div className="relative">
-                <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Search blogs..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                />
-              </div>
-
-              {/* Filter */}
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as any)}
-                className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              >
-                <option value="all">All Status</option>
-                <option value="published">Published</option>
-                <option value="draft">Draft</option>
-              </select>
-            </div>
-          </div>
-        </div>
 
         {/* Blogs Table */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -294,76 +254,7 @@ export default function UserAllBlogs() {
           </div>
 
           {/* Table Body */}
-          <div className="divide-y divide-slate-200">
-            {filteredBlogs.length === 0 ? (
-              <div className="p-12 text-center">
-                <FileText size={48} className="mx-auto text-slate-300 mb-4" />
-                <p className="text-slate-600">No blogs found matching your criteria</p>
-              </div>
-            ) : (
-              filteredBlogs.map((blog) => (
-                <div key={blog.id} className="grid grid-cols-12 gap-4 p-6 hover:bg-slate-50 transition-colors">
-                  {/* Checkbox */}
-                  <div className="col-span-1 flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={selectedBlogs.includes(blog.id)}
-                      onChange={() => toggleSelectBlog(blog.id)}
-                      className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                  </div>
-
-                  {/* Blog Info */}
-                  <div className="col-span-5">
-                    <div className="flex items-start space-x-3">
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-slate-900 mb-1 line-clamp-2">{blog.title}</h3>
-                        <p className="text-slate-600 text-sm mb-2 line-clamp-1">{blog.excerpt}</p>
-                        <div className="flex items-center space-x-4 text-xs text-slate-500">
-                          <span className="flex items-center">
-                            <Calendar size={12} className="mr-1" />
-                            {formatDate(blog.date)}
-                          </span>
-                          <span>{blog.category}</span>
-                          <span>{blog.readTime} read</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Author */}
-                  <div className="col-span-2 flex items-center">
-                    <div className="flex items-center space-x-2">
-                      <User size={16} className="text-slate-400" />
-                      <span className="text-slate-700">{blog.author}</span>
-                    </div>
-                  </div>
-
-                  {/* Status */}
-                  <div className="col-span-2 flex items-center">
-                    {getStatusBadge(blog.status)}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="col-span-2 flex items-center justify-end space-x-2">
-                    <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors" title="View">
-                      <Eye size={16} />
-                    </button>
-                    <button className="p-2 text-blue-400 hover:text-blue-600 transition-colors" title="Edit">
-                      <Edit size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteClick(blog.id)}
-                      className="p-2 text-red-400 hover:text-red-600 transition-colors"
-                      title="Delete"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+          <AllBlogList />
         </div>
 
         {/* Stats Summary */}
