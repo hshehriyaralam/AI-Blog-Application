@@ -59,60 +59,67 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
           </div>
         ) : (
           filteredBlogs.map((blog: Blog) => (
-            <div
-              key={blog._id}
-              className={`grid grid-cols-12 gap-4 p-4 transition-colors duration-200 items-center group ${
-                themeValue 
-                  ? 'hover:bg-gray-50 border-b  border-gray-300' 
-                  : 'hover:bg-gray-700/50 border-b  border-gray-700 '
-              }`}
-            >
-              {/* Thumbnail */}
-              <div className="col-span-2 md:col-span-1 flex justify-center">
-                {blog?.blogImage ? (
-                  <div className="relative w-14 h-14 rounded-lg overflow-hidden shadow-sm">
-                    <img
-                      src={blog.blogImage}
-                      alt={blog.blogTitle}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className={`w-14 h-14 rounded-lg flex items-center justify-center shadow-sm ${
-                    themeValue 
-                      ? 'bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-400' 
-                      : 'bg-gradient-to-br from-blue-900/20 to-indigo-900/20 text-blue-400'
-                  }`}>
-                    <FileText size={20} />
-                  </div>
-                )}
-              </div>
+          <div
+  key={blog._id}
+  className={`grid grid-cols-12 gap-4 p-4 transition-colors duration-200 items-center group ${
+    themeValue
+      ? "hover:bg-gray-50 border-b border-gray-300"
+      : "hover:bg-gray-700/50 border-b border-gray-700"
+  }`}
+>
+  {/* Thumbnail */}
+  <div className="col-span-12 md:col-span-1 flex justify-center md:justify-start">
+    {blog?.blogImage ? (
+      <div className="relative w-14 h-14 rounded-lg overflow-hidden shadow-sm">
+        <img
+          src={blog.blogImage}
+          alt={blog.blogTitle}
+          className="w-full h-full object-cover"
+        />
+      </div>
+    ) : (
+      <div
+        className={`w-14 h-14 rounded-lg flex items-center justify-center shadow-sm ${
+          themeValue
+            ? "bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-400"
+            : "bg-gradient-to-br from-blue-900/20 to-indigo-900/20 text-blue-400"
+        }`}
+      >
+        <FileText size={20} />
+      </div>
+    )}
+  </div>
 
-              {/* Blog Info */}
-              <div className="col-span-10 md:col-span-5 lg:col-span-5">
-                <h3 className={`font-semibold mb-2 line-clamp-2 leading-tight ${
-                  themeValue ? 'text-gray-900' : 'text-white'
-                } group-hover:text-indigo-600 transition-colors`}>
-                  {blog.blogTitle}
-                </h3>
-                <p className={`text-sm line-clamp-1 mb-2 ${
-                  themeValue ? 'text-gray-600' : 'text-gray-300'
-                }`}>
-                  {blog.blogContent}
-                </p>
-                <div className="flex items-center space-x-3 text-xs">
-                  <span className={`flex items-center ${
-                    themeValue ? 'text-gray-500' : 'text-gray-400'
-                  }`}>
-                    <Calendar size={12} className="mr-1" />
-                    {formatDate(blog.createdAt)}
-                  </span>
-                </div>
-              </div>  
-              {/* Author + Actions (Mobile ek line me, Desktop alag) */}
-<div className="col-span-12 md:col-span-4 lg:col-span-4 flex items-center justify-between">
+  {/* Blog Info */}
+  <div className="col-span-12 md:col-span-5">
+    <h3
+      className={`font-semibold mb-1 line-clamp-2 leading-tight ${
+        themeValue ? "text-gray-900" : "text-white"
+      } group-hover:text-indigo-600 transition-colors`}
+    >
+      {blog.blogTitle}
+    </h3>
+    <p
+      className={`text-sm line-clamp-1 mb-1 ${
+        themeValue ? "text-gray-600" : "text-gray-300"
+      }`}
+    >
+      {blog.blogContent}
+    </p>
+    <div className="flex items-center space-x-3 text-xs">
+      <span
+        className={`flex items-center ${
+          themeValue ? "text-gray-500" : "text-gray-400"
+        }`}
+      >
+        <Calendar size={12} className="mr-1" />
+        {formatDate(blog.createdAt)}
+      </span>
+    </div>
+  </div>
+
   {/* Author */}
-  <div className="flex items-center space-x-2">
+  <div className="col-span-6 md:col-span-2 flex items-center space-x-2">
     {blog?.userId?.profilePic ? (
       <div className="relative w-8 h-8">
         <img
@@ -142,22 +149,21 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
   </div>
 
   {/* Actions */}
-  <ActionsAdmin  themeValue={themeValue}   blog={blog} />
-</div>
+  <div className="col-span-6 md:col-span-2 flex items-center space-x-2 justify-end md:justify-start">
+    <ActionsAdmin themeValue={themeValue} blog={blog} />
+  </div>
 
-{/* Status (sirf md+ screens par) */}
-<div className="hidden md:flex md:col-span-2 lg:col-span-2 items-center">
-  <span
-    className={`px-3 py-1.5 rounded-full text-xs font-medium border ${getStatusStyles(
-      blog.status
-    )}`}
-  >
-    {blog.status?.charAt(0).toUpperCase() + blog.status?.slice(1) || "Published"}
-  </span>
-</div>
-    
-            </div>
-          ))
+  {/* Status */}
+  <div className="hidden md:block  col-span-12 md:col-span-2 flex items-center mt-2 md:mt-0">
+    <span
+      className={`px-3 py-1.5 rounded-full text-xs font-medium border ${getStatusStyles(
+        blog.status
+      )}`}
+    >
+      {blog.status?.charAt(0).toUpperCase() + blog.status?.slice(1) || "Published"}
+    </span>
+  </div>
+</div>))
         )}
       </div>
 

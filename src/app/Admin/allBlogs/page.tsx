@@ -213,15 +213,19 @@ export default function UserAllBlogs() {
           themeValue ? 'bg-white' : 'bg-gray-800 '
         }`}>
           {/* Table Header */}
-          <div className={`hidden md:grid grid-cols-12 gap-4 p-6 border-b ${
-            themeValue ? `border-gray-200 ${light} text-gray-900` : `border-gray-700 ${dark} text-white`
-          } font-semibold text-sm`}>
-            <div className="col-span-1" />
-            <div className="col-span-5">Blog Post</div>
-            <div className="col-span-2">Author</div>
-            <div className="col-span-2 text-right">Actions</div>
-            <div className="col-span-2">Status</div>
-          </div>
+          <div
+                className={`hidden md:grid grid-cols-12 gap-4 p-6 border-b ${
+                  themeValue
+                    ? `border-gray-200 ${light} text-gray-900`
+                    : `border-gray-700 ${dark} text-white`
+                } font-semibold text-sm`}
+              >
+              <div className="col-span-1" /> 
+              <div className="col-span-5">Blog Post</div>
+              <div className="col-span-2">Author</div>
+              <div className="col-span-2">Actions</div>
+              <div className="col-span-2">Status</div>
+            </div>
 
           {/* Table Body */}
           <AllBlogList 
