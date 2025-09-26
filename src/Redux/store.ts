@@ -4,7 +4,7 @@
     import { userApi } from './Services/userApi'
     import { blogApi } from "./Services/blogApi";
     import { bookmarkApi } from "./Services/bookmarkApi";
-    import { adminApi } from "./Services/AdminApi";
+    import { adminApi } from "./Services/adminApi";
 
 
     export const store = configureStore({

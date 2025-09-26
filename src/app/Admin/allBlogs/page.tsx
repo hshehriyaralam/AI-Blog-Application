@@ -1,6 +1,6 @@
 "use client";
 import { useState, useContext, useMemo } from "react";
-import { useAllBlogAdminQuery } from "../../../Redux/Services/AdminApi";
+import { useAllBlogAdminQuery } from "../../../Redux/Services/adminApi";
 import AllBlogList from "../../../components/AdminBlogsComp/BlogsList";
 import LoadingPage from "../../../components/layout/LoadingPage";
 import { ContextTheme } from "../../../Context/DarkTheme";

@@ -11,9 +11,17 @@ export const adminApi = createApi({
       query: () => "Admin/Blogs",
       providesTags: ["Blog"],
     }),
+    //Delete Blog By Admin 
+    deleteBlogAdmin: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `Admin/Blogs/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Blog"], 
+    }), 
   }),
 });
 
 
 
-export const {useAllBlogAdminQuery} = adminApi;
+export const {useAllBlogAdminQuery,useDeleteBlogAdminMutation} = adminApi;

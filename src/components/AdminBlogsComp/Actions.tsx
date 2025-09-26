@@ -1,5 +1,5 @@
 'use client'
-import { Trash2, Eye} from "lucide-react";
+import { Eye} from "lucide-react";
 import Link from "next/link";
 import DeleteBlogButton from "./DeleteBlogBtn";
 
@@ -24,7 +24,7 @@ export default function ActionsAdmin({themeValue,blog}:any){
     </button>
         </Link>   
 
-   <DeleteBlogButton  themeValue={themeValue} />
+   <DeleteBlogButton  themeValue={themeValue}  blog={blog} />
   </div>
     )
 }
