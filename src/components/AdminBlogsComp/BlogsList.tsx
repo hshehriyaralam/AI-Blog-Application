@@ -61,7 +61,7 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
           filteredBlogs.map((blog: Blog) => (
           <div
   key={blog._id}
-  className={`grid grid-cols-12 gap-4 p-4 transition-colors duration-200 items-center group ${
+  className={`grid grid-cols-12 gap-4 p-4  rounded-xl transition-colors duration-200 items-center group ${
     themeValue
       ? "hover:bg-gray-50 border-b border-gray-300"
       : "hover:bg-gray-700/50 border-b border-gray-700"

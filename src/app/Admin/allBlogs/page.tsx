@@ -1,19 +1,11 @@
 "use client";
 import { useState, useContext, useMemo } from "react";
-import Link from "next/link";
-import { FileText, Plus } from "lucide-react";
 import { useAllBlogAdminQuery } from "../../../Redux/Services/AdminApi";
 import AllBlogList from "../../../components/AdminBlogsComp/BlogsList";
 import LoadingPage from "../../../components/layout/LoadingPage";
 import { ContextTheme } from "../../../Context/DarkTheme";
+import AllFiltersBlogs from "../../../components/AdminBlogsComp/AllFilters";
 
-// Components
-import SearchInput from "../../../components/BlogsComponents/SearchINput";
-import FilterToogle from "../../../components/BlogsComponents/FilterToggle";
-import AuthorsFilter from "../../../components/BlogsComponents/AuthorsFilter";
-import DateFilter from "../../../components/BlogsComponents/DateFilter";
-import Tags from "../../../components/BlogsComponents/TagsFilter";
-import FilterActions from "../../../components/BlogsComponents/FilterActions";
 
 type DraftFilters = {
   authorId: string;
@@ -34,8 +26,7 @@ export default function UserAllBlogs() {
     date: "",
     tag: "",
   });
-  const [appliedFilters, setAppliedFilters] =
-    useState<DraftFilters>(draftFilters);
+  const [appliedFilters, setAppliedFilters] = useState<DraftFilters>(draftFilters);
 
   // Unique dates
   const blogsCreateDates: string[] = useMemo(() => {
@@ -102,7 +93,7 @@ export default function UserAllBlogs() {
   if (isLoading) return <LoadingPage />;
 
   return (
-    <div className={`min-h-screen ${themeValue ? light : dark} p-6`}>
+    <div className={`min-h-screen ${themeValue ? light : dark} p-2`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -115,81 +106,19 @@ export default function UserAllBlogs() {
                 Monitor, filter and manage all blogs from a single dashboard
               </p>
             </div>
-            <Link
-              href="/Create"
-              className="mt-4 sm:mt-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-3 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center group"
-            >
-              <Plus size={20} className="mr-2 group-hover:scale-110 transition-transform" />
-              Write New Blog
-            </Link>
           </div>
         </div>
         {/* Filters Section */}
-        <div className={`mb-6 rounded-2xl shadow-lg border ${
-          themeValue ? `${light} border-gray-200` : `${dark} border-gray-700`
-        } p-4`}>
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <SearchInput
-              themeValue={themeValue}
-              light={light}
-              dark={dark}
-              value={searchQuery}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setSearchQuery(e.target.value)
-              }
-            />
-            <FilterToogle
-              onClick={() => setShowFilters(!showFilters)}
-              showFilters={showFilters}
-            />
-          </div>
-
-          {showFilters && (
-            <div className={`mt-6 pt-6 border-t ${
-              themeValue ? 'border-gray-200' : 'border-gray-700'
-            }`}>
-              <div className="flex flex-wrap gap-6">
-                <AuthorsFilter
-                  themeValue={themeValue}
-                  light={light}
-                  dark={dark}
-                  value={draftFilters.authorId}
-                  onChange={(val: string) =>
-                    setDraftFilters((s) => ({ ...s, authorId: val }))
-                  }
-                />
-                <DateFilter
-                  themeValue={themeValue}
-                  light={light}
-                  dark={dark}
-                  BlogsDate={blogsCreateDates}
-                  value={draftFilters.date}
-                  onChange={(val: string) =>
-                    setDraftFilters((s) => ({ ...s, date: val }))
-                  }
-                />
-                <Tags
-                  themeValue={themeValue}
-                  light={light}
-                  dark={dark}
-                  value={draftFilters.tag}
-                  onChange={(val: string) =>
-                    setDraftFilters((s) => ({ ...s, tag: val }))
-                  }
-                />
-              </div>
-
-              <FilterActions
-                themeValue={themeValue}
-                light={light}
-                dark={dark}
-                onApply={handleApply}
-                onClear={handleClear}
-              />
-            </div>
-          )}
-        </div>
-
+        < AllFiltersBlogs  
+        data={data}
+        setDraftFilters={setDraftFilters}
+        setAppliedFilters={setAppliedFilters}
+        setSearchQuery={setSearchQuery}
+        draftFilters={draftFilters}
+        searchQuery={searchQuery}
+        setShowFilters={setShowFilters}
+        showFilters={showFilters}
+         />
         {/* Results Info */}
         <div className={`mb-4 flex items-center justify-between ${
           themeValue ? 'text-gray-600' : 'text-gray-300'
@@ -235,30 +164,7 @@ export default function UserAllBlogs() {
           dark={dark}
                />
         </div>
-
-        {/* Empty State */}
-        {filteredBlogs.length === 0 && (
-          <div className={`text-center py-12 rounded-2xl ${
-            themeValue ? 'bg-white' : 'bg-gray-800'
-          }`}>
-            <FileText size={64} className={`mx-auto ${
-              themeValue ? 'text-gray-300' : 'text-gray-600'
-            } mb-4`} />
-            <h3 className={`text-lg font-semibold mb-2 ${
-              themeValue ? 'text-gray-900' : 'text-white'
-            }`}>
-              No blogs found
-            </h3>
-            <p className={`${
-              themeValue ? 'text-gray-600' : 'text-gray-300'
-            }`}>
-              {data?.data?.length === 0 
-                ? "No blogs have been created yet." 
-                : "No blogs match your current filters."
-              }
-            </p>
-          </div>
-        )}
+   
       </div>
     </div>
   );
