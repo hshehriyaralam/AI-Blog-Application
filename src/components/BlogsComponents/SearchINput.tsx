@@ -10,7 +10,7 @@ export default function SearchInput({themeValue, light, dark,value,onChange}:any
         placeholder="Search blogs by title, content, or author..."
         value={value}
         onChange={onChange}
-        className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+        className={`w-full pl-10 pr-4 py-3 rounded-lg border outline-none ${
             themeValue 
             ? `${light} border-gray-300 text-gray-800 placeholder-gray-800` 
             : `${dark} border-gray-600 text-gray-200 placeholder-gray-800`
