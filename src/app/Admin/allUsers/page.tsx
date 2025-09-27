@@ -1,8 +1,12 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
 import { Users, Search,  Mail, Calendar, FileText, Trash2, Edit, MoreVertical, UserCheck, UserX, Shield } from "lucide-react";
 import {useAllUserAdminQuery} from '../../../Redux/Services/adminApi'
 import AllUser from "../../../components/AdminUsersComp/AllUser";
+import { ContextTheme } from "../../../Context/DarkTheme";
+import SearchInput from "../../../components/BlogsComponents/SearchINput"
+
+
 
 
 interface User {
@@ -17,7 +21,16 @@ interface User {
   avatar?: string;
 }
 
+type DraftFilters = {
+  authorId: string;
+  title: string;
+  date: string;
+  tag: string;
+};
+
+
 export default function AllUsers() {
+    const { themeValue, light, dark } = useContext(ContextTheme);
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,6 +41,14 @@ export default function AllUsers() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState<number | null>(null);
   const { data } = useAllUserAdminQuery(undefined)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [draftFilters, setDraftFilters] = useState<DraftFilters>({
+    authorId: "",
+    title: "",
+    date: "",
+    tag: "",
+  });
+  const [appliedFilters, setAppliedFilters] = useState<DraftFilters>(draftFilters);
   console.log("All users", data?.data)
 
   // Sample data - Replace with API call
@@ -239,6 +260,47 @@ export default function AllUsers() {
 
   const stats = getStats();
 
+  const filteredBlogs = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return (data?.data || []).filter((blog: any) => {
+      let ok = true;
+
+      if (q) {
+        const title = blog?.blogTitle?.toLowerCase() || "";
+        const content = blog?.blogContent?.toLowerCase() || "";
+        const authorName = blog?.userId?.name?.toLowerCase?.() || "";
+        ok =
+          ok &&
+          (title.includes(q) ||
+            content.includes(q) ||
+            authorName.includes(q));
+      }
+
+      if (appliedFilters.authorId) {
+        const blogAuthorId =
+          typeof blog?.userId === "object" ? blog?.userId?.id : blog?.userId;
+        ok = ok && String(blogAuthorId || "") === String(appliedFilters.authorId);
+      }
+
+      if (appliedFilters.date) {
+        const d = blog?.createdAt
+          ? new Date(blog.createdAt).toDateString()
+          : "";
+        ok = ok && d === appliedFilters.date;
+      }
+
+      if (appliedFilters.tag) {
+        const tags: string[] =
+          blog?.blogTags?.map((t: string) => t.toLowerCase()) || [];
+        ok = ok && tags.includes(appliedFilters.tag.toLowerCase());
+      }
+
+      return ok;
+    });
+  }, [data, searchQuery, appliedFilters]);
+
+
+
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 p-6">
@@ -323,142 +385,120 @@ export default function AllUsers() {
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-            <div className="flex items-center space-x-4">
-              <div className="text-sm text-slate-600">
-                <span className="font-semibold text-slate-900">{filteredUsers.length}</span> users found
-              </div>
-              {selectedUsers.length > 0 && (
-                <button
-                  onClick={deleteSelectedUsers}
-                  className="flex items-center text-red-600 hover:text-red-700 text-sm font-medium"
-                >
-                  <Trash2 size={16} className="mr-1" />
-                  Delete Selected ({selectedUsers.length})
-                </button>
-              )}
-            </div>
-
-            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-              {/* Search */}
-              <div className="relative">
-                <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Search users..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                />
-              </div>
-
-              {/* Role Filter */}
-              <select
-                value={roleFilter}
-                onChange={(e) => setRoleFilter(e.target.value as any)}
-                className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              >
-                <option value="all">All Roles</option>
-                <option value="admin">Admin</option>
-                <option value="author">Author</option>
-                <option value="user">User</option>
-              </select>
-
-              {/* Status Filter */}
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as any)}
-                className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              >
-                <option value="all">All Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-                <option value="suspended">Suspended</option>
-              </select>
-            </div>
-          </div>
+        {/* Input FIlter */}
+        <div className={`mb-6 rounded-2xl shadow-lg border ${
+                  themeValue ? `${light} border-gray-200` : `${dark} border-gray-700`
+                } p-4`} >
+                  <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+                      <SearchInput
+                        themeValue={themeValue}
+                        light={light}
+                        dark={dark}
+                        value={searchQuery}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setSearchQuery(e.target.value)
+                        }
+                      />
+                    </div>
         </div>
-
         {/* Users Table */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-          {/* Table Header */}
-          <div className="grid grid-cols-12 gap-4 p-6 border-b border-slate-200 bg-slate-50 font-semibold text-slate-900 text-sm">
-            <div className="col-span-3">User</div>
-            <div className="col-span-2">Role</div>
-            <div className="col-span-2">Joined</div>
-            <div className="col-span-2">Last Seen</div>
-            <div className="col-span-2 text-right">Actions</div>
+  {/* Table Header */}
+  <div className="grid grid-cols-12 gap-4 p-5 border-b border-slate-200 bg-slate-50 font-semibold text-slate-900 text-sm">
+    <div className="col-span-3">User</div>
+    <div className="col-span-1">Role</div>
+    <div className="col-span-1 text-center">Blogs</div>
+    <div className="col-span-1 text-center">Likes</div>
+    <div className="col-span-1 text-center">Liked Blogs</div>
+    <div className="col-span-1">Status</div>
+    <div className="col-span-2">Joined</div>
+    <div className="col-span-1 text-right">Actions</div>
+  </div>
+
+  {/* Table Body */}
+  <div className="divide-y divide-slate-200">
+    {data?.data?.length === 0 ? (
+      <div className="p-12 text-center">
+        <Users size={48} className="mx-auto text-slate-300 mb-4" />
+        <p className="text-slate-600">No users found</p>
+      </div>
+    ) : (
+      data?.data?.map((user: any) => (
+        <div
+          key={user.id}
+          className="grid grid-cols-12 gap-4 p-5 hover:bg-slate-50 transition-colors text-sm"
+        >
+          {/* User Info */}
+          <div className="col-span-3 flex items-center space-x-3">
+            <img
+              src={user?.profilePic}
+              alt={user?.name}
+              className="w-10 h-10 rounded-full object-cover shadow-sm"
+            />
+            <div className="min-w-0">
+              <h3 className="font-semibold text-slate-900 truncate">
+                {user?.name}
+              </h3>
+              <p className="text-slate-600 text-xs truncate flex items-center">
+                <Mail size={12} className="mr-1" />
+                {user?.email}
+              </p>
+            </div>
           </div>
 
-          {/* Table Body */}
-          <div className="divide-y divide-slate-200">
-                      {data?.data?.length === 0 ? (
-                        <div className="p-12 text-center">
-                          <Users size={48} className="mx-auto text-slate-300 mb-4" />
-                          <p className="text-slate-600">No users found matching your criteria</p>
-                        </div>
-                      ) : (
-                        data?.data?.map((user:any) => (
-                          <div key={user.id} className="grid grid-cols-12 gap-4 p-6 hover:bg-slate-50 transition-colors">
-                            {/* User Info */}
-                            <div className="col-span-3">
-                              <div className="flex items-center space-x-3">
-                                <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-sm">
-                                  <img
-                                  src={user?.profilePic}
-                                  />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <h3 className="font-semibold text-slate-900 truncate">{user?.name}</h3>
-                                  <p className="text-slate-600 text-sm truncate flex items-center">
-                                    <Mail size={12} className="mr-1" />
-                                    {user?.email}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-          
-                            {/* Role */}
-                            <div className="col-span-2 flex items-center">
-                              {user.role}
-                            </div>
-          
-                            
-          
-                            {/* Join Date */}
-                            <div className="col-span-2 flex items-center text-slate-700">
-                              <Calendar size={14} className="mr-2 text-slate-400" />
-                              {formatDate(user?.joiningTime)}
-                            </div>
+          {/* Role */}
+          <div className="col-span-1 flex items-center font-medium">
+            {user.role}
+          </div>
 
-                            {/* Status */}
-                            <div className="col-span-2 flex items-center">
-                              {formatDate(user?.lastSeenAt)}
-                            </div>
-          
-                            {/* Actions */}
-                            <div className="col-span-2 flex items-center justify-end space-x-2">
-                              <button className="p-2 text-blue-400 hover:text-blue-600 transition-colors" title="Edit">
-                                <Edit size={16} />
-                              </button>
-                              <button
-                                className="p-2 text-red-400 hover:text-red-600 transition-colors"
-                                title="Delete"
-                              >
-                                <Trash2 size={16} />
-                              </button>
-                              <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors" title="More">
-                                <MoreVertical size={16} />
-                              </button>
-                            </div>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                    </div>
+          {/* Blog Count */}
+          <div className="col-span-1 flex items-center justify-center">
+            {user.blogCount}
+          </div>
 
+          {/* Total Likes */}
+          <div className="col-span-1 flex items-center justify-center">
+            {user.totalLikes}
+          </div>
+
+          {/* Liked Blogs */}
+          <div className="col-span-1 flex items-center justify-center">
+            {user.likedBlogs?.length || 0}
+          </div>
+
+          {/* Status */}
+          <div className="col-span-1 flex items-center">
+            {user.isBanned ? (
+              <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-600 font-medium">
+                Banned
+              </span>
+            ) : (
+              <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-600 font-medium">
+                Active
+              </span>
+            )}
+          </div>
+
+          {/* Joined */}
+          <div className="col-span-2 flex items-center text-slate-700">
+            <Calendar size={14} className="mr-2 text-slate-400" />
+            {formatDate(user?.joiningTime)}
+          </div>
+
+          {/* Actions */}
+          <div className="col-span-1 flex items-center justify-end space-x-2">
+            <button
+              className="p-2 text-red-400 hover:text-red-600 transition-colors"
+              title="Delete"
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
+        </div>
+      ))
+    )}
+  </div>
+</div>
         {/* Additional User Info */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">

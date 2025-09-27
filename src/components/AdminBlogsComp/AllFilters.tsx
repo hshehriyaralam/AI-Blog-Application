@@ -8,7 +8,7 @@ import AuthorsFilter from "../BlogsComponents/AuthorsFilter";
 import DateFilter from "..//BlogsComponents/DateFilter";
 import Tags from "../BlogsComponents/TagsFilter";
 import FilterActions from "../BlogsComponents/FilterActions";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo,  } from "react";
 
 type DraftFilters = {
   authorId: string;
