@@ -1,6 +1,9 @@
 'use client'
 import { useState, useEffect } from "react";
-import { Users, Search, Filter, Mail, Calendar, FileText, Trash2, Edit, MoreVertical, UserCheck, UserX, Shield } from "lucide-react";
+import { Users, Search,  Mail, Calendar, FileText, Trash2, Edit, MoreVertical, UserCheck, UserX, Shield } from "lucide-react";
+import {useAllUserAdminQuery} from '../../../Redux/Services/adminApi'
+import AllUser from "../../../components/AdminUsersComp/AllUser";
+
 
 interface User {
   id: number;
@@ -24,6 +27,8 @@ export default function AllUsers() {
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState<number | null>(null);
+  const { data } = useAllUserAdminQuery(undefined)
+  console.log("All users", data?.data)
 
   // Sample data - Replace with API call
   useEffect(() => {
@@ -264,12 +269,6 @@ export default function AllUsers() {
               <h1 className="text-3xl font-bold text-slate-900">User Management</h1>
               <p className="text-slate-600 mt-2">Manage all user accounts and permissions</p>
             </div>
-            <div className="mt-4 sm:mt-0 flex items-center space-x-3">
-              <button className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 transition-colors flex items-center">
-                <Users size={18} className="mr-2" />
-                Add New User
-              </button>
-            </div>
           </div>
         </div>
 
@@ -386,96 +385,79 @@ export default function AllUsers() {
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
           {/* Table Header */}
           <div className="grid grid-cols-12 gap-4 p-6 border-b border-slate-200 bg-slate-50 font-semibold text-slate-900 text-sm">
-            <div className="col-span-1 flex items-center">
-              <input
-                type="checkbox"
-                checked={selectedUsers.length === filteredUsers.length && filteredUsers.length > 0}
-                onChange={toggleSelectAll}
-                className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-              />
-            </div>
             <div className="col-span-3">User</div>
             <div className="col-span-2">Role</div>
-            <div className="col-span-2">Status</div>
             <div className="col-span-2">Joined</div>
+            <div className="col-span-2">Last Seen</div>
             <div className="col-span-2 text-right">Actions</div>
           </div>
 
           {/* Table Body */}
           <div className="divide-y divide-slate-200">
-            {filteredUsers.length === 0 ? (
-              <div className="p-12 text-center">
-                <Users size={48} className="mx-auto text-slate-300 mb-4" />
-                <p className="text-slate-600">No users found matching your criteria</p>
-              </div>
-            ) : (
-              filteredUsers.map((user) => (
-                <div key={user.id} className="grid grid-cols-12 gap-4 p-6 hover:bg-slate-50 transition-colors">
-                  {/* Checkbox */}
-                  <div className="col-span-1 flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.includes(user.id)}
-                      onChange={() => toggleSelectUser(user.id)}
-                      className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                  </div>
+                      {data?.data?.length === 0 ? (
+                        <div className="p-12 text-center">
+                          <Users size={48} className="mx-auto text-slate-300 mb-4" />
+                          <p className="text-slate-600">No users found matching your criteria</p>
+                        </div>
+                      ) : (
+                        data?.data?.map((user:any) => (
+                          <div key={user.id} className="grid grid-cols-12 gap-4 p-6 hover:bg-slate-50 transition-colors">
+                            {/* User Info */}
+                            <div className="col-span-3">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-sm">
+                                  <img
+                                  src={user?.profilePic}
+                                  />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <h3 className="font-semibold text-slate-900 truncate">{user?.name}</h3>
+                                  <p className="text-slate-600 text-sm truncate flex items-center">
+                                    <Mail size={12} className="mr-1" />
+                                    {user?.email}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+          
+                            {/* Role */}
+                            <div className="col-span-2 flex items-center">
+                              {user.role}
+                            </div>
+          
+                            
+          
+                            {/* Join Date */}
+                            <div className="col-span-2 flex items-center text-slate-700">
+                              <Calendar size={14} className="mr-2 text-slate-400" />
+                              {formatDate(user?.joiningTime)}
+                            </div>
 
-                  {/* User Info */}
-                  <div className="col-span-3">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-sm">
-                        <span className="text-white font-semibold text-sm">
-                          {user.avatar}
-                        </span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-slate-900 truncate">{user.name}</h3>
-                        <p className="text-slate-600 text-sm truncate flex items-center">
-                          <Mail size={12} className="mr-1" />
-                          {user.email}
-                        </p>
-                      </div>
+                            {/* Status */}
+                            <div className="col-span-2 flex items-center">
+                              {formatDate(user?.lastSeenAt)}
+                            </div>
+          
+                            {/* Actions */}
+                            <div className="col-span-2 flex items-center justify-end space-x-2">
+                              <button className="p-2 text-blue-400 hover:text-blue-600 transition-colors" title="Edit">
+                                <Edit size={16} />
+                              </button>
+                              <button
+                                className="p-2 text-red-400 hover:text-red-600 transition-colors"
+                                title="Delete"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                              <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors" title="More">
+                                <MoreVertical size={16} />
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
-                  </div>
-
-                  {/* Role */}
-                  <div className="col-span-2 flex items-center">
-                    {getRoleBadge(user.role)}
-                  </div>
-
-                  {/* Status */}
-                  <div className="col-span-2 flex items-center">
-                    {getStatusBadge(user.status)}
-                  </div>
-
-                  {/* Join Date */}
-                  <div className="col-span-2 flex items-center text-slate-700">
-                    <Calendar size={14} className="mr-2 text-slate-400" />
-                    {formatDate(user.joinDate)}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="col-span-2 flex items-center justify-end space-x-2">
-                    <button className="p-2 text-blue-400 hover:text-blue-600 transition-colors" title="Edit">
-                      <Edit size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteClick(user.id)}
-                      className="p-2 text-red-400 hover:text-red-600 transition-colors"
-                      title="Delete"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                    <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors" title="More">
-                      <MoreVertical size={16} />
-                    </button>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
+                    </div>
 
         {/* Additional User Info */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">

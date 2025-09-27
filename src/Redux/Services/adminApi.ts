@@ -19,9 +19,18 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["Blog"], 
     }), 
+    // All user Fetch
+    allUserAdmin : builder.query({
+        query : () => "Admin/Users",
+        providesTags : ["User"]
+    }),
   }),
 });
 
 
 
-export const {useAllBlogAdminQuery,useDeleteBlogAdminMutation} = adminApi;
+export const {
+  useAllBlogAdminQuery,
+  useDeleteBlogAdminMutation,
+  useAllUserAdminQuery
+} = adminApi;
