@@ -1,20 +1,22 @@
 'use client'
 import { Trash2} from "lucide-react";
 import {useDeleteBlogAdminMutation} from "../../Redux/Services/adminApi"
-
+import { useAlert } from '../../Context/AlertContext'
+import SingleButtonLoader from '../../components/Common/SingleButtonLoader'
 
 export default function DeleteBlogButton({themeValue,blog}:any){
     const [deleteBlogAdmin, { isLoading }] = useDeleteBlogAdminMutation();
-
+    const { showAlert } = useAlert()
+    
 
      const handleDelete = async () => {
     if (confirm("Are you sure you want to delete this blog?")) {
       try {
         await deleteBlogAdmin(blog._id).unwrap();
-        alert("Blog deleted successfully!");
+        showAlert('success', 'The blog was successfully deleted by the admin')
       } catch (error) {
         console.error(error);
-        alert("Failed to delete blog");
+        showAlert('error', 'The admin failed to delete the blog.')
       }
     }
   };
@@ -31,7 +33,7 @@ export default function DeleteBlogButton({themeValue,blog}:any){
       
       title="Delete Blog"
     >
-      <Trash2 size={20} />
+      {isLoading ?  <SingleButtonLoader  />     :  <Trash2 size={20} /> }  
      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap">
         {isLoading ? "Deleting..." : "Delete Blog"}
       </span>

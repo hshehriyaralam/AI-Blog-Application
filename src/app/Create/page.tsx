@@ -16,20 +16,22 @@ import AILoader from '../../components/Common/AILoader';
 
 
 export default function WriteBlogForm() {
-  const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
+  const { themeValue, light, dark } = useContext(ContextTheme);
   const {
     handleChange,
     handleImageChange,
-     addTag,
+    addTag,
     removeTag,
     addBlogs,
     CancellBlog,
     formData,
     setFormData,
-      tagInput,
+    tagInput,
     setTagInput,
     loading
   } = BlogFormFunctions();
+
+  
   
 const { handleSuggest, aiLoading } = useAIGenerate(setFormData, formData);
 
@@ -48,7 +50,6 @@ const { handleSuggest, aiLoading } = useAIGenerate(setFormData, formData);
 
         {/* Main Editor Grid */}
         <div
-        
         className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Left Column - Title and Content */}
           <div className="space-y-3">

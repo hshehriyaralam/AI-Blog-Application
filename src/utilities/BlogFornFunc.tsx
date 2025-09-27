@@ -20,10 +20,10 @@ interface BlogFormDataTypes {
 
 export default function  BlogFormFunctions(){
   const { showAlert } = useAlert()
-  const { data} = useGetProfileQuery (undefined)
+  const { data } = useGetProfileQuery (undefined)
   const [addBlogMutation] = useAddBlogMutation();
   const [loading , setLoading] = useState(false)
-    const [formData, setFormData] = useState<BlogFormDataTypes>({
+  const [formData, setFormData] = useState<BlogFormDataTypes>({
         title: '',
         content: '',
         summary: '',
@@ -35,10 +35,10 @@ export default function  BlogFormFunctions(){
   const [tagInput, setTagInput] = useState('');
   const [file, setFile] = useState<File | null>(null);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = e.target;
-      setFormData(prev => ({ ...prev, [name]: value }));
-    };
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
@@ -90,12 +90,10 @@ export default function  BlogFormFunctions(){
 
       if (res.status === 200) {
         const imageUrl = res.data.url;
-        console.log("Uploaded Image URL:", imageUrl);
-
         setFormData(prev => ({
           ...prev,
           imagePreview: imageUrl,
-          image: null, // optional clear
+          image: null,
         }));
 
         return imageUrl;
@@ -120,11 +118,13 @@ const addBlogs = async (e: any) => {
       blogSummary: formData.summary,
       blogTags: formData.tags,
       blogImage: imageURL,
-      userId: data?.user.id,
+      userId: data?.user._id,
     };
     await addBlogMutation(blogPayload).unwrap();
+    
     showAlert('success', 'Article Published Successfully');
     CancellBlog();
+
   } catch (error) {
     console.error("Failed to add blog:", error);
     showAlert('error', 'Failed to publish');

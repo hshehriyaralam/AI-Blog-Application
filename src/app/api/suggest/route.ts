@@ -7,6 +7,7 @@ export async function POST(req: Request) {
   try {
     const { blogTitle, blogContent, lang = "en" } = await req.json();
 
+    console.log("GEMINI_API_KEY", process.env.GEMINI_API_KEY?.slice(0, 8));
     if (!blogTitle || !blogContent) {
       return NextResponse.json(
         { error: "blogTitle and blogContent are required" },
@@ -14,7 +15,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+;
 
     // Strong, JSON-only prompt for reliable parsing
     const prompt = `
