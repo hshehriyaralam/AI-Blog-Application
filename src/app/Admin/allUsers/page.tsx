@@ -7,8 +7,7 @@ import NameFilter from "../../../components/AdminUsersComp/Filter";
 import AllUserAdminPage from "../../../components/AdminUsersComp/AllUser"
 import DeletePopUp from "../../../components/AdminUsersComp/DeletePopUp"
 
-
-interface User {
+ interface User {
   id: string;
   name: string;
   email: string;
@@ -28,7 +27,6 @@ export default function AllUsers() {
   const { data, isLoading } = useAllUserAdminQuery(undefined);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<string | null>(null);
 
   const users: User[] = data?.data || [];
 
@@ -46,24 +44,13 @@ export default function AllUsers() {
     return result;
   }, [users, searchQuery]);
 
-  const handleDeleteClick = (userId: string) => {
-    setUserToDelete(userId);
-    setShowDeleteModal(true);
-  };
-
-  const confirmDelete = () => {
-    // Add your delete logic here
-    console.log('Deleting user:', userToDelete);
-    setShowDeleteModal(false);
-    setUserToDelete(null);
-  };
 
 
   if (isLoading) return <LoadingPage />;
   
 
   return (
-    <div className={`min-h-screen ${themeValue ? light : dark} p-6`}>
+    <div className={`min-h-screen ${themeValue ? light : dark} p-2`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -90,14 +77,16 @@ export default function AllUsers() {
            {/* Users Table */}
         <AllUserAdminPage 
         filteredUsers={filteredUsers}
-        handleDeleteClick={handleDeleteClick}
+      setShowDeleteModal={setShowDeleteModal}
         />
       </div>
 
       {/* Delete Confirmation Modal */}
-      {showDeleteModal && <DeletePopUp   themeValue={themeValue }
+      {showDeleteModal && <DeletePopUp  
+      themeValue={themeValue }
+      light={light}
+      dark={dark}
       setShowDeleteModal={setShowDeleteModal}
-      confirmDelete={confirmDelete}
        />}
     </div>
   );

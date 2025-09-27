@@ -1,9 +1,9 @@
 'use client'
-import { useState, useEffect, useContext } from "react";
-import {useAllUserAdminQuery} from '../../Redux/Services/adminApi'
+import {  useContext } from "react";
 import { ContextTheme } from "../../Context/DarkTheme";
-import { Users, Search, Mail, Calendar, FileText, Trash2, Edit, MoreVertical, UserCheck, UserX, Shield, Ban, Crown, PenTool, Heart } from "lucide-react";
-
+import { Users, Mail, FileText,  UserCheck,Crown, PenTool, Heart } from "lucide-react";
+import DeleteButton from "./DeleteButton";
+import Link from "next/link";
 
 interface User {
   id: string;
@@ -22,9 +22,9 @@ interface User {
 
 
 
-export default function AllUserAdminPage({filteredUsers,handleDeleteClick}:any){
-  const { themeValue, light, dark } = useContext(ContextTheme);
-  const { data } = useAllUserAdminQuery(undefined)
+export default function AllUserAdminPage({filteredUsers,setShowDeleteModal}:any){
+  const { themeValue, light , dark  } = useContext(ContextTheme);
+
 
     const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -101,23 +101,27 @@ export default function AllUserAdminPage({filteredUsers,handleDeleteClick}:any){
 
 
     return(
-      <div className={`rounded-2xl shadow-lg border overflow-hidden ${
-                themeValue ? 'bg-white border-gray-200' : 'bg-gray-800 border-gray-700'
+      <div className={`rounded-xl shadow-lg border-b overflow-hidden ${
+                themeValue ? `${light} border-gray-200` : `${dark} border-gray-700`
               }`}>
                 {/* Table Header */}
-                <div className={`hidden md:grid grid-cols-12 gap-4 p-6 border-b ${
-                  themeValue ? 'border-gray-200 bg-gray-50 text-gray-900' : 'border-gray-700 bg-gray-900 text-white'
-                } font-semibold text-sm`}>
-                  <div className="col-span-3">User</div>
-                  <div className="col-span-2">Role</div>
-                  <div className="col-span-1 text-center">Blogs</div>
-                  <div className="col-span-1 text-center">Likes</div>
-                  <div className="col-span-2">Status</div>
-                  <div className="col-span-2">Last Active</div>
-                </div>
-      
+               <div
+        className={`hidden md:grid grid-cols-12 gap-4 p-6 font-semibold text-sm border-b ${
+          themeValue
+            ? `border-gray-200 ${light} text-gray-900`
+            : `border-gray-700 ${dark} text-white`
+        }`}
+      >
+        <div className="col-span-3">User</div>
+        <div className="col-span-2">Role</div>
+        <div className="col-span-1 text-center">Blogs</div>
+        <div className="col-span-1 text-center">Likes</div>
+        <div className="col-span-2">Status</div>
+        <div className="col-span-2">Last Active</div>
+        <div className="col-span-1 text-left">Actions</div>
+      </div>
                 {/* Table Body */}
-                <div className={`divide-y ${
+                <div className={`divide-y   ${
                   themeValue ? 'divide-gray-200' : 'divide-gray-700'
                 }`}>
                   {filteredUsers.length === 0 ? (
@@ -131,14 +135,18 @@ export default function AllUserAdminPage({filteredUsers,handleDeleteClick}:any){
                     </div>
                   ) : (
                     filteredUsers.map((user:any) => (
+                      <div key={user.id}
+                       className="rounded-xl">
+                      <Link
+                      href={`/Authors/${user.id}`} >
                       <div
-                        key={user.id}
-                        className={`grid grid-cols-12 gap-4 p-6 transition-colors duration-200 items-center group ${
-                          themeValue 
+                      
+                      className={`grid grid-cols-12 gap-4 p-6 transition-colors duration-200 items-center group ${
+                        themeValue 
                             ? 'hover:bg-gray-50' 
                             : 'hover:bg-gray-700/50'
                         }`}
-                      >
+                        >
       
                         {/* User Info */}
                         <div className="col-span-12 md:col-span-3 flex items-center space-x-3">
@@ -208,7 +216,7 @@ export default function AllUserAdminPage({filteredUsers,handleDeleteClick}:any){
                         </div>
       
                         {/* Last Active */}
-                        <div className="col-span-6 md:col-span-2 flex items-center justify-between">
+                        <div className="col-span-6 md:col-span-3  md:mx-6 flex items-center justify-between">
                           <span className={`text-xs ${
                             themeValue ? 'text-gray-600' : 'text-gray-300'
                           }`}>
@@ -216,21 +224,15 @@ export default function AllUserAdminPage({filteredUsers,handleDeleteClick}:any){
                           </span>
                           
                           {/* Actions */}
-                          <div className="flex items-center space-x-1">
-                            <button
-                              onClick={() => handleDeleteClick(user.id)}
-                              className={`p-2 rounded-lg transition-all duration-200 ${
-                                themeValue
-                                  ? 'bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700'
-                                  : 'bg-red-900/30 hover:bg-red-900/50 text-red-400 hover:text-red-300'
-                              }`}
-                              title="Delete User"
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                          </div>
+                          <DeleteButton 
+                          themeValue={themeValue}
+                          setShowDeleteModal={setShowDeleteModal}
+                          />
                         </div>
                       </div>
+                      </Link>
+                      </div>
+                      
                     ))
                   )}
                 </div>
