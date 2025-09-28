@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { FileText, Trash2, Eye, User, Calendar, Edit } from "lucide-react";
 import ActionsAdmin from "./Actions";
+import Link from "next/link";
 
 interface Blog {
   _id: string;
@@ -59,14 +60,16 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
           </div>
         ) : (
           filteredBlogs.map((blog: Blog) => (
+            <div  key={blog._id}>
+              <Link href={`/Blogs/${blog._id}`}   >
           <div
-  key={blog._id}
-  className={`grid grid-cols-12 gap-4 p-4  rounded-xl transition-colors duration-200 items-center group ${
-    themeValue
-      ? "hover:bg-gray-50 border-b border-gray-300"
-      : "hover:bg-gray-700/50 border-b border-gray-700"
-  }`}
->
+        className={`grid grid-cols-12 gap-4 p-4  rounded-xl transition-colors duration-200 items-center group ${
+          themeValue
+            ? "hover:bg-gray-50 border-b border-gray-300"
+            : "hover:bg-gray-700/50 border-b border-gray-700"
+        }`}
+      >
+        
   {/* Thumbnail */}
   <div className="col-span-12 md:col-span-1 flex justify-center md:justify-start">
     {blog?.blogImage ? (
@@ -163,7 +166,10 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
       {blog.status?.charAt(0).toUpperCase() + blog.status?.slice(1) || "Published"}
     </span>
   </div>
-</div>))
+          </div>
+          </Link>
+          </div>
+))
         )}
       </div>
 
