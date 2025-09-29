@@ -1,10 +1,26 @@
 "use client"
+import {useDeleteUserAdminMutation} from "../../Redux/Services/adminApi"
+import { useAlert } from '../../Context/AlertContext'
+import ButtonLoader from "../Common/BtnLoader";
 
-export default function DeletePopUp({ themeValue, setShowDeleteModal, light, dark }: any) {
+export default function DeletePopUp({user, themeValue, setShowDeleteModal, setSelectedUser,light,dark }: any) {
+  const [deleteUserAdmin, { isLoading }] = useDeleteUserAdminMutation();
+  const { showAlert } = useAlert()
+  
+    if (!user) return null;
 
-  const handleDelete = () => {
-    setShowDeleteModal(false)
-  }
+    const handleDelete = async () => {
+    try {
+      await deleteUserAdmin(user.id).unwrap();  
+      showAlert('success', `${user.name} Account deleted successfully`);
+      if (setSelectedUser) setSelectedUser(null);
+    } catch (error) {
+      console.error(error);
+      showAlert('error', 'Failed to delete user');
+    } finally {
+      setShowDeleteModal(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-transparent backdrop-blur bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -44,7 +60,7 @@ export default function DeletePopUp({ themeValue, setShowDeleteModal, light, dar
             onClick={handleDelete}
             className="px-3 py-1 bg-red-600 text-white text-sm cursor-pointer rounded-lg hover:bg-red-700 transition-colors"
           >
-            Delete Account
+            {isLoading ?  <ButtonLoader /> : "Delete Account" }
           </button>
         </div>
       </div>

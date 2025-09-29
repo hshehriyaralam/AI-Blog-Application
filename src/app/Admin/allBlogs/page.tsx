@@ -28,20 +28,6 @@ export default function UserAllBlogs() {
   });
   const [appliedFilters, setAppliedFilters] = useState<DraftFilters>(draftFilters);
 
-  // Unique dates
-  const blogsCreateDates: string[] = useMemo(() => {
-    const list =
-      data?.data
-        ?.map((blog: any) =>
-          blog?.createdAt ? new Date(blog.createdAt).toDateString() : ""
-        )
-        .filter(Boolean) || [];
-    return Array.from(new Set(list));
-  }, [data]);
-
-  const handleApply = () => {
-    setAppliedFilters({ ...draftFilters });
-  };
 
   const handleClear = () => {
     const empty: DraftFilters = { authorId: "", title: "", date: "", tag: "" };

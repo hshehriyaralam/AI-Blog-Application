@@ -4,7 +4,9 @@ import Link from "next/link";
 
 
 
-export default function DeleteButton({themeValue,setShowDeleteModal,user}:any){
+
+export default function DeleteButton({themeValue, setShowDeleteModal, setSelectedUser, user}:any){
+    
     return(
         <div className="flex items-center space-x-2">
         <Link  href={`/Authors/${user.id}`}>
@@ -23,7 +25,11 @@ export default function DeleteButton({themeValue,setShowDeleteModal,user}:any){
                 </button>
                 </Link>
             <button
-                onClick={() => setShowDeleteModal(true)}
+                  onClick={(e) => {
+                    e.stopPropagation();                 // Prevent row navigation
+                    setSelectedUser(user);               // Set selected user in parent
+                    setShowDeleteModal(true);            // Open modal
+                    }}
                 className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
                 themeValue
                     ? 'bg-red-100 hover:bg-red-100 text-red-600 hover:text-red-700'

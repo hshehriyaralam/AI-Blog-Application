@@ -27,6 +27,7 @@ export default function AllUsers() {
   const { data, isLoading } = useAllUserAdminQuery(undefined);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const users: User[] = data?.data || [];
 
@@ -44,7 +45,7 @@ export default function AllUsers() {
     return result;
   }, [users, searchQuery]);
 
-
+ 
 
   if (isLoading) return <LoadingPage />;
   
@@ -78,11 +79,14 @@ export default function AllUsers() {
         <AllUserAdminPage 
         filteredUsers={filteredUsers}
       setShowDeleteModal={setShowDeleteModal}
+      setSelectedUser={setSelectedUser}
         />
       </div>
 
       {/* Delete Confirmation Modal */}
-      {showDeleteModal && <DeletePopUp  
+      {showDeleteModal && selectedUser &&  <DeletePopUp  
+      user={selectedUser} 
+      setSelectedUser={setSelectedUser}
       themeValue={themeValue }
       light={light}
       dark={dark}

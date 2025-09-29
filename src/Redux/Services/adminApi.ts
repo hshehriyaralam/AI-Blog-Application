@@ -19,6 +19,14 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["Blog"], 
     }), 
+    //Delete Author By Admin 
+    deleteUserAdmin: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `Admin/Users/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"], 
+    }),
     // All user Fetch
     allUserAdmin : builder.query({
         query : () => "Admin/Users",
@@ -32,5 +40,6 @@ export const adminApi = createApi({
 export const {
   useAllBlogAdminQuery,
   useDeleteBlogAdminMutation,
-  useAllUserAdminQuery
+  useAllUserAdminQuery,
+  useDeleteUserAdminMutation
 } = adminApi;

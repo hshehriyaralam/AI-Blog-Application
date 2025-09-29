@@ -26,7 +26,6 @@ export default function ProfileSection({
 }:any){
 
   const router = useRouter();
-  console.log("user.role",user.role)
   const GoAdminPage = () => {
     if(user.role === 'admin'){
       router.push('/Admin')

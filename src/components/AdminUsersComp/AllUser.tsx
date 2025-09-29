@@ -22,7 +22,7 @@ interface User {
 
 
 
-export default function AllUserAdminPage({filteredUsers,setShowDeleteModal}:any){
+export default function AllUserAdminPage({ filteredUsers, setShowDeleteModal, setSelectedUser}:any){
   const { themeValue, light , dark  } = useContext(ContextTheme);
     const [imgError, setImgError] = useState(false);
     const hasImage = filteredUsers?.userId?.profilePic && filteredUsers?.userId?.profilePic.trim() !== "" && !imgError;
@@ -33,7 +33,6 @@ export default function AllUserAdminPage({filteredUsers,setShowDeleteModal}:any)
       day: 'numeric'
     });
   };
-
   const getRoleBadge = (user: User) => {
       const baseStyles = "px-2 py-1 text-xs font-medium rounded-full border";
       
@@ -225,7 +224,8 @@ export default function AllUserAdminPage({filteredUsers,setShowDeleteModal}:any)
                           <DeleteButton 
                           themeValue={themeValue}
                           setShowDeleteModal={setShowDeleteModal}
-                          user={user}
+                           setSelectedUser={setSelectedUser}
+                            user={user}
                           />
                         </div>
                       </div>

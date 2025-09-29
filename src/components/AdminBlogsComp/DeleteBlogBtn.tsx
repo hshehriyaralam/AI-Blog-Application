@@ -7,8 +7,6 @@ import SingleButtonLoader from '../../components/Common/SingleButtonLoader'
 export default function DeleteBlogButton({themeValue,blog}:any){
     const [deleteBlogAdmin, { isLoading }] = useDeleteBlogAdminMutation();
     const { showAlert } = useAlert()
-    
-
      const handleDelete = async () => {
       try {
         await deleteBlogAdmin(blog._id).unwrap();
