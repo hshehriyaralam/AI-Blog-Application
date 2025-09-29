@@ -124,35 +124,49 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
   </div>
 
   {/* Author */}
-  <div className="col-span-6 md:col-span-2 flex items-center space-x-2">
-    {hasImage ? (
-      <div className="relative w-8 h-8">
-        <img
-          src={blog.userId.profilePic}
-          alt={blog?.userId?.name || "Author"}
-          className="rounded-full object-cover w-full h-full"
-          onError={() => setImgError(true)}
-        />
-      </div>
-    ) : (
-      <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center ${
-          themeValue
-            ? "bg-gradient-to-br from-purple-100 to-pink-100 text-purple-600"
-            : "bg-gradient-to-br from-purple-900/30 to-pink-900/30 text-purple-400"
-        }`}
-      >
-        <User size={14} />
-      </div>
-    )}
-    <span
-      className={`text-sm font-medium truncate max-w-[100px] ${
-        themeValue ? "text-gray-700" : "text-gray-200"
+  {/* Author */}
+<div className="col-span-6 md:col-span-2 flex items-center space-x-2">
+  {blog.userId?.profilePic ? (
+    <div className="relative w-8 h-8">
+      <img
+        src={blog.userId.profilePic}
+        alt={blog?.userId?.name || "Author"}
+        className="rounded-full object-cover w-full h-full"
+        onError={(e) => {
+          e.currentTarget.style.display = "none"; // hide broken img
+          e.currentTarget.parentElement!.innerHTML = `
+            <div class="w-8 h-8 rounded-full flex items-center justify-center
+              ${themeValue 
+                ? "bg-gradient-to-br from-purple-100 to-pink-100 text-purple-600" 
+                : "bg-gradient-to-br from-purple-900/30 to-pink-900/30 text-purple-400"}">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c2.485 0 4.78.635 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+          `;
+        }}
+      />
+    </div>
+  ) : (
+    <div
+      className={`w-8 h-8 rounded-full flex items-center justify-center ${
+        themeValue
+          ? "bg-gradient-to-br from-purple-100 to-pink-100 text-purple-600"
+          : "bg-gradient-to-br from-purple-900/30 to-pink-900/30 text-purple-400"
       }`}
     >
-      {blog?.userId?.name}
-    </span>
-  </div>
+      <User size={14} />
+    </div>
+  )}
+  <span
+    className={`text-sm font-medium truncate max-w-[100px] ${
+      themeValue ? "text-gray-700" : "text-gray-200"
+    }`}
+  >
+    {blog?.userId?.name}
+  </span>
+</div>
+
 
   {/* Actions */}
   <div className="col-span-6 md:col-span-2 flex items-center space-x-2 justify-end md:justify-start">
