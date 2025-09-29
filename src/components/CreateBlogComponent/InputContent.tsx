@@ -17,7 +17,7 @@ export default function InputContent({value, onChange}: any){
         value={value}
         onChange={onChange}
         placeholder="Write your amazing content here..."
-        className={`w-full px-4 py-3 rounded-lg border transition-all focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-vertical ${
+        className={`w-full px-4 py-3 rounded-lg  outline-none border transition-all focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-vertical ${
           themeValue 
             ? 'bg-white border-gray-300 text-gray-800 placeholder-gray-400' 
             : 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'

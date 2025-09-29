@@ -10,7 +10,6 @@ export default function DeleteBlogButton({themeValue,blog}:any){
     
 
      const handleDelete = async () => {
-    if (confirm("Are you sure you want to delete this blog?")) {
       try {
         await deleteBlogAdmin(blog._id).unwrap();
         showAlert('success', 'The blog was successfully deleted by the admin')
@@ -18,7 +17,6 @@ export default function DeleteBlogButton({themeValue,blog}:any){
         console.error(error);
         showAlert('error', 'The admin failed to delete the blog.')
       }
-    }
   };
 
 

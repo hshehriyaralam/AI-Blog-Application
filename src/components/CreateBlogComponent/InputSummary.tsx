@@ -18,7 +18,7 @@ export default function InputSummary({value, onChange}: any){
         value={value}
         onChange={onChange}
         placeholder="Write a compelling summary that makes readers want to click..."
-        className={`w-full px-4 py-3 rounded-lg border transition-all focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
+        className={`w-full px-4 py-3 rounded-lg outline-none border transition-all focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
           themeValue 
             ? 'bg-white border-gray-300 text-gray-800 placeholder-gray-400' 
             : 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'

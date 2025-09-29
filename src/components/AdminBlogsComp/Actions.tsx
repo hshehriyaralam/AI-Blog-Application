@@ -1,13 +1,14 @@
 'use client'
 import { Eye} from "lucide-react";
-import Link from "next/link";
 import DeleteBlogButton from "./DeleteBlogBtn";
+import Link from "next/link";
 
 
 
 export default function ActionsAdmin({themeValue,blog}:any){
     return(
     <div className="flex items-center space-x-2 md:justify-end">
+      <Link  href={`/Blogs/${blog._id}`}>
     <button
       className={`p-2 rounded-lg transition-all duration-200  cursor-pointer ${
           themeValue
@@ -21,8 +22,7 @@ export default function ActionsAdmin({themeValue,blog}:any){
         View Blog
       </span>
     </button>
-
-
+    </Link>
    <DeleteBlogButton  themeValue={themeValue}  blog={blog} />
   </div>
     )

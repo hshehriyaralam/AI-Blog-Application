@@ -135,12 +135,9 @@ export default function AllUserAdminPage({filteredUsers,setShowDeleteModal}:any)
                     </div>
                   ) : (
                     filteredUsers.map((user:any) => (
-                      <div key={user.id}
-                       className="rounded-xl">
-                      <Link
-                      href={`/Authors/${user.id}`} >
                       <div
                       
+                      key={user.id}
                       className={`grid grid-cols-12 gap-4 p-6 transition-colors duration-200 items-center group ${
                         themeValue 
                             ? 'hover:bg-gray-50' 
@@ -216,7 +213,7 @@ export default function AllUserAdminPage({filteredUsers,setShowDeleteModal}:any)
                         </div>
       
                         {/* Last Active */}
-                        <div className="col-span-6 md:col-span-3  md:mx-6 flex items-center justify-between">
+                        <div className="col-span-6 md:col-span-3  md:mx-2 flex items-center justify-between">
                           <span className={`text-xs ${
                             themeValue ? 'text-gray-600' : 'text-gray-300'
                           }`}>
@@ -227,12 +224,10 @@ export default function AllUserAdminPage({filteredUsers,setShowDeleteModal}:any)
                           <DeleteButton 
                           themeValue={themeValue}
                           setShowDeleteModal={setShowDeleteModal}
+                          user={user}
                           />
                         </div>
                       </div>
-                      </Link>
-                      </div>
-                      
                     ))
                   )}
                 </div>

@@ -1,6 +1,5 @@
 "use client";
-import Image from "next/image";
-import { FileText, Trash2, Eye, User, Calendar, Edit } from "lucide-react";
+import { FileText, User, Calendar} from "lucide-react";
 import ActionsAdmin from "./Actions";
 import Link from "next/link";
 
@@ -61,7 +60,6 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
         ) : (
           filteredBlogs.map((blog: Blog) => (
             <div  key={blog._id}>
-              <Link href={`/Blogs/${blog._id}`}   >
           <div
         className={`grid grid-cols-12 gap-4 p-4  rounded-xl transition-colors duration-200 items-center group ${
           themeValue
@@ -167,7 +165,6 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
     </span>
   </div>
           </div>
-          </Link>
           </div>
 ))
         )}

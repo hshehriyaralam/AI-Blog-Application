@@ -21,7 +21,7 @@ export default function InputTags({value, onChange, onKeyDown, addTag, removeTag
           onChange={onChange}
           onKeyDown={onKeyDown}
           placeholder="Add relevant tags..."
-          className={`flex-1 px-4 py-2 rounded-lg border transition-all focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
+          className={`flex-1 px-4 py-2 rounded-lg border outline-none transition-all focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
             themeValue 
               ? 'bg-white border-gray-300 text-gray-800 placeholder-gray-400' 
               : 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
