@@ -1,7 +1,8 @@
 "use client";
 import { FileText, User, Calendar} from "lucide-react";
 import ActionsAdmin from "./Actions";
-import Link from "next/link";
+import { useState } from "react";
+
 
 interface Blog {
   _id: string;
@@ -18,6 +19,8 @@ interface Blog {
 
 
 export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: any) {
+  const [imgError, setImgError] = useState(false);
+  const hasImage = filteredBlogs?.userId?.profilePic && filteredBlogs?.userId?.profilePic.trim() !== "" && !imgError;
   const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -70,11 +73,12 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
         
   {/* Thumbnail */}
   <div className="col-span-12 md:col-span-1 flex justify-center md:justify-start">
+    
     {blog?.blogImage ? (
       <div className="relative w-14 h-14 rounded-lg overflow-hidden shadow-sm">
         <img
-          src={blog.blogImage}
-          alt={blog.blogTitle}
+          src={blog?.blogImage}
+          alt={blog?.blogTitle}
           className="w-full h-full object-cover"
         />
       </div>
@@ -121,12 +125,13 @@ export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: an
 
   {/* Author */}
   <div className="col-span-6 md:col-span-2 flex items-center space-x-2">
-    {blog?.userId?.profilePic ? (
+    {hasImage ? (
       <div className="relative w-8 h-8">
         <img
           src={blog.userId.profilePic}
           alt={blog?.userId?.name || "Author"}
           className="rounded-full object-cover w-full h-full"
+          onError={() => setImgError(true)}
         />
       </div>
     ) : (

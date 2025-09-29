@@ -1,5 +1,5 @@
 'use client'
-import {  useContext } from "react";
+import {  useContext, useState } from "react";
 import { ContextTheme } from "../../Context/DarkTheme";
 import { Users, Mail, FileText,  UserCheck,Crown, PenTool, Heart } from "lucide-react";
 import DeleteButton from "./DeleteButton";
@@ -24,8 +24,8 @@ interface User {
 
 export default function AllUserAdminPage({filteredUsers,setShowDeleteModal}:any){
   const { themeValue, light , dark  } = useContext(ContextTheme);
-
-
+    const [imgError, setImgError] = useState(false);
+    const hasImage = filteredUsers?.userId?.profilePic && filteredUsers?.userId?.profilePic.trim() !== "" && !imgError;
     const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -148,11 +148,12 @@ export default function AllUserAdminPage({filteredUsers,setShowDeleteModal}:any)
                         {/* User Info */}
                         <div className="col-span-12 md:col-span-3 flex items-center space-x-3">
                           <div className="relative">
-                            {user.profilePic ? (
+                            {hasImage ? (
                               <img
                                 src={user.profilePic}
                                 alt={user.name}
                                 className="w-10 h-10 rounded-full object-cover shadow-sm"
+                                onError={() => setImgError(true)}
                               />
                             ) : (
                               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
