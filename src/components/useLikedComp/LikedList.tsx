@@ -1,119 +1,141 @@
-"use client"
-import { Heart,  Calendar,  Eye } from "lucide-react";
-import { ContextTheme } from "../../Context/DarkTheme"
-import { useContext } from "react";
+"use client";
+import { Heart, Calendar } from "lucide-react";
 
-
-export default function LikedLists({filteredLikes,searchQuery}:any){
-  const { themeValue, light, dark } = useContext(ContextTheme);
-    const formatDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+export default function LikedLists({
+  filteredLikes,
+  searchQuery,
+  themeValue,
+  light,
+  dark,
+}: any) {
+  const formatDate = (dateString: string): string => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
-    return(
-         <div className={`rounded-xl shadow-lg border overflow-hidden ${
-          themeValue ? `${light} border-gray-200` : `${dark} border-gray-700`
-        }`}>
-          {/* Table Header */}
-          <div className={`grid grid-cols-12 gap-4 p-6 border-b ${
-            themeValue ? `${light} border-gray-200  text-gray-900` : `${dark} border-gray-700  text-white`
-          } font-semibold text-sm`}>
-            <div className="col-span-4">User</div>
-            <div className="col-span-5">Blog</div>
-            <div className="col-span-2">Date</div>
-            <div className="col-span-1 text-right">Action</div>
-          </div>
 
-          {/* Table Body */}
-          <div className={`divide-y ${
-            themeValue ? 'divide-gray-200' : 'divide-gray-700'
-          }`}>
-            {filteredLikes.length === 0 ? (
-              <div className="p-12 text-center">
-                <Heart size={48} className={`mx-auto mb-4 ${
-                  themeValue ? 'text-gray-300' : 'text-gray-600'
-                }`} />
-                <p className={themeValue ? 'text-gray-600' : 'text-gray-300'}>
-                  {searchQuery ? "No likes found matching your search" : "No likes data available"}
-                </p>
-              </div>
-            ) : (
-              filteredLikes.map((like:any) => (
-                <div
-                  key={like.id}
-                  className={`grid grid-cols-12 gap-4 p-6 transition-colors duration-200 items-center ${
-                    themeValue 
-                      ? 'hover:bg-gray-50' 
-                      : 'hover:bg-gray-700/50'
-                  }`}
-                >
-                  {/* User Info */}
-                  <div className="col-span-4 flex items-center space-x-3">
+  return (
+    <div
+      className={`rounded-2xl shadow-lg border transition-colors duration-300 ${
+        themeValue ? `${light} border-gray-200` : `${dark} border-gray-700`
+      }`}
+    >
+      {/* Header */}
+      <div
+        className={`grid grid-cols-12 gap-4 px-6 py-4 border-b text-sm font-semibold tracking-wide ${
+          themeValue
+            ? "border-gray-200 text-gray-800 bg-gray-50"
+            : "border-gray-700 text-gray-100 bg-gray-800/40"
+        }`}
+      >
+        <div className="col-span-5">User</div>
+        <div className="col-span-5">Blog</div>
+        <div className="col-span-2 text-right">Liked Date</div>
+      </div>
+
+      {/* Body */}
+      <div className={`divide-y ${themeValue ? "divide-gray-100" : "divide-gray-700/60"}`}>
+        {filteredLikes.length === 0 ? (
+          <div className="p-12 text-center">
+            <Heart
+              size={48}
+              className={`mx-auto mb-4 ${
+                themeValue ? "text-gray-400" : "text-gray-500"
+              }`}
+            />
+            <p className={themeValue ? "text-gray-600" : "text-gray-400"}>
+              {searchQuery
+                ? "No likes found matching your search"
+                : "No likes data available"}
+            </p>
+          </div>
+        ) : (
+          filteredLikes.map((like: any, index: number) => (
+            <div
+              key={index}
+              className={`grid grid-cols-12 gap-4 px-6 py-4 items-center transition-colors duration-200 ${
+                themeValue
+                  ? "hover:bg-gray-100"
+                  : "hover:bg-gray-800/50"
+              }`}
+            >
+              {/* User */}
+              <div className="col-span-5 flex items-center space-x-4">
+                <div className="relative w-11 h-11">
+                  {like.userAvatar ? (
                     <img
                       src={like.userAvatar}
                       alt={like.userName}
-                      className="w-10 h-10 rounded-full object-cover"
+                      className="w-11 h-11 rounded-full object-cover border border-gray-300"
                     />
-                    <div className="min-w-0 flex-1">
-                      <h3 className={`font-semibold truncate ${
-                        themeValue ? 'text-gray-900' : 'text-white'
-                      }`}>
-                        {like.userName}
-                      </h3>
-                      <p className={`text-sm truncate ${
-                        themeValue ? 'text-gray-600' : 'text-gray-300'
-                      }`}>
-                        {like.userEmail}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Blog Info */}
-                  <div className="col-span-5">
-                    <h4 className={`font-medium mb-1 ${
-                      themeValue ? 'text-gray-800' : 'text-gray-200'
-                    }`}>
-                      {like.blogTitle}
-                    </h4>
-                    <p className={`text-sm ${
-                      themeValue ? 'text-gray-600' : 'text-gray-400'
-                    }`}>
-                      by {like.blogAuthor}
-                    </p>
-                  </div>
-
-                  {/* Date */}
-                  <div className="col-span-2">
-                    <p className={`text-sm flex items-center ${
-                      themeValue ? 'text-gray-600' : 'text-gray-300'
-                    }`}>
-                      <Calendar size={14} className="mr-2" />
-                      {formatDate(like.likedAt)}
-                    </p>
-                  </div>
-
-                  {/* Action */}
-                  <div className="col-span-1 flex justify-end">
-                    <button
-                      className={`p-2 rounded-lg transition-colors ${
+                  ) : (
+                    <div
+                      className={`w-11 h-11 flex items-center justify-center rounded-full font-semibold ${
                         themeValue
-                          ? 'bg-gray-100 hover:bg-gray-200 text-gray-600'
-                          : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
+                          ? "bg-gray-200 text-gray-700"
+                          : "bg-gray-700 text-gray-300"
                       }`}
-                      title="View Blog"
                     >
-                      <Eye size={16} />
-                    </button>
-                  </div>
+                      {like.userName?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                 </div>
-              ))
-            )}
-          </div>
-        </div>
-    )
+
+                <div>
+                  <h3
+                    className={`font-semibold text-sm leading-tight ${
+                      themeValue ? "text-gray-900" : "text-gray-100"
+                    }`}
+                  >
+                    {like.userName}
+                  </h3>
+                  <p
+                    className={`text-xs ${
+                      themeValue ? "text-gray-600" : "text-gray-400"
+                    }`}
+                  >
+                    {like.userEmail}
+                  </p>
+                </div>
+              </div>
+
+              {/* Blog */}
+              <div className="col-span-5">
+                <h4
+                  className={`font-medium text-sm line-clamp-1 ${
+                    themeValue ? "text-gray-800" : "text-gray-200"
+                  }`}
+                >
+                  {like.blogTitle}
+                </h4>
+                {like.blogSummary && (
+                  <p
+                    className={`text-xs mt-1 line-clamp-1 ${
+                      themeValue ? "text-gray-600" : "text-gray-400"
+                    }`}
+                  >
+                    {like.blogSummary}
+                  </p>
+                )}
+              </div>
+
+              {/* Liked Date */}
+              <div
+                className={`col-span-2 flex items-center justify-end text-xs ${
+                  themeValue ? "text-gray-700" : "text-gray-400"
+                }`}
+              >
+                <Calendar size={14} className="mr-2 opacity-70" />
+                {formatDate(like.likedAt)}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
 }

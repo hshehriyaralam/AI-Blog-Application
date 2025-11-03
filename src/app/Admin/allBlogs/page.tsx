@@ -15,7 +15,9 @@ type DraftFilters = {
 };
 
 export default function UserAllBlogs() {
-  const { data, isLoading } = useAllBlogAdminQuery(undefined);
+  const { data, isLoading } = useAllBlogAdminQuery(undefined, {
+  pollingInterval: 10000, 
+});
   const { themeValue, light, dark } = useContext(ContextTheme);
 
   const [showFilters, setShowFilters] = useState(false);

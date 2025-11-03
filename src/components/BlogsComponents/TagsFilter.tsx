@@ -3,7 +3,9 @@ import { Tag } from 'lucide-react'
 import { useFetchBlogQuery } from '../../Redux/Services/blogApi';
 
 export default function TagsFilter({ themeValue, light, dark, value, onChange }: any) {
-  const { data } = useFetchBlogQuery([])
+  const { data } = useFetchBlogQuery([undefined, {
+  pollingInterval: 10000, // 🔄 har 10 second baad auto refetch
+}])
 
 const allTags = data?.data?.map((b: { blogTags: string[] }) => b.blogTags).flat() || [];
 
