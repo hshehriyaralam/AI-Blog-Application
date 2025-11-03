@@ -7,7 +7,9 @@ import {
 import { useState, useEffect } from "react";
 
 export default function BookmarkButton({ blogId }: { blogId: string }) {
-  const { data: bookmarks } = useGetBookmarksQuery();
+  const { data: bookmarks } = useGetBookmarksQuery(undefined, {
+  pollingInterval: 10000, 
+});
   const [toggleBookmark] = useToggleBookmarkMutation();
 
   // ✅ local state for instant UI updates

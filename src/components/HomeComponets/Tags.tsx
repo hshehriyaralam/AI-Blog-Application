@@ -6,7 +6,9 @@ import { Hash, Loader2 } from 'lucide-react';
 
 export default function Tags() {
   const { themeValue, lightText, DarkText } = useContext(ContextTheme)
-  const { data, isLoading, isError } = useFetchBlogQuery([])
+  const { data, isLoading, isError } = useFetchBlogQuery(undefined, {
+  pollingInterval: 10000, // 🔄 har 10 second baad auto refetch
+})
 
   if (isLoading) {
     return (

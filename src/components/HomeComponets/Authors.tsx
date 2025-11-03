@@ -50,7 +50,9 @@ function AuthorItem({ user, themeValue, index }: any) {
 }
 
 export default function TopAuthors() {
-  const { data, isLoading, isError } = useAllUserQuery({})
+  const { data, isLoading, isError } = useAllUserQuery(undefined, {
+  pollingInterval: 10000, 
+})
   const { themeValue } = useContext(ContextTheme)
  console
   // 🔹 Loading State

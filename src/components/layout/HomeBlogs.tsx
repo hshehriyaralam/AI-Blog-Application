@@ -5,7 +5,9 @@ import { useFetchBlogQuery } from "../../Redux/Services/blogApi";
 import BlogCard from "../BlogsComponents/BLogCard"
 
 export default function HomeBlogs() {
-  const { data } = useFetchBlogQuery([]);
+  const { data } = useFetchBlogQuery(undefined, {
+  pollingInterval: 10000, 
+});
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme)
   
   return (

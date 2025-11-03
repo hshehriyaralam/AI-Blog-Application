@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const adminApi = createApi({
   reducerPath: "adminApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
-  tagTypes: ["Blog", "User"],
+  tagTypes: ["Blog", "User","Like"],
   endpoints: (builder) => ({
      //All Blogs
     allBlogAdmin: builder.query({
@@ -32,6 +32,11 @@ export const adminApi = createApi({
         query : () => "Admin/Users",
         providesTags : ["User"]
     }),
+    // fetch All Likes
+    allLikesAdmin : builder.query({
+        query : () => "Admin/Likes",
+        providesTags : ["Blog", "User","Like"]
+    })
   }),
 });
 
@@ -41,5 +46,6 @@ export const {
   useAllBlogAdminQuery,
   useDeleteBlogAdminMutation,
   useAllUserAdminQuery,
-  useDeleteUserAdminMutation
+  useDeleteUserAdminMutation,
+  useAllLikesAdminQuery
 } = adminApi;

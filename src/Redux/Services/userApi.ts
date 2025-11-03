@@ -34,4 +34,8 @@ export const userApi = createApi({
 
 
 
-export const {useGetProfileQuery,useAllUserQuery, useSingleUserQuery,useDeleteProfileMutation} = userApi
+export const {
+    useGetProfileQuery,
+    useAllUserQuery,
+    useSingleUserQuery,
+    useDeleteProfileMutation} = userApi
