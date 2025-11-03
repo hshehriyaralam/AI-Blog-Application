@@ -22,7 +22,7 @@ const blogSchema = new Schema<IBlog>(
     blogTags: { type: [String], required: true, default: [] },
     blogImage: { type: String, required: true },
     likes: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
       default: [],
     },
     likesCount: { type: Number, default: 0 },

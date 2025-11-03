@@ -33,6 +33,8 @@ export default function BlogDetail() {
   }
 
 
+
+
   if (error) {
     return (
       <div className={`w-full h-screen flex justify-center
@@ -43,7 +45,7 @@ export default function BlogDetail() {
     );
   }
 
-  const blog = data?.data;
+  const blog = data?.blog
   if (!blog) {
     return (
       <div className={`w-full h-screen flex justify-center items-center text-2xl font-bold ${themeValue ? light : `text-gray-300 ${dark}`}`}>

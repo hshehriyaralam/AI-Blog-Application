@@ -2,7 +2,6 @@
 import { useGetProfileQuery } from "../../Redux/Services/userApi";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { googleLoginThunk } from "../../Redux/Slices/authSlice";
 import LoadingPage from '../../components/layout/LoadingPage'
 
 

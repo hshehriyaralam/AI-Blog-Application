@@ -1,4 +1,3 @@
-import Link from "next/link"
 import AdminDashboard from "./Dashboard/page"
 
 export default function AdminHome(){

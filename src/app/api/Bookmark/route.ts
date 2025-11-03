@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { connectDB } from "../../lib/dbConnect";
-import Bookmark from "../../lib/Models/bookmark";
+import Bookmark from "../../lib/Models/Bookmark";
 
 export async function POST(req: NextRequest) {
   try {

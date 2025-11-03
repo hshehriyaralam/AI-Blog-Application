@@ -43,6 +43,7 @@ export const blogApi = createApi({
         body,
       }),
     }),
+    // liked blogs 
     likeBlog: builder.mutation({
       query: (id: string) => ({
         url: `AllBlogs/${id}/like`,

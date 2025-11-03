@@ -1,8 +1,5 @@
-import Image from "next/image"
-import Blog_Banner from '../../../public/Blog_Banner.jpg'
 import { Button } from "../ui/button"
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { googleLoginThunk } from "../../Redux/Slices/authSlice";
 import { useGetProfileQuery } from "../../Redux/Services/userApi";
 import type { AppDispatch } from "../../Redux/store"; 
@@ -40,7 +37,7 @@ export default function HeroTopCard(){
         <div className="absolute inset-0">
           <img
             className="w-full h-full object-cover rounded-xl transform group-hover:scale-105 transition-transform duration-700"
-            src={Blog_Banner.src}
+            src={"/Blog_Banner.webp"}
             alt="IntelliBlog Background"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/40 to-transparent"></div>

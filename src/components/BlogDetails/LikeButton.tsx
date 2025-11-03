@@ -27,12 +27,16 @@ export default function LikeButton({
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(likesCount);
 
+  
+console.log("Like count", count);
+  
+
 
   // ✅ initialize like state
  useEffect(() => {
   if (
     currentUserId &&
-    likes.some((u) => (u.id || u._id)?.toString() === currentUserId.toString())
+    likes.some((like:any) => (like?.userId?._id)?.toString() === currentUserId.toString())
   ) {
     setLiked(true);
   } else {
@@ -41,15 +45,27 @@ export default function LikeButton({
 }, [likes, currentUserId]);
 
   // ✅ toggle with backend response
-  const handleLike = async () => {
-    try {
-      const res = await likeBlog(blogId).unwrap();
-      setLiked(true); // ✅ true ya false
+const handleLike = async () => {
+  try {
+    // ✅ Optimistic update
+    setLiked((prev) => !prev);
+    setCount((prev) => (liked ? prev - 1 : prev + 1));
+
+    const res = await likeBlog(blogId).unwrap();
+
+    // ✅ Optional: confirm backend count (in case of mismatch)
+    if (res?.blogLikes !== undefined) {
       setCount(res.blogLikes);
-    } catch (error) {
-      console.error("Like failed:", error);
     }
-  };
+  } catch (error) {
+    console.error("Like failed:", error);
+
+    // ❌ Revert optimistic update if API fails
+    setLiked((prev) => !prev);
+    setCount((prev) => (liked ? prev + 1 : prev - 1));
+  }
+};
+
 
   return (
     <div className="flex items-center gap-3">

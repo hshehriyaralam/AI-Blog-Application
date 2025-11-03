@@ -1,6 +1,5 @@
 'use client'
 import { ContextTheme } from "../../Context/DarkTheme"
-import { FileText, Plus } from "lucide-react";
 //Components
 import SearchInput from "../BlogsComponents/SearchINput"
 import FilterToogle from "..//BlogsComponents/FilterToggle";

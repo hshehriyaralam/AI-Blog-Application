@@ -36,7 +36,7 @@ export default function Tags() {
     )
   }
 
-  const allTags = data?.data.map((blogs: { blogTags: string[] }) => blogs.blogTags).flat() || [];
+  const allTags = data?.blogs?.map((blogs: { blogTags: string[] }) => blogs.blogTags).flat() || [];
   const uniqueTags = [...new Set(allTags)]
 
   return (

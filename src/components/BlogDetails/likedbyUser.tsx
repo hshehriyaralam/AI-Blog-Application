@@ -7,11 +7,14 @@ import Link from "next/link";
 import { User } from "lucide-react";
 
 export default function LikedByUser({ likedUsers }: { likedUsers: IUser[] }) {
-  const { themeValue, light, dark } = useContext(ContextTheme);
+  const { themeValue } = useContext(ContextTheme);
   const [isOpen, setIsOpen] = useState(false);
   const [imgError, setImgError] = useState(false);
 
-  if (!likedUsers || likedUsers.length === 0) {
+
+  const likedByUser = likedUsers.map((like: any) => like.userId).filter(Boolean);
+
+  if (!likedByUser || likedByUser.length === 0) {
     return (
       <div
         className={`text-[8px] md:text-[12px] ${
@@ -23,8 +26,8 @@ export default function LikedByUser({ likedUsers }: { likedUsers: IUser[] }) {
     );
   }
 
-  const firstUser = likedUsers[0];
-  const otherCount = likedUsers.length - 1;
+  const firstUser = likedByUser[0];
+  const otherCount = likedByUser.length - 1;
 
   return (
     <div
@@ -69,7 +72,7 @@ export default function LikedByUser({ likedUsers }: { likedUsers: IUser[] }) {
             </Dialog.Title>
 
             <div className="space-y-2 sm:space-y-3 max-h-48 sm:max-h-60 overflow-y-auto">
-              {likedUsers.map((user, index) => {
+              {likedByUser.map((user, index) => {
                 const hasImage =
                   user.profilePic && user.profilePic.trim() !== "" && !imgError;
                 return (

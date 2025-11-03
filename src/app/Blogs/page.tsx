@@ -28,7 +28,7 @@ export default function AllBlogs() {
 
   // 1) unique dates for dropdown
   const blogsCreateDates: string[] = useMemo(() => {
-    const list = data?.data?.map((blog: any) =>
+    const list = data?.blogs?.map((blog: any) =>
       blog?.createdAt ? new Date(blog.createdAt).toDateString() : ""
     ).filter(Boolean) || [];
     return Array.from(new Set(list));
@@ -58,7 +58,7 @@ export default function AllBlogs() {
   const filteredBlogs = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
 
-    return (data?.data || []).filter((blog: any) => {
+    return (data?.blogs || []).filter((blog: any) => {
       let ok = true;
 
       // 🔍 search across title/content/author

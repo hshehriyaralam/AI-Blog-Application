@@ -27,12 +27,15 @@ export default function Profile() {
   const dispatch = useDispatch<AppDispatch>();
   const Googleloading = useSelector((state: RootState) => state.auth.loading);
   const { themeValue, light, dark } = useContext(ContextTheme);
+  // fetch Profile
   const { data: Profile, isLoading } = useGetProfileQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+  // Fetch Bookmarks
   const { data  } = useGetBookmarksQuery(undefined, {
     refetchOnMountOrArgChange: true,
   })
+  // Delete Profile & Blog Mutations
   const [deleteProfile , { isLoading: DeleteProfileLoader}] = useDeleteProfileMutation();
   const [deleteBlog, { isLoading: deleting }] = useDeleteBlogMutation();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)

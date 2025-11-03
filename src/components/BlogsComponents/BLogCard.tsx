@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 
 
-export default function BlogCard({ blog, isFeatured, themeValue, lightText, DarkText,isLoading }: any) {
+export default function BlogCard({ blog, isFeatured, themeValue,isLoading }: any) {
     const [imgError, setImgError] = useState(false);
   const hasImage = blog.userId.profilePic && blog.userId.profilePic.trim() !== "" && !imgError;
   

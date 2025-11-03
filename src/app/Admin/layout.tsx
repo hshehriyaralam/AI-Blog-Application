@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, FileText, Users, ThumbsUp, Bookmark, LogOut, Menu, X } from "lucide-react";
 import { ContextTheme } from "../../Context/DarkTheme";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 export default function DashboardLayout({ children }: any) {
     const { themeValue, light, dark,  } = useContext(ContextTheme);
