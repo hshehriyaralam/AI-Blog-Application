@@ -9,9 +9,11 @@ import { useAllLikesAdminQuery } from "../../../Redux/Services/adminApi";
 interface LikeData {
   userName: string;
   userEmail: string;
-  userAvatar?: string;
+  userProfile?: string;
   blogTitle: string;
   likedAt: string;
+  blogImage? : string;
+  blogSummary? : string;
 }
 
 export default function UserLikes() {
@@ -24,18 +26,31 @@ export default function UserLikes() {
 
   console.log("Likes Data:", likesData);  
 
-  useEffect(() => {
-    if (likesData?.data) {
-      const formatted = likesData.data.map((like: any) => ({
-        userName: like?.user?.name || "Unknown User",
-        userEmail: like?.user?.email || "N/A",
-        userAvatar: like?.user?.profilePic || "/default-avatar.png",
-        blogTitle: like?.blog?.blogTitle || "Unknown Blog",
-        likedAt: like.likedAt,
-      }));
-      setLikes(formatted);
-    }
-  }, [likesData]);
+useEffect(() => {
+  if (likesData?.data) {
+    const formatted = likesData.data.map((like: any) => ({
+      userId: like.userId,
+      userName: like?.user?.name || "Unknown User",
+      userEmail: like?.user?.email || "N/A",
+      userProfile: like?.user?.profilePic || "/default-avatar.png",
+
+      blogId: like?.blogId,
+      blogTitle: like?.blog?.blogTitle || "Unknown Blog",
+      blogImage: like?.blog?.blogImage || "",
+      blogSummary: like?.blog?.blogSummary || "",
+      blogCreatedAt: like?.blog?.createdAt || "",
+      likedAt: like?.likedAt || "",
+
+      authorId: like?.blog?.author?.id || "",
+      authorName: like?.blog?.author?.name || "Unknown Author",
+      authorEmail: like?.blog?.author?.email || "",
+      authorProfile: like?.blog?.author?.profilePic || "/default-avatar.png",
+    }));
+
+    setLikes(formatted);
+  }
+}, [likesData]);
+
 
   const filteredLikes = useMemo(() => {
     if (!searchQuery) return likes;
@@ -50,7 +65,7 @@ export default function UserLikes() {
   if (isLoading) return <LoadingPage />;
 
   return (
-    <div className={`min-h-screen ${themeValue ? light : dark} p-6`}>
+    <div className={`min-h-screen ${themeValue ? light : dark} md:p-6 sm:p-2`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
