@@ -22,12 +22,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
-    // 🧠 Optional admin check (if you have roles)
-    // if (decoded.role !== "admin") {
-    //   return NextResponse.json({ error: "Access denied" }, { status: 403 });
-    // }
-
-    // ✅ Fetch all likes directly from Like model
+    // ✅ Fetch all likes
     const likes = await Like.find()
       .populate({
         path: "userId",
@@ -44,26 +39,33 @@ export async function GET(req: Request) {
           select: "name email profilePic",
         },
       })
-      .sort({ createdAt: -1 }) // recent likes first
+      .sort({ createdAt: -1 })
       .lean();
 
-    // ✅ Transform for admin view
+    // ✅ Transform response with all IDs
     const formatted = likes.map((like: any) => ({
+      // user who liked
       user: like.userId
         ? {
+            id: like.userId._id,
             name: like.userId.name,
             email: like.userId.email,
             profilePic: like.userId.profilePic,
           }
         : null,
+
+      // blog details
       blog: like.blogId
         ? {
+            id: like.blogId._id,
             blogTitle: like.blogId.blogTitle,
             blogSummary: like.blogId.blogSummary,
             blogImage: like.blogId.blogImage,
             createdAt: like.blogId.createdAt,
+            // blog author
             author: like.blogId.userId
               ? {
+                  id: like.blogId.userId._id,
                   name: like.blogId.userId.name,
                   email: like.blogId.userId.email,
                   profilePic: like.blogId.userId.profilePic,
@@ -71,7 +73,14 @@ export async function GET(req: Request) {
               : null,
           }
         : null,
-      likedAt: like.createdAt, // ✅ from Like schema timestamps
+
+      // like details
+      likedAt: like.createdAt,
+
+      // ✅ additional IDs for navigation
+      blogId: like.blogId?._id || null,
+      userId: like.userId?._id || null,
+      authorId: like.blogId?.userId?._id || null,
     }));
 
     return NextResponse.json(
