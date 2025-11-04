@@ -4,7 +4,7 @@ import { ContextTheme } from "../../../Context/DarkTheme";
 import LikedFilter from "../../../components/useLikedComp/likedFilter";
 import LoadingPage from "../../../components/layout/LoadingPage";
 import LikedLists from "../../../components/useLikedComp/LikedList";
-import { useAllLikesAdminQuery } from "../../../Redux/Services/adminApi";
+import { useAllLikesAdminQuery } from "../../../Redux/Services/adminApi"
 
 interface LikeData {
   userName: string;
