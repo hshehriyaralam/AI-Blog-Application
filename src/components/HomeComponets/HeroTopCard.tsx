@@ -56,7 +56,7 @@ export default function HeroTopCard(){
             <span className="block bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent mt-2">IntelliBlog</span>
           </h1>
           
-          <p className="max-w-lg mx-auto lg:text-lg md:text-sm text-gray-200 mb-8 leading-relaxed">
+          <p className="max-w-[220px]   lg:max-w-md mx-auto lg:text-lg md:text-sm text-gray-200 mb-8 leading-relaxed  ">
             Your intelligent platform for creating and discovering amazing AI-powered content
           </p>
 
