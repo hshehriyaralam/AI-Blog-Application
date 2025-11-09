@@ -1,5 +1,5 @@
 'use client'
-import TopAuthors from '../HomeComponets/Authors';
+import TopAuthors from '../Common/Authors';
 import HeroTopCard from '../HomeComponets/HeroTopCard';
 import Tags from '../HomeComponets/Tags';
 import {ContextTheme} from '../../Context/DarkTheme'

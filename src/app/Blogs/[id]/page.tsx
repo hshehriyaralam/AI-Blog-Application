@@ -3,9 +3,9 @@ import { useParams } from "next/navigation";
 import { useSingleBlogQuery } from "../../../Redux/Services/blogApi"; 
 import { ContextTheme } from "../../../Context/DarkTheme";
 import { useContext, useState, useEffect } from "react";
-import BlogTags from "../../../components/BlogDetails/blogTags";
-import ActionRow from "../../../components/BlogDetails/ActionRow";
-import AuthorInfo from "../../../components/BlogDetails/AuthorInfo";
+import BlogTags from "../_component/blogTags";
+import ActionRow from "../_component/ActionRow";
+import AuthorInfo from "../_component/AuthorInfo";
 import LoadingPage from  '../../../components/layout/LoadingPage';
 
 export default function BlogDetail() {

@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useState, useEffect, useContext } from "react";
 import { FileText, Users, ThumbsUp, Bookmark, Eye, Calendar, TrendingUp } from "lucide-react";
 import { ContextTheme } from "../../../Context/DarkTheme";
-import Stats from "./_Component/Stats";
-import RecenetBlog from "./_Component/RecentBlog";
-import TopAuthors from "@/components/HomeComponets/Authors";
-import QuickActions from "./_Component/QuickActions";
+import Stats from "./_component/Stats";
+import RecenetBlog from "./_component/RecentBlog";
+import QuickActions from "./_component/QuickActions";
+import TopAuthors from "@/components/Common/Authors";
 
 
 

@@ -1,9 +1,9 @@
 'use client';
 import { useContext, useEffect, useMemo, useState } from "react";
 import { ContextTheme } from "../../../Context/DarkTheme";
-import LikedFilter from "../../../components/useLikedComp/likedFilter";
+import LikedFilter from  "./_component/likedFilter"
 import LoadingPage from "../../../components/layout/LoadingPage";
-import LikedLists from "../../../components/useLikedComp/LikedList";
+import LikedLists from "./_component/LikedList"
 import { useAllLikesAdminQuery } from "../../../Redux/Services/adminApi";
 
 interface LikeData {
@@ -85,6 +85,18 @@ useEffect(() => {
           light={light}
           dark={dark}
         />
+
+
+        <div className="flex items-center justify-end mx-6 " >
+         {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="text-sm text-red-600 hover:text-red-700 font-medium cursor-pointer"
+            >
+              Clear search
+            </button>
+          )}
+          </div>
 
         {/* Likes Table */}
         <LikedLists

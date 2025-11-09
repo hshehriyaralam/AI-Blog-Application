@@ -2,7 +2,7 @@
 import { ContextTheme } from '../../Context/DarkTheme'
 import { useContext } from 'react';
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
-import BlogCard from "../BlogsComponents/BLogCard"
+import BlogCard from "../Common/BLogCard"
 
 export default function HomeBlogs() {
   const { data } = useFetchBlogQuery(undefined, {

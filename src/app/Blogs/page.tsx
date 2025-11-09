@@ -2,15 +2,15 @@
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
 import { ContextTheme } from '../../Context/DarkTheme'
 import { useContext, useMemo, useState } from 'react';
-import BlogCard from "../../components/BlogsComponents/BLogCard";
+import BlogCard from "../../components/Common/BLogCard";
 
 // Components
-import SearchInput from '../../components/BlogsComponents/SearchINput'
-import FilterToogle from '../../components/BlogsComponents/FilterToggle'
-import AuthorsFilter from '../../components/BlogsComponents/AuthorsFilter'
-import DateFilter from "../../components/BlogsComponents/DateFilter";
-import Tags from '../../components/BlogsComponents/TagsFilter'
-import FilterActions from '../../components/BlogsComponents/FilterActions'
+import SearchInput from "../../components/Common/SearchINput";
+import FilterToogle from "../../components/Common/FilterToggle";
+import AuthorsFilter from "../../components/Common/AuthorsFilter";
+import DateFilter from "../../components/Common/DateFilter";
+import Tags from "../../components/Common/TagsFilter";
+import FilterActions from "../../components/Common/FilterActions";
 
 type DraftFilters = {
   authorId: string;
@@ -23,6 +23,9 @@ export default function AllBlogs() {
   const { data, isLoading } = useFetchBlogQuery(undefined, {
   pollingInterval: 10000, 
 });
+
+
+// console.log("Fetched blogs data:", data);
 
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
 
@@ -45,6 +48,8 @@ export default function AllBlogs() {
     tag: ""
   });
   const [appliedFilters, setAppliedFilters] = useState<DraftFilters>(draftFilters);
+
+
 
   const handleApply = () => {
     setAppliedFilters({ ...draftFilters });
@@ -74,7 +79,7 @@ export default function AllBlogs() {
 
       if (appliedFilters.authorId) {
         const blogAuthorId = typeof blog?.userId === "object"
-          ? blog?.userId?.id
+          ? blog?.userId?._id
           : blog?.userId;
 
         ok = ok && String(blogAuthorId || "") === String(appliedFilters.authorId);
@@ -101,12 +106,13 @@ export default function AllBlogs() {
     <div className={`min-h-screen ${themeValue ? `${light}` : `${dark}`} py-8`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-6xl mx-auto text-center mb-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="text-4xl lg:text-5xl font-bold  bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent  lg:mb-4 mb-2  ">
             Discover Amazing Content
           </h1>
           <p
-            className={`text-lg ${themeValue ? "text-gray-600" : "text-gray-400"} max-w-2xl mx-auto`}
+            className={`lg:text-lg  text-md   ${themeValue ? "text-gray-600" : "text-gray-400"} 
+            lg:max-w-[450px]  max-w-[300px]   mx-auto   `}
           >
             Explore our collection of insightful articles, tutorials, and stories
             from talented writers around the world.

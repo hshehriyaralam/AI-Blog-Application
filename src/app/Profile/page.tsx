@@ -13,9 +13,9 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../Redux/store";
 import Link from "next/link";
 import LoadingPage from "../../components/layout/LoadingPage";
-import UserNotFoundPage from '../../components/ProfileComponents/userPage'
-import ProfileSection from '../../components/ProfileComponents/ProfilSection'
-import ProfileBlogsSections from '../../components/ProfileComponents/BlogsSection'
+import UserNotFoundPage from './_component/userPage'
+import ProfileSection from './_component/ProfilSection'
+import ProfileBlogsSections from './_component/BlogsSection'
 
 
 

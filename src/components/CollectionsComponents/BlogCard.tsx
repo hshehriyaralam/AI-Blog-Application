@@ -1,4 +1,5 @@
 "use client";
+import { User } from "lucide-react";
 import Link from "next/link";
 
 export default function CollectionsBlogCard({
@@ -81,7 +82,7 @@ export default function CollectionsBlogCard({
                       onError={() => setImgError(true)}
                     />
                   ) : (
-                    <span className="text-xs text-indigo-600">No Pic</span>
+                     <User className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                   )}
                 </div>
               </div>
