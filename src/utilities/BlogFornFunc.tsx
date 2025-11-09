@@ -5,6 +5,7 @@ import { toBase64 } from '../utilities/file';
 import {useAddBlogMutation } from '../Redux/Services/blogApi'
 import   {useGetProfileQuery }  from '../Redux/Services/userApi'
 import { useAlert } from '../Context/AlertContext'
+import { useRouter } from "next/navigation";;
 
 
 
@@ -19,6 +20,7 @@ interface BlogFormDataTypes {
 }
 
 export default function  BlogFormFunctions(){
+    const router = useRouter();
   const { showAlert } = useAlert()
   const { data } = useGetProfileQuery (undefined)
   const [addBlogMutation] = useAddBlogMutation();
@@ -123,8 +125,8 @@ const addBlogs = async (e: any) => {
     await addBlogMutation(blogPayload).unwrap();
     
     showAlert('success', 'Article Published Successfully');
+    router.push('/Blogs');
     CancellBlog();
-
   } catch (error) {
     console.error("Failed to add blog:", error);
     showAlert('error', 'Failed to publish');

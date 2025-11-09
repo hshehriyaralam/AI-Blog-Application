@@ -3,12 +3,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const bookmarkApi = createApi({
   reducerPath: "bookmarkApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
-  tagTypes: ["Bookmark"],
+  tagTypes: ["Blog", "User","Like","Bookmark"],
   endpoints: (builder) => ({
     // ✅ Get user bookmarks
     getBookmarks: builder.query<any, void>({
       query: () => "/Bookmark",
-      providesTags: ["Bookmark"],
+      providesTags: ["Blog", "User","Like","Bookmark"],
     }),
 
     // ✅ Toggle bookmark (add/remove)
@@ -18,7 +18,7 @@ export const bookmarkApi = createApi({
         method: "POST",
         body: { blogId },
       }),
-      invalidatesTags: ["Bookmark"], 
+      invalidatesTags: ["Blog", "User","Like","Bookmark"], 
     }),
   }),
 });

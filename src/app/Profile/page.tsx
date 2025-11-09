@@ -11,7 +11,6 @@ import { ContextTheme } from "../../Context/DarkTheme";
 import { useAlert } from '../../Context/AlertContext';
 import { useSelector } from "react-redux";
 import type { RootState } from "../../Redux/store";
-import { useGetBookmarksQuery } from "../../Redux/Services/bookmarkApi";
 import Link from "next/link";
 import LoadingPage from "../../components/layout/LoadingPage";
 import UserNotFoundPage from '../../components/ProfileComponents/userPage'
@@ -31,10 +30,6 @@ export default function Profile() {
   const { data: Profile, isLoading } = useGetProfileQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  // Fetch Bookmarks
-  const { data  } = useGetBookmarksQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  })
   // Delete Profile & Blog Mutations
   const [deleteProfile , { isLoading: DeleteProfileLoader}] = useDeleteProfileMutation();
   const [deleteBlog, { isLoading: deleting }] = useDeleteBlogMutation();
@@ -104,7 +99,8 @@ export default function Profile() {
   const totalViews = blogs.reduce((sum: number, blog: any) => sum + (blog.views || 0), 0);
   const totalLikes = user?.totalLikes
   const LikedBlogs = user?.likedBlogs?.length
-  const bookmarks  = data?.bookmarks.length
+  const bookmarks  = user?.bookmarks?.length || 0;
+ 
 
 
 

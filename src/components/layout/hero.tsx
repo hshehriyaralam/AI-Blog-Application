@@ -16,11 +16,12 @@ export default function Hero() {
   return (
   <div className={`min-h-screen w-full  pb-5    ${themeValue ? light : dark} `}>
   <div className="flex flex-col lg:flex-row gap-y-4 gap-x-4 p-6  justify-center   ">
+
    <HeroTopCard />
     <div className="w-full lg:w-[20%] space-y-4">
       <Tags />
       {/* Top Authors */}
-      <TopAuthors />
+      <TopAuthors  navigate={"/Authors"} />
     </div>
   </div>
 

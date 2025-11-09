@@ -15,7 +15,9 @@ type DraftFilters = {
 };
 
 export default function UserAllBlogs() {
-  const { data, isLoading } = useAllBlogAdminQuery(undefined);
+  const { data, isLoading } = useAllBlogAdminQuery(undefined, {
+      pollingInterval: 10000,
+    });
   const { themeValue, light, dark } = useContext(ContextTheme);
 
   const [showFilters, setShowFilters] = useState(false);
@@ -85,10 +87,10 @@ export default function UserAllBlogs() {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className={`text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent`}>
+              <h1 className={`text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent  lg:text-left text-center lg:mt-0 mt-4 `}>
                 All Blogs
               </h1>
-              <p className={`mt-2 ${themeValue ? 'text-gray-600' : 'text-gray-300'}`}>
+              <p className={`mt-2 ${themeValue ? 'text-gray-600' : 'text-gray-300'}  mt-2  text-[16px] lg:max-w-[600px] max-w-[250px]  lg:text-left text-center   mx-auto `}>
                 Monitor, filter and manage all blogs from a single dashboard
               </p>
             </div>

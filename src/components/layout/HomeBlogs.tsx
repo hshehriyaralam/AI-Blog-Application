@@ -7,7 +7,6 @@ import BlogCard from "../BlogsComponents/BLogCard"
 export default function HomeBlogs() {
   const { data } = useFetchBlogQuery([]);
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme)
-  
   return (
     <div className="flex flex-col gap-8">
  

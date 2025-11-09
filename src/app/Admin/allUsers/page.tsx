@@ -24,7 +24,9 @@ import DeletePopUp from "../../../components/AdminUsersComp/DeletePopUp"
 
 export default function AllUsers() {
   const { themeValue, light, dark } = useContext(ContextTheme);
-  const { data, isLoading } = useAllUserAdminQuery(undefined);
+  const { data, isLoading } = useAllUserAdminQuery(undefined, {
+      pollingInterval: 10000,
+    });
   const [searchQuery, setSearchQuery] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -57,10 +59,10 @@ export default function AllUsers() {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className={`text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent`}>
+              <h1 className={`text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent  lg:text-left text-center lg:mt-0 mt-4`}>
                 User Management
               </h1>
-              <p className={`mt-2 ${themeValue ? 'text-gray-600' : 'text-gray-300'}`}>
+              <p className={`mt-2 ${themeValue ? 'text-gray-600' : 'text-gray-300'}  mt-2  text-[16px] lg:max-w-[600px]  lg:text-left text-center   mx-auto`}>
                 Manage all user accounts and permissions
               </p>
             </div>
