@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { ContextTheme } from '../../Context/DarkTheme'
 import { useContext } from 'react';
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
@@ -9,15 +9,15 @@ export default function HomeBlogs() {
   pollingInterval: 10000, 
 });
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme)
+
   return (
     <div className="flex flex-col gap-8">
  
 
       {/* Blogs Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {data?.data?.slice(0, 9).map((blog: any, index: number) => {
+        {data?.blogs?.slice(0, 7).map((blog: any, index: number) => {
           const isFeatured = index % 6 === 0;
-          
           return (
             <div
               key={blog._id}

@@ -3,6 +3,8 @@ import { ContextTheme } from "../../Context/DarkTheme";
 import { useContext } from "react";
 import { useAllUserQuery,useGetProfileQuery } from "../../Redux/Services/userApi";
 import AuthorsCard from "../../components/AuthorsComponents/AuthorsCard"
+import Blogs from "../../components/layout/HomeBlogs"
+
 
 export default function Authors() {
     const { data : loggedInUser} = useGetProfileQuery(undefined, {
@@ -63,6 +65,8 @@ export default function Authors() {
               joinedDate={joinedDate}
               lastSeen={lastSeen}
               />
+              <h1>Blogs </h1>
+              <Blogs />
               </div>
               );
           })}
