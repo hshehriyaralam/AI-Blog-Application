@@ -27,6 +27,8 @@ export default function AllUsers() {
   const { data, isLoading } = useAllUserAdminQuery(undefined, {
       pollingInterval: 10000,
     });
+  pollingInterval: 10000, 
+});
   const [searchQuery, setSearchQuery] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);

@@ -4,7 +4,7 @@ import { useAlert } from '../../Context/AlertContext'
 import ButtonLoader from "../Common/BtnLoader";
 
 export default function DeletePopUp({user, themeValue, setShowDeleteModal, setSelectedUser,light,dark }: any) {
-  const [deleteUserAdmin, { isLoading }] = useDeleteUserAdminMutation();
+  const [deleteUserAdmin, { isLoading }] = useDeleteUserAdminMutation(undefined);
   const { showAlert } = useAlert()
   
     if (!user) return null;

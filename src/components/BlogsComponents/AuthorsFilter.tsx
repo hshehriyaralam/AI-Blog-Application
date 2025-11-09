@@ -3,7 +3,9 @@ import { User } from "lucide-react";
 import { useAllUserQuery } from "../../Redux/Services/userApi";
 
 export default function AuthorsFilter({ themeValue, light, dark, value, onChange }: any) {
-  const { data: allUsers, isLoading } = useAllUserQuery(undefined);
+  const { data: allUsers, isLoading } = useAllUserQuery(undefined, {
+  pollingInterval: 10000, 
+});
   const users = allUsers?.data || [];
   return (
     <div>

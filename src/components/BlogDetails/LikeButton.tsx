@@ -20,7 +20,9 @@ export default function LikeButton({
   likes: IUser[];
   likesCount: number;
 }) {
-  const { data } = useGetProfileQuery(undefined);
+  const { data } = useGetProfileQuery(undefined, {
+  pollingInterval: 10000,
+});
   const currentUserId = data?.user?._id;
 
   const [likeBlog] = useLikeBlogMutation();

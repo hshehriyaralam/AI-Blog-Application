@@ -64,7 +64,7 @@ function AuthorItem({ user, themeValue, index }: any) {
 export default function TopAuthors({ navigate }: any) {
   const { data, isLoading, isError } = useAllUserQuery({});
   const { themeValue } = useContext(ContextTheme);
-  console;
+  
   // 🔹 Loading State
   if (isLoading) {
     return (

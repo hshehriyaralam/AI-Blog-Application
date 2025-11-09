@@ -22,7 +22,9 @@ interface BlogFormDataTypes {
 export default function  BlogFormFunctions(){
     const router = useRouter();
   const { showAlert } = useAlert()
-  const { data } = useGetProfileQuery (undefined)
+  const { data } = useGetProfileQuery (undefined, {
+  pollingInterval: 10000, 
+})
   const [addBlogMutation] = useAddBlogMutation();
   const [loading , setLoading] = useState(false)
   const [formData, setFormData] = useState<BlogFormDataTypes>({

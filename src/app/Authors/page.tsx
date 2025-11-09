@@ -5,8 +5,12 @@ import { useAllUserQuery,useGetProfileQuery } from "../../Redux/Services/userApi
 import AuthorsCard from "../../components/AuthorsComponents/AuthorsCard"
 
 export default function Authors() {
-    const { data : loggedInUser} = useGetProfileQuery(undefined)
-    const { data:allUsers } = useAllUserQuery(undefined);
+    const { data : loggedInUser} = useGetProfileQuery(undefined, {
+  pollingInterval: 10000, 
+})
+    const { data:allUsers } = useAllUserQuery(undefined, {
+  pollingInterval: 10000, 
+});
     const { themeValue, light, dark } = useContext(ContextTheme);
 
     

@@ -20,7 +20,10 @@ type DraftFilters = {
 };
 
 export default function AllBlogs() {
-  const { data, isLoading } = useFetchBlogQuery([]);
+  const { data, isLoading } = useFetchBlogQuery(undefined, {
+  pollingInterval: 10000, 
+});
+
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
 
   const [showFilters, setShowFilters] = useState(false);

@@ -42,6 +42,11 @@ export const adminApi = createApi({
         query : () => "Admin/Bookmarks",
         providesTags :["Blog", "User","Like","Bookmark"]
     }),
+    // fetch All Likes
+    allLikesAdmin : builder.query({
+        query : () => "Admin/Likes",
+        providesTags : ["Blog", "User","Like"]
+    })
   }),
 });
 

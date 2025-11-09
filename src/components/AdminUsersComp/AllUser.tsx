@@ -105,7 +105,7 @@ export default function AllUserAdminPage({ filteredUsers, setShowDeleteModal, se
     >
       {/* Table Header */}
       <div
-        className={`hidden md:grid grid-cols-12 gap-4 p-6 font-semibold text-sm border-b ${
+        className={`hidden md:grid grid-cols-12 gap-4 p-6     font-semibold text-sm border-b ${
           themeValue
             ? `border-gray-200 ${light} text-gray-900`
             : `border-gray-700 ${dark} text-white`
@@ -121,7 +121,7 @@ export default function AllUserAdminPage({ filteredUsers, setShowDeleteModal, se
       </div>
 
       {/* Table Body */}
-      <div className={`divide-y ${themeValue ? "divide-gray-200" : "divide-gray-700"}`}>
+      <div className={`divide-y    ${themeValue ? "divide-gray-200" : "divide-gray-700"}`}>
         {filteredUsers.length === 0 ? (
           <div className="p-12 text-center">
             <Users
@@ -136,7 +136,7 @@ export default function AllUserAdminPage({ filteredUsers, setShowDeleteModal, se
           filteredUsers.map((user: any) => (
             <div
               key={user.id}
-              className={`grid grid-cols-12 gap-4 p-6 transition-colors duration-200 items-center group ${
+              className={`grid grid-cols-12 gap-4 rounded-xl  p-6 transition-colors duration-200 items-center group ${
                 themeValue ? "hover:bg-gray-50" : "hover:bg-gray-700/50"
               }`}
             >

@@ -5,7 +5,7 @@ import { useAlert } from '../../Context/AlertContext'
 import SingleButtonLoader from '../../components/Common/SingleButtonLoader'
 
 export default function DeleteBlogButton({themeValue,blog}:any){
-    const [deleteBlogAdmin, { isLoading }] = useDeleteBlogAdminMutation();
+    const [deleteBlogAdmin, { isLoading }] = useDeleteBlogAdminMutation(undefined)
     const { showAlert } = useAlert()
      const handleDelete = async () => {
       try {
