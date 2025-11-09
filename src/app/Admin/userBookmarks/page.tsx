@@ -92,7 +92,7 @@ export default function UserBookmarks() {
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="text-sm text-red-600 hover:text-red-700 font-medium"
+              className="text-sm text-red-600 hover:text-red-700 font-medium  cursor-pointer"
             >
               Clear search
             </button>

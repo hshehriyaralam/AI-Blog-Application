@@ -7,8 +7,8 @@ import { useContext,useState } from "react";
 import {  BookOpen} from "lucide-react";
 import LoadingPage from "../../../components/layout/LoadingPage";
 import ErrorPage from '../../../components/Common/ErrorPage'
-import AuthorsProfileSection from '../../../components/AuthorsComponents/ProfileSection'
-import AuthorsBlog from "../../../components/AuthorsComponents/AuthorsBlogs"
+import AuthorsProfileSection from '../_component/ProfileSection'
+import AuthorsBlog from "../_component/AuthorsBlogs"
 
 
 

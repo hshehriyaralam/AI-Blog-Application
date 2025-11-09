@@ -1,10 +1,10 @@
 "use client";
 import { useState, useContext, useMemo } from "react";
 import { useAllBlogAdminQuery } from "../../../Redux/Services/adminApi";
-import AllBlogList from "../../../components/AdminBlogsComp/BlogsList";
+import AllBlogList from  "./_component/BlogsList" 
 import LoadingPage from "../../../components/layout/LoadingPage";
 import { ContextTheme } from "../../../Context/DarkTheme";
-import AllFiltersBlogs from "../../../components/AdminBlogsComp/AllFilters";
+import AllFiltersBlogs from "./_component/AllFilters"
 
 
 type DraftFilters = {
@@ -146,7 +146,7 @@ export default function UserAllBlogs() {
 
           {/* Table Body */}
           <AllBlogList 
-          filteredBlogs={filteredBlogs}
+          filteredBlogs={filteredBlogs} 
           themeValue={themeValue}
           light={light}
           dark={dark}

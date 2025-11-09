@@ -43,7 +43,8 @@ export default function Collection() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
               Discover Your Saved Collections
             </h1>
-          <p className={`text-lg ${themeValue ? "text-gray-600" : "text-gray-400"} max-w-2xl mx-auto my-2 `}>
+          <p className={`lg:text-lg  text-md   ${themeValue ? "text-gray-600" : "text-gray-400"} 
+            lg:max-w-[450px]  max-w-[300px]   mx-auto  my-2 `}>
             A curated space where all your saved articles, ideas, and inspirations live together.
           </p>
         </div>
@@ -72,7 +73,6 @@ export default function Collection() {
                 const blog = bookmark.blogId;
                 const hasImage = blog?.userId?.profilePic && blog.userId.profilePic.trim() !== "" && !imgError;
 
-                console.log("Rendering bookmark for blog:", blog);
 
                 return (
                   <div

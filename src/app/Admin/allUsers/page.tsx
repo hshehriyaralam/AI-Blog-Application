@@ -3,9 +3,9 @@ import { useState, useContext, useMemo } from "react";
 import { useAllUserAdminQuery } from '../../../Redux/Services/adminApi'
 import { ContextTheme } from "../../../Context/DarkTheme";
 import LoadingPage from "../../../components/layout/LoadingPage";
-import NameFilter from "../../../components/AdminUsersComp/Filter";
-import AllUserAdminPage from "../../../components/AdminUsersComp/AllUser"
-import DeletePopUp from "../../../components/AdminUsersComp/DeletePopUp"
+import NameFilter from "./_component/Filter";
+import AllUserAdminPage from "./_component/AllUser"
+import DeletePopUp from "./_component/DeletePopUp"
 
  interface User {
   id: string;
@@ -78,6 +78,17 @@ export default function AllUsers() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         />
+
+        <div className="flex items-center justify-end mx-6 " >
+         {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="text-sm text-red-600 hover:text-red-700 font-medium cursor-pointer"
+            >
+              Clear search
+            </button>
+          )}
+          </div>
 
            {/* Users Table */}
         <AllUserAdminPage 
