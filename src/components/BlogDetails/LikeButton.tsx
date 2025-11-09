@@ -29,8 +29,7 @@ export default function LikeButton({
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(likesCount);
 
-  
-console.log("Like count", count);
+
   
 
 

@@ -26,7 +26,7 @@ const StyledWrapper = styled.div`
   .dot-spinner {
     --uib-size: 1.3rem;   /* 👈 smaller size for button */
     --uib-speed: 1.3s;
-    --uib-color: red; /* 👈 button text color friendly */
+    --uib-color: white; /* 👈 button text color friendly */
     position: relative;
     display: flex;
     align-items: center;

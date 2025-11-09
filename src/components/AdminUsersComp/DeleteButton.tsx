@@ -1,44 +1,43 @@
-"use client"
-import { Trash2,Eye } from "lucide-react";
+"use client";
+import { Trash2, Eye } from "lucide-react";
 import Link from "next/link";
 
-
-
-
-export default function DeleteButton({themeValue, setShowDeleteModal, setSelectedUser, user}:any){
-    
-    return(
-        <div className="flex items-center space-x-2">
-        <Link  href={`/Authors/${user.id}`}>
-                <button
-                className={`p-2 rounded-lg transition-all duration-200  cursor-pointer ${
-                    themeValue
-                    ? "bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700"
-                    : "bg-blue-900/30 hover:bg-blue-900/50 text-blue-400 hover:text-blue-300"
-                    } group/tooltip relative`}
-                    title="View Blog"
-                    >
-                <Eye size={20} />
-                <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap">
-                    View Blog
-                </span>
-                </button>
-                </Link>
-            <button
-                  onClick={(e) => {
-                    e.stopPropagation();                 // Prevent row navigation
-                    setSelectedUser(user);               // Set selected user in parent
-                    setShowDeleteModal(true);            // Open modal
-                    }}
-                className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
-                themeValue
-                    ? 'bg-red-100 hover:bg-red-100 text-red-600 hover:text-red-700'
-                    : 'bg-red-900/30 hover:bg-red-900/50 text-red-400 hover:text-red-300'
-                }`}
-                title="Delete User"
-            >
-                <Trash2 size={14} />
-            </button>
-            </div>
-    )
+export default function DeleteButton({
+  themeValue,
+  setShowDeleteModal,
+  setSelectedUser,
+  user,
+}: any) {
+  return (
+    <div className="flex items-center space-x-2">
+      <Link href={`/Authors/${user.id}`}>
+        <button
+          className={`rounded-lg  flex items-center gap-x-1  text-sm transition-all duration-200  px-2  py-1   cursor-pointer  ${
+            themeValue
+              ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-md"
+              : "bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-indigo-600 hover:to-purple-600 shadow-md"
+          } group/tooltip relative`}
+        >
+          <Eye size={14} /> 
+          <span>Blog</span>
+        </button>
+      </Link>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedUser(user);
+          setShowDeleteModal(true);
+        }}
+          className={`px-2 py-1 flex items-center gap-x-1 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer 
+    ${
+      themeValue
+        ? 'bg-gradient-to-r from-rose-600 to-red-500 text-white hover:from-rose-700 hover:to-red-600 shadow-md hover:shadow-lg'
+        : 'bg-gradient-to-r from-rose-500 to-red-400 text-white hover:from-rose-600 hover:to-red-500 shadow-md hover:shadow-lg'
+    }`}
+      >
+        <Trash2 size={12} />
+        <span>Delete</span>
+      </button>
+    </div>
+  );
 }

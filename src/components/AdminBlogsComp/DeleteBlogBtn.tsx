@@ -21,18 +21,20 @@ export default function DeleteBlogButton({themeValue,blog}:any){
     return(
     <button
     onClick={handleDelete}
-      className={`p-2 rounded-lg transition-all cursor-pointer duration-200 ${
-        themeValue
-          ? "bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700"
-          : "bg-red-900/30 hover:bg-red-900/50 text-red-400 hover:text-red-300"
-      } group/tooltip relative`}
-      
-      title="Delete Blog"
+      className={`px-2 py-1 flex items-center gap-x-1 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer 
+    ${
+      themeValue
+        ? 'bg-gradient-to-r from-rose-500 to-red-500 text-white hover:from-rose-700 hover:to-red-600 shadow-md hover:shadow-lg'
+        : 'bg-gradient-to-r from-rose-500 to-red-400 text-white hover:from-rose-600 hover:to-red-500 shadow-md hover:shadow-lg'
+    }`}
     >
-      {isLoading ?  <SingleButtonLoader  />     :  <Trash2 size={20} /> }  
-     <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap">
-        {isLoading ? "Deleting..." : "Delete Blog"}
-      </span>
+      {isLoading ?  <SingleButtonLoader  />     :  (
+        <>
+           <Trash2 size={12} />
+            <span>Delete</span>
+            
+        </>
+      )}  
     </button>
     )
 }

@@ -13,5 +13,5 @@ const BookmarkSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.Bookmark ||
+export const Bookmark = mongoose.models.Bookmark ||
   mongoose.model<IBookmark>("Bookmark", BookmarkSchema);

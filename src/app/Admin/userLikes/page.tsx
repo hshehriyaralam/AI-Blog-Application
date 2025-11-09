@@ -24,7 +24,7 @@ export default function UserLikes() {
   const [likes, setLikes] = useState<LikeData[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  console.log("Likes Data:", likesData);  
+ 
 
 useEffect(() => {
   if (likesData?.data) {

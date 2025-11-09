@@ -1,3 +1,4 @@
+
 "use client";
 import { Heart, Calendar, Users, Mail, Clock, PenTool, User, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -136,14 +137,6 @@ export default function LikedLists({
                       </p>
                     </div>
                   </div>
-                  <div className={`flex items-center space-x-1 ${
-                    themeValue ? "text-rose-500" : "text-rose-400"
-                  }`}>
-                    <Heart size={14} />
-                    <span className="text-xs font-medium whitespace-nowrap">
-                      {getTimeAgo(like.likedAt)}
-                    </span>
-                  </div>
                 </div>
 
                 {/* Blog Content */}
@@ -236,16 +229,14 @@ export default function LikedLists({
                       </span>
                     </div>
                   </div>
-                  <button
-                    onClick={(e) => handleBlogClick(like.blogId, e)}
-                    className={`p-2 rounded-lg ${
-                      themeValue 
-                        ? "text-gray-400 hover:text-blue-600 hover:bg-blue-50" 
-                        : "text-gray-400 hover:text-blue-400 hover:bg-blue-900/20"
-                    }`}
-                  >
-                    <Eye size={16} />
-                  </button>
+                    <div className={`flex items-center space-x-1 ${
+                    themeValue ? "text-rose-500" : "text-rose-400"
+                  }`}>
+                    <Heart size={14} />
+                    <span className="text-xs font-medium whitespace-nowrap">
+                      {getTimeAgo(like.likedAt)}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Published Date */}

@@ -12,6 +12,8 @@ export default function Collection() {
   const { data, isLoading, isError } = useGetBookmarksQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+
+  console.log("Bookmarks Data:", data);
   const [imgError, setImgError] = useState(false);
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
 
@@ -69,6 +71,8 @@ export default function Collection() {
               {bookmarks.map((bookmark: any) => {
                 const blog = bookmark.blogId;
                 const hasImage = blog?.userId?.profilePic && blog.userId.profilePic.trim() !== "" && !imgError;
+
+                console.log("Rendering bookmark for blog:", blog);
 
                 return (
                   <div

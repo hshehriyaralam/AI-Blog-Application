@@ -9,7 +9,6 @@ import LoadingPage from "../../../components/layout/LoadingPage";
 import ErrorPage from '../../../components/Common/ErrorPage'
 import AuthorsProfileSection from '../../../components/AuthorsComponents/ProfileSection'
 import AuthorsBlog from "../../../components/AuthorsComponents/AuthorsBlogs"
-import { useGetBookmarksQuery } from "../../../Redux/Services/bookmarkApi";
 
 
 
@@ -17,15 +16,12 @@ export default function AuthorsDetail() {
   const params = useParams();
   const id = params?.id as string;
   const { data: SingleUser, isLoading, error } = useSingleUserQuery(id)
-  const { data  } = useGetBookmarksQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+
   const { themeValue, light, dark } = useContext(ContextTheme);
   const user = SingleUser?.data?.user;
   const blogs = SingleUser?.data?.blogs || [];
   const [imgError, setImgError] = useState(false);
   const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
-
 
   if (isLoading) return <LoadingPage />;
   if (error) return <ErrorPage  themeValue={themeValue} light={light} dark={dark}   />
@@ -61,7 +57,8 @@ export default function AuthorsDetail() {
 
   const totalLikes = user?.totalLikes
   const LikedBlogs = user?.likedBlogs?.length
-  const bookmarks  = data?.bookmarks.length
+  const bookmarks  = user?.bookmarks?.length || 0;
+
 
 
   return (

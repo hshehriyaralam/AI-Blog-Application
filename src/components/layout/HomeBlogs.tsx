@@ -9,7 +9,6 @@ export default function HomeBlogs() {
   pollingInterval: 10000, 
 });
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme)
-  
   return (
     <div className="flex flex-col gap-8">
  
