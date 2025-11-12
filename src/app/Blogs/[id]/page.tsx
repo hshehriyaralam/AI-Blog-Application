@@ -1,6 +1,8 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useSingleBlogQuery } from "../../../Redux/Services/blogApi"; 
+import {liveRefetchOptions} from "../../../hooks/rtkOptions"
+
 import { ContextTheme } from "../../../Context/DarkTheme";
 import { useContext, useState, useEffect } from "react";
 import BlogTags from "../_component/blogTags";
@@ -12,7 +14,7 @@ export default function BlogDetail() {
   const params = useParams();
   const id = params?.id as string;
 
-  const { data, isLoading, error } = useSingleBlogQuery(id);
+  const { data, isLoading, error } = useSingleBlogQuery(id,liveRefetchOptions);
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
 
   const [isPlaying, setIsPlaying] = useState(false);

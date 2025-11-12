@@ -1,22 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
-
-interface User {
-  id?: string;
-  name: string;
-  email: string;
-  profilePic?: string | null;
-  role?: string;
-  isAdmin?: boolean;
-}
-
-interface AuthState {
-  user:  User | null,
-  token: string | null,
-  loading: boolean;
-  error: string | null;
-}
+import type { AuthState, ReduxUser as User } from "../../../types/global";
 
 const initialState: AuthState = {
   user: null,
@@ -25,45 +10,36 @@ const initialState: AuthState = {
   error: null,
 };
 
-// Thunk for Google Popup Token Flow
+// ✅ Thunk for Google Popup Token Flow (with correct loading control)
 export const googleLoginThunk = createAsyncThunk(
   "auth/googleLogin",
   async (_, { rejectWithValue }) => {
     try {
-      // initTokenClient must be called on user gesture
-      const tokenClient = (window as any).google.accounts.oauth2.initTokenClient({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-        scope: "openid email profile",
-        callback: async (tokenResponse: any) => {
-          // tokenResponse has access_token
-          const accessToken = tokenResponse.access_token;
-          try {
-            // Send access token to backend for DB save + our JWT
-            const backendRes = await axios.post("/api/auth", { accessToken });
-            return backendRes.data; // { user, token }
-          } catch (err: any) {
-            throw err.response?.data || err.message;
-          }
-        },
-      });
+      // Ensure Google SDK is available
+      if (!(window as any).google?.accounts?.oauth2) {
+        throw new Error("Google SDK not loaded");
+      }
 
-      // Request access token (opens popup)
-      const promise = new Promise<any>((resolve, reject) => {
-        // The callback passed to initTokenClient will run after requestAccessToken
-        // But we need to capture its result. We'll temporarily replace the callback to resolve.
-        (tokenClient as any).callback = async (tokenResponse: any) => {
-          const accessToken = tokenResponse.access_token;
-          try {
-            const backendRes = await axios.post("/api/auth", { accessToken });
-            resolve(backendRes.data);
-          } catch (err: any) {
-            reject(err.response?.data || err.message);
-          }
-        };
+      // Create a Promise that resolves only after user completes popup flow
+      const data = await new Promise<any>((resolve, reject) => {
+        const tokenClient = (window as any).google.accounts.oauth2.initTokenClient({
+          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+          scope: "openid email profile",
+          callback: async (tokenResponse: any) => {
+            const accessToken = tokenResponse.access_token;
+            try {
+              const backendRes = await axios.post("/api/auth", { accessToken });
+              resolve(backendRes.data); // { user, token }
+            } catch (err: any) {
+              reject(err.response?.data || err.message);
+            }
+          },
+        });
+
+        // ✅ Request token popup (starts user interaction)
         tokenClient.requestAccessToken();
       });
 
-      const data = await promise;
       return data;
     } catch (error: any) {
       return rejectWithValue(error?.message || String(error));
@@ -78,15 +54,21 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.token = null;
+      state.error = null;
+      state.loading = false;
       Cookies.remove("user");
       Cookies.remove("token");
     },
     setAuth(state, action: PayloadAction<{ user: User; token: string }>) {
       state.user = action.payload.user;
       state.token = action.payload.token;
-
-      //save in cookies 
-      Cookies.set("token", action.payload.token, {expires:7})
+      state.error = null;
+      state.loading = false;
+      // ✅ Save in cookies for persistence
+      Cookies.set("token", action.payload.token, { expires: 7 });
+    },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -99,8 +81,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
-        Cookies.set("token", action.payload.token, {expires:7})
-        
+        state.error = null;
+        Cookies.set("token", action.payload.token, { expires: 7 });
       })
       .addCase(googleLoginThunk.rejected, (state, action) => {
         state.loading = false;
@@ -109,5 +91,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, setAuth } = authSlice.actions;
+export const { logout, setAuth, setLoading } = authSlice.actions;
 export default authSlice.reducer;

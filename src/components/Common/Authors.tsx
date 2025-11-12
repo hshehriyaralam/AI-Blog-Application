@@ -4,14 +4,15 @@ import { useContext, useState } from "react";
 import {
   User,
   TrendingUp,
-  ArrowRight,
   Loader2,
   ExternalLink,
 } from "lucide-react";
 import { useAllUserQuery } from "../../Redux/Services/userApi";
+import {liveRefetchOptions } from "../../hooks/rtkOptions"
 import Link from "next/link";
+import { useAuthNavigate } from "@/hooks/useAuthNavigate";
 
-function AuthorItem({ user, themeValue, index }: any) {
+function AuthorItem({ user, themeValue }: any) {
   const [imgError, setImgError] = useState(false);
   const hasImage =
     user?.profilePic && user.profilePic.trim() !== "" && !imgError;
@@ -62,7 +63,9 @@ function AuthorItem({ user, themeValue, index }: any) {
 }
 
 export default function TopAuthors({ navigate }: any) {
-  const { data, isLoading, isError } = useAllUserQuery({});
+    const { authNavigate, isAuthenticating } = useAuthNavigate();
+
+  const { data, isLoading, isError } = useAllUserQuery(undefined,liveRefetchOptions);
   const { themeValue } = useContext(ContextTheme);
   
   // 🔹 Loading State
@@ -161,8 +164,10 @@ export default function TopAuthors({ navigate }: any) {
       {/* View All Link */}
       {Authors.length > 6 && (
         <div className="mt-2 pt-2 border-t border-gray-700/50  mx-ato flex justify-center mt-4">
-          <Link href={navigate}>
+        
             <button
+              onClick={() => authNavigate(navigate)}
+              disabled={isAuthenticating}
               className={`rounded-lg  flex items-center gap-x-1  text-sm transition-all duration-200  px-10  py-1.5   cursor-pointer  ${
                 themeValue
                   ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-md"
@@ -172,7 +177,7 @@ export default function TopAuthors({ navigate }: any) {
               <ExternalLink size={16} />
               <span>View All </span>
             </button>
-          </Link>
+        
         </div>
       )}
     </div>

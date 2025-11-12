@@ -1,10 +1,10 @@
 'use client'
 import { User } from "lucide-react";
 import { useAllUserQuery } from "../../Redux/Services/userApi"
+import {liveRefetchOptions} from "../../hooks/rtkOptions"
+
 export default function AuthorsFilter({ themeValue, light, dark, value, onChange }: any) {
-  const { data: allUsers, isLoading } = useAllUserQuery(undefined, {
-  pollingInterval: 10000, 
-});
+  const { data: allUsers, isLoading } = useAllUserQuery(undefined,liveRefetchOptions);
   const users = allUsers?.data || [];
   return (
     <div>

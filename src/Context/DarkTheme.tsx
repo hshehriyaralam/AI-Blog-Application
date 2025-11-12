@@ -1,13 +1,7 @@
 'use client'
 import React, { ReactNode, useState, createContext, useEffect } from "react";
-interface ThemeContextType {
-  themeValue: boolean;
-  changeTheme: () => void;
-  light : string,
-  dark : string,
-  lightText : string,
-  DarkText : string
-}
+import type { ThemeContextType } from "../../types/global"
+
 
 const ContextTheme = createContext<ThemeContextType>({
   themeValue: true,

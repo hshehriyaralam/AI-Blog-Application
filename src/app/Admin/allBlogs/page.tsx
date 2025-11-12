@@ -1,23 +1,15 @@
 "use client";
 import { useState, useContext, useMemo } from "react";
 import { useAllBlogAdminQuery } from "../../../Redux/Services/adminApi";
+import {liveRefetchOptions}   from "../../../hooks/rtkOptions"
 import AllBlogList from  "./_component/BlogsList" 
 import LoadingPage from "../../../components/layout/LoadingPage";
 import { ContextTheme } from "../../../Context/DarkTheme";
 import AllFiltersBlogs from "./_component/AllFilters"
-
-
-type DraftFilters = {
-  authorId: string;
-  title: string;
-  date: string;
-  tag: string;
-};
+import type {DraftFilters} from "../../../../types/Blog"
 
 export default function UserAllBlogs() {
-  const { data, isLoading } = useAllBlogAdminQuery(undefined, {
-      pollingInterval: 10000,
-    });
+  const { data, isLoading } = useAllBlogAdminQuery(undefined, liveRefetchOptions);
   const { themeValue, light, dark } = useContext(ContextTheme);
 
   const [showFilters, setShowFilters] = useState(false);

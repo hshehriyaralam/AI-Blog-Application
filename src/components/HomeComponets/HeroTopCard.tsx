@@ -1,35 +1,12 @@
 import { Button } from "../ui/button"
-import { useRouter } from "next/navigation";
-import { googleLoginThunk } from "../../Redux/Slices/authSlice";
-import { useGetProfileQuery } from "../../Redux/Services/userApi";
-import type { AppDispatch } from "../../Redux/store"; 
-import { useDispatch } from "react-redux";
+import { useAuthNavigate } from "@/hooks/useAuthNavigate";
 
 
 
 
 
 export default function HeroTopCard(){
-    const dispatch = useDispatch<AppDispatch>();
-    const { data, isLoading, refetch } =  useGetProfileQuery(undefined, {
-    refetchOnMountOrArgChange: false,
-    refetchOnReconnect: false,
-    refetchOnFocus: false,
-  })
-  const router = useRouter()
-  const handleNavigate = async (link: string) => {
-    if (!data?.user) {
-      try {
-        const res = await dispatch(googleLoginThunk()).unwrap();
-        await refetch();
-        router.push(link);
-      } catch (error) {
-        console.error("Google login failed:", error);
-      }
-    } else {
-      router.push(link);
-    }
-  };
+    const { authNavigate, isAuthenticating } = useAuthNavigate();;
 
     return(
       <div className="relative w-full lg:w-[74%] h-[500px] md:h-[600px] rounded-xl overflow-hidden  shadow-lg group">
@@ -63,12 +40,14 @@ export default function HeroTopCard(){
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 ">
             <Button
-            onClick={() => handleNavigate('/Blogs')} 
+            onClick={() => authNavigate('/Blogs')}
+            disabled={isAuthenticating}
             className="px-5.5 py-5.5 bg-gradient-to-r from-indigo-600 cursor-pointer to-purple-600 text-[16px] text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-indigo-500/25 transform hover:-translate-y-0.5">
               Start Reading
             </Button>
             <Button
-            onClick={() => handleNavigate('/Create')} 
+            onClick={() => authNavigate('/Create')}
+            disabled={isAuthenticating}
             className="px-6 py-5 bg-white/10 backdrop-blur-sm cursor-pointer text-white border border-white/20 rounded-lg font-medium hover:bg-white/20 transition-all text-[16px]  ">
               Create Post
             </Button>

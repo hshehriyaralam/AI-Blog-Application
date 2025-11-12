@@ -4,79 +4,71 @@ import { User } from "../../../../lib/Models/User";
 import { Blogs } from "../../../../lib/Models/Blog";
 import { Like } from "../../../../lib/Models/Like";
 import { Bookmark } from "../../../../lib/Models/Bookmark";
-import { deleteFromCloudinary } from "../../../../lib/deleteCloudinary";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 
-export async function DELETE(req: Request, context: { params: { id: string } }) {
+export async function DELETE(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     await connectDB();
-    const { id } = context.params;
 
-    // 🔍 Find user first
-    const user = await User.findById(id);
-    if (!user) {
-      return NextResponse.json(
-        { success: false, message: "User not found" },
-        { status: 404 }
-      );
+    // ✅ Await params first
+    const { id } = await params;
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+    if (!token)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    let decode: any;
+    try {
+      decode = jwt.verify(token, process.env.JWT_SECRET as string);
+    } catch {
+      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
-    // 🧩 Get all blogs created by this user
-    const blogs = await Blogs.find({ userId: user._id });
-    const blogIds = blogs.map((b) => b._id);
-
-    // 🧹 1. Delete all images from Cloudinary
-    for (const blog of blogs) {
-      if (blog.blogImage) {
-        try {
-          await deleteFromCloudinary(blog.blogImage);
-        } catch (err) {
-          console.warn("⚠️ Cloudinary deletion failed:", err);
-        }
-      }
+    const admin = await User.findById(decode.id);
+    if (!admin || admin.role !== "admin") {
+      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
     }
 
-    // 🧹 2. Delete all likes made by this user
-    await Like.deleteMany({ userId: user._id });
+    const userToDelete = await User.findById(id);
+    if (!userToDelete) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
 
-    // 🧹 3. Delete all likes on user's blogs
+    // Delete user's blogs
+    const userBlogs = await Blogs.find({ userId: id });
+    const blogIds = userBlogs.map((b) => b._id);
+
+    // Delete likes for user's blogs
     await Like.deleteMany({ blogId: { $in: blogIds } });
 
-    // 🧹 4. Delete all bookmarks made by this user
-    await Bookmark.deleteMany({ userId: user._id });
-
-    // 🧹 5. Delete all bookmarks on user's blogs (from other users)
+    // Delete bookmarks for user's blogs
     await Bookmark.deleteMany({ blogId: { $in: blogIds } });
 
-    // 🧹 6. Remove deleted blogs from others' likedBlogs & bookmarks
-    await Promise.all([
-      User.updateMany(
-        { likedBlogs: { $in: blogIds } },
-        { $pull: { likedBlogs: { $in: blogIds } }, $inc: { totalLikes: -1 } }
-      ),
-      User.updateMany(
-        { bookmarks: { $in: blogIds } },
-        { $pull: { bookmarks: { $in: blogIds } } }
-      ),
-    ]);
+    // Delete user's blogs
+    await Blogs.deleteMany({ userId: id });
 
-    // 🧹 7. Delete all blogs of this user
-    await Blogs.deleteMany({ userId: user._id });
+    // Delete user's likes
+    await Like.deleteMany({ userId: id });
 
-    // 🧹 8. Finally delete user record
-    await User.findByIdAndDelete(user._id);
+    // Delete user's bookmarks
+    await Bookmark.deleteMany({ userId: id });
+
+    // Delete user
+    await User.findByIdAndDelete(id);
 
     return NextResponse.json(
-      {
-        success: true,
-        message:
-          "User, blogs, likes, bookmarks, and Cloudinary images deleted successfully by Admin",
-      },
+      { message: "User deleted successfully" },
       { status: 200 }
     );
   } catch (error: any) {
-    console.error("❌ Admin Delete User Error:", error);
+    console.error("❌ Delete User Error:", error);
     return NextResponse.json(
-      { success: false, message: "Error deleting user", error: error.message },
+      { error: error.message || "Internal Server Error" },
       { status: 500 }
     );
   }

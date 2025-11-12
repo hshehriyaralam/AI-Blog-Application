@@ -1,11 +1,11 @@
 'use client'
 import { Tag } from 'lucide-react'
 import { useFetchBlogQuery } from '../../Redux/Services/blogApi';
+import {liveRefetchOptions} from "../../hooks/rtkOptions"
+
 
 export default function TagsFilter({ themeValue, light, dark, value, onChange }: any) {
-  const { data } = useFetchBlogQuery([undefined, {
-  pollingInterval: 10000, 
-}])
+  const { data } = useFetchBlogQuery(undefined, liveRefetchOptions)
 
 const allTags = data?.blogs?.map((b: { blogTags: string[] }) => b.blogTags).flat() || [];
 

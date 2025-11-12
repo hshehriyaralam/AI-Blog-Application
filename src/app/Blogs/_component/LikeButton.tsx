@@ -3,6 +3,8 @@ import { Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLikeBlogMutation } from "../../../Redux/Services/blogApi";
 import { useGetProfileQuery } from "../../../Redux/Services/userApi";
+import {liveRefetchOptions} from "../../../hooks/rtkOptions";
+
 
 export interface IUser {
   id?: string;
@@ -20,9 +22,7 @@ export default function LikeButton({
   likes: IUser[];
   likesCount: number;
 }) {
-  const { data } = useGetProfileQuery(undefined, {
-  pollingInterval: 10000,
-});
+  const { data } = useGetProfileQuery(undefined,liveRefetchOptions);
   const currentUserId = data?.user?._id;
 
   const [likeBlog] = useLikeBlogMutation();

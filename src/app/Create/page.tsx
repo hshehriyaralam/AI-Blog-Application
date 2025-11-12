@@ -6,7 +6,7 @@ import InputTitle from "./_component/InputTitle"
 import InputContent from "./_component/InputContent"
 import FeatureImage  from "./_component/FeatureImage"
 import InputSummary from "./_component/InputSummary"
-import InputTags from "./_component/InputSummary"
+import InputTags from "./_component/InputTags"
 import PreviewBlog from "./_component/PreviewBlog";
 import CenteredButtons from "./_component/CenteredButtons";
 import BlogFormFunctions  from '../../utilities/BlogFornFunc'

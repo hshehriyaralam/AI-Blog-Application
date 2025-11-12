@@ -12,25 +12,18 @@ import {
   Users as UsersIcon,
   ThumbsUp,
   Bookmark,
-  TrendingUp,
   Sparkles,
 } from "lucide-react";
 import { ContextTheme } from "../../../../Context/DarkTheme";
+import {liveRefetchOptions}   from "../../../../hooks/rtkOptions"
+
+
 
 export default function Stats() {
-  const { data: AllBlogs } = useAllBlogAdminQuery(undefined, {
-    pollingInterval: 10000,
-  });
-  const { data: Users } = useAllUserAdminQuery(undefined, {
-    pollingInterval: 10000,
-  });
-  const { data: bookmarks } = useAllbookmarksAdminQuery(undefined, {
-    pollingInterval: 10000,
-  });
-  const { data: likesData } = useAllLikesAdminQuery(undefined, {
-    pollingInterval: 10000,
-  });
-
+  const { data: AllBlogs } = useAllBlogAdminQuery(undefined, liveRefetchOptions);
+  const { data: Users } = useAllUserAdminQuery(undefined, liveRefetchOptions);
+  const { data: bookmarks } = useAllbookmarksAdminQuery(undefined, liveRefetchOptions);
+  const { data: likesData } = useAllLikesAdminQuery(undefined, liveRefetchOptions);
   const { themeValue, light, dark } = useContext(ContextTheme);
 
   const stats = [

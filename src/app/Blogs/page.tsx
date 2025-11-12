@@ -1,8 +1,10 @@
 'use client'
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
+import {liveRefetchOptions} from "../../hooks/rtkOptions"
 import { ContextTheme } from '../../Context/DarkTheme'
 import { useContext, useMemo, useState } from 'react';
 import BlogCard from "../../components/Common/BLogCard";
+import type { DraftFilters } from "../../../types/Blog"
 
 // Components
 import SearchInput from "../../components/Common/SearchINput";
@@ -12,17 +14,9 @@ import DateFilter from "../../components/Common/DateFilter";
 import Tags from "../../components/Common/TagsFilter";
 import FilterActions from "../../components/Common/FilterActions";
 
-type DraftFilters = {
-  authorId: string;
-  title: string;
-  date: string; 
-  tag: string;
-};
 
 export default function AllBlogs() {
-  const { data, isLoading } = useFetchBlogQuery(undefined, {
-  pollingInterval: 10000, 
-});
+  const { data, isLoading } = useFetchBlogQuery(undefined, liveRefetchOptions);
 
 
 // console.log("Fetched blogs data:", data);

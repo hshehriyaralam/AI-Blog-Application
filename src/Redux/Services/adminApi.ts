@@ -9,7 +9,7 @@ export const adminApi = createApi({
      //All Blogs
     allBlogAdmin: builder.query({
       query: () => "Admin/Blogs",
-      providesTags: ["Blog", "User","Like","Bookmark"]
+      providesTags: ["Blog", "User","Like","Bookmark"],
     }),
     //Delete Blog By Admin 
     deleteBlogAdmin: builder.mutation<void, string>({
@@ -30,7 +30,7 @@ export const adminApi = createApi({
     // All user Fetch
     allUserAdmin : builder.query({
         query : () => "Admin/Users",
-        providesTags : ["Blog", "User","Like","Bookmark"]
+      providesTags : ["Blog", "User","Like","Bookmark"],
     }),
     // fetch All Likes
     allLikesAdmin : builder.query({

@@ -3,21 +3,10 @@ import { useContext, useState } from "react";
 import { ContextTheme } from "../../../../Context/DarkTheme";
 import { Users, Mail, FileText, UserCheck, Crown, PenTool, Heart } from "lucide-react";
 import DeleteButton from "./DeleteButton";
+import type {AdminUser  as User} from "../../../../../types/Admin"
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  profilePic?: string;
-  role: 'admin' | 'author' | 'user';
-  isBanned: boolean;
-  blogCount: number;
-  totalLikes: number;
-  joiningTime: string;
-  lastSeenAt: string;
-  bio?: string;
-  isAdmin: boolean;
-}
+
+
 
 export default function AllUserAdminPage({ filteredUsers, setShowDeleteModal, setSelectedUser }: any) {
   const { themeValue, light, dark } = useContext(ContextTheme);

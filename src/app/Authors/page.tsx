@@ -2,16 +2,14 @@
 import { ContextTheme } from "../../Context/DarkTheme";
 import { useContext } from "react";
 import { useAllUserQuery,useGetProfileQuery } from "../../Redux/Services/userApi";
+import {liveRefetchOptions} from "../../hooks/rtkOptions";
+
 import AuthorsCard from "./_component/AuthorsCard"
 
 
 export default function Authors() {
-    const { data : loggedInUser} = useGetProfileQuery(undefined, {
-  pollingInterval: 10000, 
-})
-    const { data:allUsers } = useAllUserQuery(undefined, {
-  pollingInterval: 10000, 
-});
+    const { data : loggedInUser} = useGetProfileQuery(undefined,liveRefetchOptions )
+    const { data:allUsers } = useAllUserQuery(undefined,liveRefetchOptions);
     const { themeValue, light, dark } = useContext(ContextTheme);
 
     

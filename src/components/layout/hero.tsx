@@ -4,13 +4,14 @@ import HeroTopCard from '../HomeComponets/HeroTopCard';
 import Tags from '../HomeComponets/Tags';
 import {ContextTheme} from '../../Context/DarkTheme'
 import { useContext } from 'react';
-import Link from 'next/link';
+import { useAuthNavigate } from "@/hooks/useAuthNavigate";
 import { Button } from '../ui/button';
 import { ArrowRight } from 'lucide-react';
 import Blogs from "./HomeBlogs"
 
 
 export default function Hero() {
+    const { authNavigate, isAuthenticating } = useAuthNavigate();
   
   const {themeValue, light ,dark} = useContext(ContextTheme)
   return (
@@ -34,8 +35,9 @@ export default function Hero() {
       </div>
       <Blogs />
    <div className="flex justify-center lg:justify-end">
-  <Link href="/Blogs">
     <Button
+      onClick={() => authNavigate('/Profile')}
+      disabled={isAuthenticating}
       variant="ghost"
       className={`flex items-center gap-2 group mt-4 px-8 py-1.5 cursor-pointer ${
         themeValue
@@ -49,7 +51,6 @@ export default function Hero() {
         className="group-hover:translate-x-1 transition-transform"
       />
     </Button>
-  </Link>
 </div>
 
 

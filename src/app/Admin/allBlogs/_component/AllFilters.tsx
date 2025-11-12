@@ -8,13 +8,7 @@ import DateFilter from "../../../../components/Common/DateFilter"
 import Tags from "../../../../components/Common/TagsFilter"
 import FilterActions from "../../../../components/Common/FilterActions"
 import { useContext, useMemo,  } from "react";
-
-type DraftFilters = {
-  authorId: string;
-  title: string;
-  date: string;
-  tag: string;
-};
+import type {DraftFilters} from "../../../../../types/Blog"
 
 
 export default function AllFiltersBlogs({

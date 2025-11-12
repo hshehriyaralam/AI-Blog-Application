@@ -2,20 +2,10 @@
 import { FileText, User, Calendar} from "lucide-react";
 import ActionsAdmin from "./Actions";
 import { useState } from "react";
+import type {AdminBlog as Blog} from "../../../../../types/Admin"
 
 
-interface Blog {
-  _id: string;
-  blogTitle: string;
-  blogContent: string;
-  blogImage?: string;
-  status: "published" | "draft";
-  createdAt: string;
-  userId: {
-    name: string;
-    profilePic?: string;
-  };
-}
+
 
 
 export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: any) {

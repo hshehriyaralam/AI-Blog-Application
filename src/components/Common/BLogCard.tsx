@@ -3,17 +3,21 @@ import Link from 'next/link';
 import { User  } from "lucide-react";
 import Loader from './Loader';
 import { useState } from 'react';
+import { useAuthNavigate } from "@/hooks/useAuthNavigate";
+
 
 
 
 
 export default function BlogCard({ blog, isFeatured, themeValue,isLoading }: any) {
+    const { authNavigate, isAuthenticating } = useAuthNavigate();
     const [imgError, setImgError] = useState(false);
   const hasImage = blog.userId.profilePic && blog.userId.profilePic.trim() !== "" && !imgError;
   
   if (isLoading) return <Loader />
   return (
-    <Link href={`/Blogs/${blog._id}`}>
+    // <div onClick={() => authNavigate(`/Blogs/${blog._id}`)}>
+    <Link  href={`/Blogs/${blog._id}`}  >
       {/* Image Container */}
       <div className={`relative ${isFeatured ? 'h-64' : 'h-48'} overflow-hidden`}>
         <img
@@ -87,6 +91,8 @@ export default function BlogCard({ blog, isFeatured, themeValue,isLoading }: any
           </div>
         </div>
       </div>
+  
     </Link>
+
   );
 }
