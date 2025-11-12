@@ -1,5 +1,4 @@
 'use client'
-import Link from 'next/link';
 import { User  } from "lucide-react";
 import Loader from './Loader';
 import { useState } from 'react';
@@ -16,8 +15,7 @@ export default function BlogCard({ blog, isFeatured, themeValue,isLoading }: any
   
   if (isLoading) return <Loader />
   return (
-    // <div onClick={() => authNavigate(`/Blogs/${blog._id}`)}>
-    <Link  href={`/Blogs/${blog._id}`}  >
+    <div onClick={() => authNavigate(`/Blogs/${blog._id}`)}>
       {/* Image Container */}
       <div className={`relative ${isFeatured ? 'h-64' : 'h-48'} overflow-hidden`}>
         <img
@@ -91,8 +89,8 @@ export default function BlogCard({ blog, isFeatured, themeValue,isLoading }: any
           </div>
         </div>
       </div>
-  
-    </Link>
+
+    </div>
 
   );
 }
