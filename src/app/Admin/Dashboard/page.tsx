@@ -1,7 +1,5 @@
 'use client'
-import Link from "next/link";
-import { useState, useEffect, useContext } from "react";
-import { FileText, Users, ThumbsUp, Bookmark, Eye, Calendar, TrendingUp } from "lucide-react";
+import {  useContext } from "react";
 import { ContextTheme } from "../../../Context/DarkTheme";
 import Stats from "./_component/Stats";
 import RecenetBlog from "./_component/RecentBlog";
