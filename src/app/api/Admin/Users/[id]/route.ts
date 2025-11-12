@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "../../../../lib/dbConnect";
-import { User } from "../../../../lib/Models/User";
-import { Blogs } from "../../../../lib/Models/Blog";
-import { Like } from "../../../../lib/Models/Like";
-import { Bookmark } from "../../../../lib/Models/Bookmark";
+import { connectDB } from "@/app/lib/dbConnect";
+import { User } from "@/app/lib/Models/User";
+import { Blogs } from "@/app/lib/Models/Blog";
+import { Like } from "@/app/lib/Models/Like";
+import { Bookmark } from "@/app/lib/Models/Bookmark";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 

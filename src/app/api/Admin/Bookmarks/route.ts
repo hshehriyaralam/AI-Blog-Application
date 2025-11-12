@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import { connectDB } from "../../../lib/dbConnect";
-import {Bookmark} from "../../../lib/Models/Bookmark";
+import { connectDB } from "@/app/lib/dbConnect";
+import { Bookmark } from "@/app/lib/Models/Bookmark";
 
 export async function GET(req: NextRequest) {
   try {

@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "../../../../lib/dbConnect";
-import { Blogs } from "../../../../lib/Models/Blog";
-import { Like } from "../../../../lib/Models/Like";
-import { Bookmark } from "../../../../lib/Models/Bookmark"
-import { User } from "../../../../lib/Models/User"
+import { connectDB } from "@/app/lib/dbConnect";
+import { Blogs } from "@/app/lib/Models/Blog";
+import { Like } from "@/app/lib/Models/Like";
+import { Bookmark } from "@/app/lib/Models/Bookmark";
+import { User } from "@/app/lib/Models/User";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import { deleteFromCloudinary } from "../../../../lib/deleteCloudinary";
+import { deleteFromCloudinary } from "@/app/lib/deleteCloudinary";
 
 export async function DELETE(
   req: Request,
