@@ -5,11 +5,11 @@ import BookmarkFilter from "./_component/bookmarkFilter";
 import BookmarkList from "./_component/bookmarkList";
 import LoadingPage from "../../../components/layout/LoadingPage";
 import {useAllbookmarksAdminQuery} from '../../../Redux/Services/adminApi';
+import {liveRefetchOptions}   from "../../../hooks/rtkOptions"
+
 
 export default function UserBookmarks() {
-  const { data, isLoading, error } = useAllbookmarksAdminQuery(undefined, {
-      pollingInterval: 10000,
-    });
+  const { data, isLoading, error } = useAllbookmarksAdminQuery(undefined,liveRefetchOptions);
   const { themeValue, light, dark } = useContext(ContextTheme);
   const [searchQuery, setSearchQuery] = useState("");
   

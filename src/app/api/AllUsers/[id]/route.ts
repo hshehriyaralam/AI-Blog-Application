@@ -3,6 +3,7 @@ import { User } from "../../../lib/Models/User";
 import { Blogs } from "../../../lib/Models/Blog";
 import { connectDB } from '../../../lib/dbConnect'
 
+
 export async function GET(
   req: Request,
    context: { params: Promise<{ id: string }> } 

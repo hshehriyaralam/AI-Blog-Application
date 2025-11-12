@@ -1,5 +1,6 @@
-'use client'
+'use client';
 import { Volume2 } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 export default function ListeBlogEng({
   isPlaying,
@@ -8,90 +9,83 @@ export default function ListeBlogEng({
   setCurrentIndex,
   setIsPlaying,
 }: any) {
+  const fallbackInterval = useRef<any>(null);
+
   const handleListenEng = () => {
     if (!isPlaying) {
-      const synth = window.speechSynthesis;
-
-      // 🔹 queue clear kar do
-      synth.cancel();
-
-      const sections = [
-        { section: "content-heading", text: "Content" },
-        { section: "content", text: blogContent || "" },
-      ];
-
-      if (blogSummary) {
-        sections.push({ section: "summary-heading", text: "AI Summary" });
-        sections.push({ section: "summary", text: blogSummary });
+      if (!("speechSynthesis" in window)) {
+        alert("Your browser does not support speech synthesis.");
+        return;
       }
 
-      let allWords: { section: string; word: string; localIndex: number }[] = [];
-      sections.forEach((sec) => {
-        sec.text.split(/\s+/).forEach((w: any, idx: number) => {
-          allWords.push({ section: sec.section, word: w, localIndex: idx });
-        });
-      });
+      // Cancel any existing queue & clear interval
+      window.speechSynthesis.cancel();
+      if (fallbackInterval.current) clearInterval(fallbackInterval.current);
 
-      const fullText = sections.map((s) => s.text).join(" ");
+      const sections = [
+        { section: "content", text: blogContent || "" },
+      ];
+      if (blogSummary) sections.push({ section: "summary", text: blogSummary });
+
+      // Prepare word list for highlighting
+      let allWords: { section: string; word: string; localIndex: number }[] = [];
+      sections.forEach(sec =>
+        sec.text.split(/\s+/).forEach((w:any, idx:any) => allWords.push({ section: sec.section, word: w, localIndex: idx }))
+      );
+
+      const fullText = sections.map(s => s.text).join(" ");
       const utter = new SpeechSynthesisUtterance(fullText);
       utter.lang = "en-US";
-      utter.rate = 1.05;
+      utter.rate = 1;
       utter.pitch = 1;
 
-      let fallbackInterval: any = null;
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
-      // ✅ Desktop highlight
-      utter.onboundary = (event) => {
-        if (event.charIndex !== undefined) {
-          const currentChar = event.charIndex;
-          let cumulative = 0;
-          for (let i = 0; i < allWords.length; i++) {
-            cumulative += allWords[i].word.length + 1;
-            if (currentChar < cumulative) {
-              setCurrentIndex({
-                section: allWords[i].section,
-                index: allWords[i].localIndex,
-              });
-              break;
+      // 🔹 Desktop highlight using onboundary
+      if (!isMobile) {
+        utter.onboundary = (event: any) => {
+          if (event.charIndex !== undefined) {
+            const currentChar = event.charIndex;
+            let cumulative = 0;
+            for (let i = 0; i < allWords.length; i++) {
+              cumulative += allWords[i].word.length + 1; // +1 for space
+              if (currentChar < cumulative) {
+                setCurrentIndex({ section: allWords[i].section, index: allWords[i].localIndex });
+                break;
+              }
             }
           }
-        }
-      };
+        };
+      }
 
-      // ✅ Mobile Fallback highlight
-      utter.onstart = () => {
-        // agar mobile par onboundary fire hi na ho
-        if (!(typeof utter.onboundary === "function")) {
-          let i = 0;
-          const avgTimePerWord = (fullText.length / allWords.length) * 30;
-          fallbackInterval = setInterval(() => {
-            if (i < allWords.length && isPlaying) {
-              setCurrentIndex({
-                section: allWords[i].section,
-                index: allWords[i].localIndex,
-              });
-              i++;
-            } else {
-              clearInterval(fallbackInterval);
-            }
-          }, avgTimePerWord);
-        }
-      };
+      // 🔹 Mobile highlight fallback using interval
+      if (isMobile) {
+        let i = 0;
+        const avgTimePerWord = 300; // Approx 300ms per word
+        fallbackInterval.current = setInterval(() => {
+          if (i < allWords.length && isPlaying) {
+            setCurrentIndex({ section: allWords[i].section, index: allWords[i].localIndex });
+            i++;
+          } else {
+            clearInterval(fallbackInterval.current);
+          }
+        }, avgTimePerWord);
+      }
 
+      // 🔹 On end cleanup
       utter.onend = () => {
-        if (fallbackInterval) clearInterval(fallbackInterval);
+        if (fallbackInterval.current) clearInterval(fallbackInterval.current);
         setCurrentIndex({ section: "", index: null });
         setIsPlaying(false);
       };
 
-      // 🔹 Mobile Chrome ke liye ek chhoti si delay
-      setTimeout(() => {
-        synth.speak(utter);
-      }, 100);
-
+      // Speak immediately
+      window.speechSynthesis.speak(utter);
       setIsPlaying(true);
+
     } else {
       window.speechSynthesis.cancel();
+      if (fallbackInterval.current) clearInterval(fallbackInterval.current);
       setCurrentIndex({ section: "", index: null });
       setIsPlaying(false);
     }
@@ -104,7 +98,7 @@ export default function ListeBlogEng({
         bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium 
         hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105 cursor-pointer"
     >
-      <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 " />
+      <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" />
       {isPlaying ? "Stop" : "Listen"}
     </button>
   );

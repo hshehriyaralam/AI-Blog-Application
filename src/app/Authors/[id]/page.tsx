@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSingleUserQuery } from "../../../Redux/Services/userApi";
+import {liveRefetchOptions}  from "../../../hooks/rtkOptions"
 import { ContextTheme } from "../../../Context/DarkTheme";
 import { useContext,useState } from "react";
 import {  BookOpen} from "lucide-react";
@@ -15,7 +16,7 @@ import AuthorsBlog from "../_component/AuthorsBlogs"
 export default function AuthorsDetail() {
   const params = useParams();
   const id = params?.id as string;
-  const { data: SingleUser, isLoading, error } = useSingleUserQuery(id)
+  const { data: SingleUser, isLoading, error } = useSingleUserQuery(id,liveRefetchOptions)
 
   const { themeValue, light, dark } = useContext(ContextTheme);
   const user = SingleUser?.data?.user;
@@ -102,7 +103,7 @@ export default function AuthorsDetail() {
               <h3 className={`text-lg font-semibold mb-2 ${themeValue ? 'text-gray-800' : 'text-white'}`}>
                 No articles yet
               </h3>
-              <p className={`text-gray-600 `}>
+              <p className={`text-gray-600 lg:max-w-[400px]   max-w-[280px]  text-center mx-auto     `}>
                 {user.name} hasn't published any articles yet.
               </p>
             </div>

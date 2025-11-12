@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
-interface LoaderProps {
-  text?: string;
-  color?: string;
-}
+import type { LoaderProps } from '../../../types/Blog';
 
 const AILoader: React.FC<LoaderProps> = ({ text = "Generating...", color = "#3B82F6" }) => {
   return (

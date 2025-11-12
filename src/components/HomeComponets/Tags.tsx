@@ -2,13 +2,13 @@
 import { useContext } from 'react';
 import { ContextTheme } from '../../Context/DarkTheme'
 import { useFetchBlogQuery } from '../../Redux/Services/blogApi';
+import {liveRefetchOptions} from "../../hooks/rtkOptions"
+
 import { Hash, Loader2 } from 'lucide-react';
 
 export default function Tags() {
   const { themeValue, lightText, DarkText } = useContext(ContextTheme)
-  const { data, isLoading, isError } = useFetchBlogQuery(undefined, {
-  pollingInterval: 10000, // 🔄 har 10 second baad auto refetch
-})
+  const { data, isLoading, isError } = useFetchBlogQuery(undefined,liveRefetchOptions )
 
   if (isLoading) {
     return (

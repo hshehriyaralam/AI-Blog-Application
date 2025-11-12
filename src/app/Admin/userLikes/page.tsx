@@ -5,21 +5,13 @@ import LikedFilter from  "./_component/likedFilter"
 import LoadingPage from "../../../components/layout/LoadingPage";
 import LikedLists from "./_component/LikedList"
 import { useAllLikesAdminQuery } from "../../../Redux/Services/adminApi";
+import {liveRefetchOptions}   from "../../../hooks/rtkOptions"
 
-interface LikeData {
-  userName: string;
-  userEmail: string;
-  userProfile?: string;
-  blogTitle: string;
-  likedAt: string;
-  blogImage? : string;
-  blogSummary? : string;
-}
+import type { LikeData } from "../../../../types/Admin"
+
 
 export default function UserLikes() {
-  const { data: likesData, isLoading } = useAllLikesAdminQuery(undefined, {
-  pollingInterval: 10000,
-});
+  const { data: likesData, isLoading } = useAllLikesAdminQuery(undefined,liveRefetchOptions);
   const { themeValue, light, dark } = useContext(ContextTheme);
   const [likes, setLikes] = useState<LikeData[]>([]);
   const [searchQuery, setSearchQuery] = useState("");

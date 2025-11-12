@@ -4,13 +4,14 @@ import Link from "next/link";
 import { useState,  useContext, useMemo } from "react";
 import { ContextTheme } from "../../../../Context/DarkTheme";
 import { useAllBlogAdminQuery } from "../../../../Redux/Services/adminApi";
+import {liveRefetchOptions}   from "../../../../hooks/rtkOptions"
+
 import { useRouter } from "next/navigation";
 import LoadingPage from "@/components/layout/LoadingPage";
 
+
 export default function RecentBlog() {
-  const { data: AllBlogs, isLoading } = useAllBlogAdminQuery(undefined, {
-    pollingInterval: 10000,
-  });
+  const { data: AllBlogs, isLoading } = useAllBlogAdminQuery(undefined,liveRefetchOptions );
   const { themeValue, light, dark } = useContext(ContextTheme);
   const router = useRouter();
   const [imgError, setImgError] = useState(false);

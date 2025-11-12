@@ -11,7 +11,6 @@ export default function ProfileSection({
  user,
  joinedDate,
  lastSeen,
- totalViews,
  handleGoogleLogin,
  setShowDeleteConfirm,
  handleDeleteAccount,

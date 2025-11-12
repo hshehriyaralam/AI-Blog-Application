@@ -8,9 +8,15 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { deleteFromCloudinary } from "../../../../lib/deleteCloudinary";
 
-export async function DELETE(req: Request, context: { params: { id: string } }) {
+export async function DELETE(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     await connectDB();
+
+    // ✅ Await params first
+    const { id } = await params;
 
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
@@ -28,18 +34,13 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
     if (!user)
       return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-    const { id } = context.params;
-
-    // 🔍 Find the blog first (for Cloudinary image access)
+    // Find the blog first
     const blog = await Blogs.findById(id);
     if (!blog) {
-      return NextResponse.json(
-        { error: "Blog not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
-    // 🔐 Check permission (author or admin only)
+    // Check permission (author or admin only)
     if (user.role !== "admin" && blog.userId.toString() !== user._id.toString()) {
       return NextResponse.json(
         { error: "Unauthorized to delete this blog" },
@@ -47,22 +48,22 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       );
     }
 
-    // 🧹 1. Delete all Likes for this Blog
+    // Delete all Likes for this Blog
     await Like.deleteMany({ blogId: blog._id });
 
-    // 🧹 2. Remove this Blog from all users’ likedBlogs + decrement totalLikes
+    // Remove this Blog from all users' likedBlogs + decrement totalLikes
     await User.updateMany(
       { likedBlogs: blog._id },
       { $pull: { likedBlogs: blog._id }, $inc: { totalLikes: -1 } }
     );
 
-    // 🧹 3. Delete all Bookmarks related to this Blog
+    // Delete all Bookmarks related to this Blog
     const blogBookmarks = await Bookmark.find({ blogId: blog._id });
     const bookmarkIds = blogBookmarks.map((b) => b._id);
 
     await Bookmark.deleteMany({ blogId: blog._id });
 
-    // 🧹 4. Remove those bookmarks from all users’ bookmarks array
+    // Remove those bookmarks from all users' bookmarks array
     if (bookmarkIds.length > 0) {
       await User.updateMany(
         { bookmarks: { $in: bookmarkIds } },
@@ -70,10 +71,10 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       );
     }
 
-    // 🧮 5. Decrease Author’s blogCount
+    // Decrease Author's blogCount
     await User.findByIdAndUpdate(blog.userId, { $inc: { blogCount: -1 } });
 
-    // 🗑️ 6. Delete Cloudinary image if exists
+    // Delete Cloudinary image if exists
     if (blog.imageUrl) {
       try {
         await deleteFromCloudinary(blog.imageUrl);
@@ -83,12 +84,12 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       }
     }
 
-    // 🗑️ 7. Finally delete the blog itself
+    // Finally delete the blog itself
     await Blogs.findByIdAndDelete(id);
 
     return NextResponse.json(
       {
-        message: "Blog deleted successfully with all related data (likes, bookmarks, image) cleaned",
+        message: "Blog deleted successfully with all related data cleaned",
       },
       { status: 200 }
     );

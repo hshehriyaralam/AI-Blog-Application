@@ -4,12 +4,11 @@ import {
   useGetBookmarksQuery,
   useToggleBookmarkMutation,
 } from "../../../Redux/Services/bookmarkApi";
+import {liveRefetchOptions} from "../../../hooks/rtkOptions";
 import { useState, useEffect } from "react";
 
 export default function BookmarkButton({ blogId }: { blogId: string }) {
-  const { data: bookmarks } = useGetBookmarksQuery(undefined, {
-  pollingInterval: 10000, 
-});
+  const { data: bookmarks } = useGetBookmarksQuery(undefined, liveRefetchOptions);
   const [toggleBookmark] = useToggleBookmarkMutation();
 
   // ✅ local state for instant UI updates

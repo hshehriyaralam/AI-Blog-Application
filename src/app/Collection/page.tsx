@@ -1,17 +1,16 @@
 "use client";
 import { ContextTheme } from "../../Context/DarkTheme"
 import { useGetBookmarksQuery } from "../../Redux/Services/bookmarkApi";
+import {liveRefetchOptions} from "../../hooks/rtkOptions"
 import Link from "next/link";
 import { FileText } from "lucide-react";
 import { useState, useContext } from "react";
 import { Button } from "../../components/ui/button";
-import CollectionsBlogCard from '../../components/CollectionsComponents/BlogCard'
+import CollectionsBlogCard from "./_component/BlogCard";
 import LoadingPage from "../../components/layout/LoadingPage";
 
 export default function Collection() {
-  const { data, isLoading, isError } = useGetBookmarksQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading, isError } = useGetBookmarksQuery(undefined, liveRefetchOptions);
 
   console.log("Bookmarks Data:", data);
   const [imgError, setImgError] = useState(false);

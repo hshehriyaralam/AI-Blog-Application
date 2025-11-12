@@ -2,12 +2,12 @@
 import { ContextTheme } from '../../Context/DarkTheme'
 import { useContext } from 'react';
 import { useFetchBlogQuery } from "../../Redux/Services/blogApi"; 
+import {liveRefetchOptions} from "../../hooks/rtkOptions"
+
 import BlogCard from "../Common/BLogCard"
 
 export default function HomeBlogs() {
-  const { data } = useFetchBlogQuery(undefined, {
-  pollingInterval: 10000, 
-});
+  const { data } = useFetchBlogQuery(undefined,liveRefetchOptions );
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme)
 
   return (

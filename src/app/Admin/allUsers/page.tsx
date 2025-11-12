@@ -1,32 +1,19 @@
 'use client'
 import { useState, useContext, useMemo } from "react";
 import { useAllUserAdminQuery } from '../../../Redux/Services/adminApi'
+import {liveRefetchOptions}  from '../../../hooks/rtkOptions'
 import { ContextTheme } from "../../../Context/DarkTheme";
 import LoadingPage from "../../../components/layout/LoadingPage";
 import NameFilter from "./_component/Filter";
 import AllUserAdminPage from "./_component/AllUser"
 import DeletePopUp from "./_component/DeletePopUp"
+import type {AdminUser  as User} from "../../../../types/Admin"
 
- interface User {
-  id: string;
-  name: string;
-  email: string;
-  profilePic?: string;
-  role: 'admin' | 'author' | 'user';
-  isBanned: boolean;
-  blogCount: number;
-  totalLikes: number;
-  joiningTime: string;
-  lastSeenAt: string;
-  bio?: string;
-  isAdmin: boolean;
-}
+
 
 export default function AllUsers() {
   const { themeValue, light, dark } = useContext(ContextTheme);
-  const { data, isLoading } = useAllUserAdminQuery(undefined, {
-      pollingInterval: 10000,
-    })
+  const { data, isLoading } = useAllUserAdminQuery(undefined,liveRefetchOptions)
 
     
   const [searchQuery, setSearchQuery] = useState("");

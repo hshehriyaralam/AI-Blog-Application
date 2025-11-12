@@ -4,12 +4,9 @@ import LikeButton from "./LikeButton";
 import ShareButton from "./ShareButton";
 import BookmarkButton from './BookmarkButton'
 import LikedByUser from './likedbyUser';
+import type { User } from "../../../../types/Blog"
 
-interface User {
-  id: string; 
-  name: string;
-  profilePic: string;
-}
+
 
 export default function ActionRow({
   blogContent,
