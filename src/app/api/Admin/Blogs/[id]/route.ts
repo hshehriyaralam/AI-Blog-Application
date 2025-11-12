@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { connectDB } from "../../../../lib/dbConnect";
 import { Blogs } from "../../../../lib/Models/Blog";
 import { Like } from "../../../../lib/Models/Like";
-import { Bookmark } from "../../../../lib/Models/Bookmark";
-import { User } from "../../../../lib/Models/User";
+import { Bookmark } from "../../../../lib/Models/Bookmark"
+import { User } from "../../../../lib/Models/User"
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { deleteFromCloudinary } from "../../../../lib/deleteCloudinary";

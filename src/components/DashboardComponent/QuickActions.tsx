@@ -6,7 +6,7 @@ import {
   ThumbsUp,
   Bookmark,
 } from "lucide-react";
-import { ContextTheme } from "../../../../Context/DarkTheme";
+import { ContextTheme } from "../../Context/DarkTheme";
 import { useContext } from "react";
 
 export default function QuickActions() {

@@ -2,9 +2,9 @@
 import { FileText, User, Calendar, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useState,  useContext, useMemo } from "react";
-import { ContextTheme } from "../../../../Context/DarkTheme";
-import { useAllBlogAdminQuery } from "../../../../Redux/Services/adminApi";
-import {liveRefetchOptions}   from "../../../../hooks/rtkOptions"
+import { ContextTheme } from "../../Context/DarkTheme";
+import { useAllBlogAdminQuery } from "../../Redux/Services/adminApi";
+import {liveRefetchOptions}   from "../../hooks/rtkOptions"
 
 import { useRouter } from "next/navigation";
 import LoadingPage from "@/components/layout/LoadingPage";

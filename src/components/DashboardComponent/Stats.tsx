@@ -4,7 +4,7 @@ import {
   useAllUserAdminQuery,
   useAllbookmarksAdminQuery,
   useAllLikesAdminQuery,
-} from "../../../../Redux/Services/adminApi";
+} from "../../Redux/Services/adminApi";
 import Link from "next/link";
 import { useContext } from "react";
 import {
@@ -14,8 +14,8 @@ import {
   Bookmark,
   Sparkles,
 } from "lucide-react";
-import { ContextTheme } from "../../../../Context/DarkTheme";
-import {liveRefetchOptions}   from "../../../../hooks/rtkOptions"
+import { ContextTheme } from "../../Context/DarkTheme";
+import {liveRefetchOptions}   from "../../hooks/rtkOptions"
 
 
 
