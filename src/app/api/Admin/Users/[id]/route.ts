@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 import { connectDB } from "@/app/lib/dbConnect";
 import { User } from "@/app/lib/Models/User";
 import { Blogs } from "@/app/lib/Models/Blog";
 import { Like } from "@/app/lib/Models/Like";
 import { Bookmark } from "@/app/lib/Models/Bookmark";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
 
 export async function DELETE(
   req: Request,

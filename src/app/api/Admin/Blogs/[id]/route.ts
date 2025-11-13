@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 import { connectDB } from "@/app/lib/dbConnect";
 import { Blogs } from "@/app/lib/Models/Blog";
 import { Like } from "@/app/lib/Models/Like";
 import { Bookmark } from "@/app/lib/Models/Bookmark";
 import { User } from "@/app/lib/Models/User";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
 import { deleteFromCloudinary } from "@/app/lib/deleteCloudinary";
 
 export async function DELETE(
