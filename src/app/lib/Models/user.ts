@@ -13,8 +13,9 @@ export interface IUser extends Document {
   lastSeenAt: Date;
   createdAt: Date;
   updatedAt: Date;
-  likedBlogs: Types.ObjectId[];  
+  likedBlogs: Types.ObjectId[];
   totalLikes: number;
+  bookmarks: Types.ObjectId[]; 
 }
 
 const userSchema = new Schema<IUser>(
@@ -23,26 +24,20 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, lowercase: true },
     name: { type: String, required: true },
     profilePic: { type: String, default: null },
-    role: {
-      type: String,
-      enum: ["author", "admin"],
-      default: "author",
-    },
+    role: { type: String, enum: ["author", "admin"], default: "author" },
     blogCount: { type: Number, default: 0 },
     isBanned: { type: Boolean, default: false },
     joiningTime: { type: Date, default: Date.now },
     lastSeenAt: { type: Date, default: Date.now },
-    likedBlogs: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Blog" }],
-      default: [],
-    },
+    likedBlogs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Blog", default: [] }],
     totalLikes: { type: Number, default: 0 },
+    bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Bookmark", default: [] }], // NEW
   },
   { timestamps: true }
 );
 
 userSchema.index({ role: 1 });
-userSchema.index({ email: 1});
+userSchema.index({ email: 1 });
 userSchema.index({ totalLikes: -1 });
 
 userSchema.set("toJSON", {

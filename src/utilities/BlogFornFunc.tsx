@@ -4,23 +4,16 @@ import axios from 'axios';
 import { toBase64 } from '../utilities/file';
 import {useAddBlogMutation } from '../Redux/Services/blogApi'
 import   {useGetProfileQuery }  from '../Redux/Services/userApi'
+import {liveRefetchOptions} from "../hooks/rtkOptions"
 import { useAlert } from '../Context/AlertContext'
+import { useRouter } from "next/navigation";
+import  type  { BlogFormDataTypes } from "../../types/Blog"
 
-
-
-interface BlogFormDataTypes {
-  title: string;
-  content: string;
-  summary: string;
-  tags: string[];
-  image: File | null;
-  imagePreview: string;
-  userId : string
-}
 
 export default function  BlogFormFunctions(){
+    const router = useRouter();
   const { showAlert } = useAlert()
-  const { data } = useGetProfileQuery (undefined)
+  const { data } = useGetProfileQuery (undefined, liveRefetchOptions)
   const [addBlogMutation] = useAddBlogMutation();
   const [loading , setLoading] = useState(false)
   const [formData, setFormData] = useState<BlogFormDataTypes>({
@@ -123,8 +116,8 @@ const addBlogs = async (e: any) => {
     await addBlogMutation(blogPayload).unwrap();
     
     showAlert('success', 'Article Published Successfully');
+    router.push('/Blogs');
     CancellBlog();
-
   } catch (error) {
     console.error("Failed to add blog:", error);
     showAlert('error', 'Failed to publish');

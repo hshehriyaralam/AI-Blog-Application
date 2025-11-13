@@ -1,30 +1,21 @@
 'use client'
 import { useState, useContext, useMemo } from "react";
 import { useAllUserAdminQuery } from '../../../Redux/Services/adminApi'
+import {liveRefetchOptions}  from '../../../hooks/rtkOptions'
 import { ContextTheme } from "../../../Context/DarkTheme";
 import LoadingPage from "../../../components/layout/LoadingPage";
-import NameFilter from "../../../components/AdminUsersComp/Filter";
-import AllUserAdminPage from "../../../components/AdminUsersComp/AllUser"
-import DeletePopUp from "../../../components/AdminUsersComp/DeletePopUp"
+import NameFilter from "./_component/Filter";
+import AllUserAdminPage from "./_component/AllUser"
+import DeletePopUp from "./_component/DeletePopUp"
+import type {AdminUser  as User} from "../../../../types/Admin"
 
- interface User {
-  id: string;
-  name: string;
-  email: string;
-  profilePic?: string;
-  role: 'admin' | 'author' | 'user';
-  isBanned: boolean;
-  blogCount: number;
-  totalLikes: number;
-  joiningTime: string;
-  lastSeenAt: string;
-  bio?: string;
-  isAdmin: boolean;
-}
+
 
 export default function AllUsers() {
   const { themeValue, light, dark } = useContext(ContextTheme);
-  const { data, isLoading } = useAllUserAdminQuery(undefined);
+  const { data, isLoading } = useAllUserAdminQuery(undefined,liveRefetchOptions)
+
+    
   const [searchQuery, setSearchQuery] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -57,10 +48,10 @@ export default function AllUsers() {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className={`text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent`}>
+              <h1 className={`text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent  lg:text-left text-center lg:mt-0 mt-4`}>
                 User Management
               </h1>
-              <p className={`mt-2 ${themeValue ? 'text-gray-600' : 'text-gray-300'}`}>
+              <p className={`mt-2 ${themeValue ? 'text-gray-600' : 'text-gray-300'}  mt-2  text-[16px] lg:max-w-[600px]  lg:text-left text-center   mx-auto`}>
                 Manage all user accounts and permissions
               </p>
             </div>
@@ -74,6 +65,17 @@ export default function AllUsers() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         />
+
+        <div className="flex items-center justify-end mx-6 " >
+         {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="text-sm text-red-600 hover:text-red-700 font-medium cursor-pointer"
+            >
+              Clear search
+            </button>
+          )}
+          </div>
 
            {/* Users Table */}
         <AllUserAdminPage 

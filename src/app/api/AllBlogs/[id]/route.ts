@@ -5,13 +5,17 @@ import { Like } from "../../../lib/Models/Like";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
-export async function GET(req: Request, context: { params: { id: string } }) {
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     await connectDB();
 
-    const { id } =  await  context.params;
+    // ✅ Await params first
+    const { id } = await params;
 
-    // ✅ Fetch blog with user info
+    // Fetch blog with user info
     const blog = await Blogs.findById(id)
       .populate("userId", "name email profilePic")
       .lean();
@@ -20,12 +24,12 @@ export async function GET(req: Request, context: { params: { id: string } }) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
-    // ✅ Fetch all likes for this blog
+    // Fetch all likes for this blog
     const likes = await Like.find({ blogId: id })
       .populate("userId", "name profilePic")
       .lean();
 
-    // ✅ Check if current user has liked this blog
+    // Check if current user has liked this blog
     let isLikedByCurrentUser = false;
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;

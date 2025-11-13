@@ -2,26 +2,32 @@
 import { ContextTheme } from "../../Context/DarkTheme";
 import { useContext } from "react";
 import { useAllUserQuery,useGetProfileQuery } from "../../Redux/Services/userApi";
-import AuthorsCard from "../../components/AuthorsComponents/AuthorsCard"
+import {liveRefetchOptions} from "../../hooks/rtkOptions";
+
+import AuthorsCard from "./_component/AuthorsCard"
+
 
 export default function Authors() {
-    const { data : loggedInUser} = useGetProfileQuery(undefined)
-    const { data:allUsers } = useAllUserQuery(undefined);
+    const { data : loggedInUser} = useGetProfileQuery(undefined,liveRefetchOptions )
+    const { data:allUsers } = useAllUserQuery(undefined,liveRefetchOptions);
     const { themeValue, light, dark } = useContext(ContextTheme);
 
     
     const loggedInUserId =  loggedInUser?.user?._id;   
-    const users = allUsers?.data || [];
+    const users = allUsers?.data?.slice().reverse() || [];
+
+    
 
 
   return (
     <div className={`w-full min-h-screen px-4 py-8 ${themeValue ? light : dark}`}>
       {/* Header Section */}
       <div className="max-w-6xl mx-auto text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent   lg:mb-4 mb-2">
           Meet Our Creative Authors
         </h1>
-        <p className={`text-lg ${themeValue ? "text-gray-600" : "text-gray-400"} max-w-2xl mx-auto`}>
+        <p className={`lg:text-lg  text-md   ${themeValue ? "text-gray-600" : "text-gray-400"} 
+            lg:max-w-[450px]  max-w-[300px]   mx-auto `}>
           Discover the talented writers and contributors who bring amazing content to our platform
         </p>
       </div>

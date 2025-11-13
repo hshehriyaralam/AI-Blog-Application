@@ -19,6 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "IntelliBlog",
   description: "AI Blog Application",
+  icons: { icon: "/book-open.svg" },
 };
 
 export default function RootLayout({

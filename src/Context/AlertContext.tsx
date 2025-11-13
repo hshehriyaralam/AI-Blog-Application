@@ -1,16 +1,10 @@
 "use client";
 import { createContext, useContext, useState, ReactNode } from "react";
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from "lucide-react";
+import { AlertState } from "../../types/global";
 
 // Alert Types
 type AlertType = "success" | "error" | "info" | "warning";
-
-interface AlertState {
-  visible: boolean;
-  message: string;
-  type: AlertType;
-  progress: number;
-}
 
 interface AlertContextProps {
   showAlert: (type: AlertType, message: string, duration?: number) => void;

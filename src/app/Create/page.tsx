@@ -2,13 +2,13 @@
 import {  useContext, SetStateAction } from 'react';
 import { ContextTheme } from '../../Context/DarkTheme';
 import { Button } from '../../components/ui/button';
-import InputTitle from '../../components/CreateBlogComponent/InputTitle'
-import InputContent from '../../components/CreateBlogComponent/InputContent';
-import FeatureImage  from '../../components/CreateBlogComponent/FeatureImage';
-import InputSummary from '../../components/CreateBlogComponent/InputSummary'
-import InputTags from '../../components/CreateBlogComponent/InputTags';
-import PreviewBlog from '../../components/CreateBlogComponent/PreviewBlog';
-import CenteredButtons from '../../components/CreateBlogComponent/CenteredButtons';
+import InputTitle from "./_component/InputTitle"
+import InputContent from "./_component/InputContent"
+import FeatureImage  from "./_component/FeatureImage"
+import InputSummary from "./_component/InputSummary"
+import InputTags from "./_component/InputTags"
+import PreviewBlog from "./_component/PreviewBlog";
+import CenteredButtons from "./_component/CenteredButtons";
 import BlogFormFunctions  from '../../utilities/BlogFornFunc'
 import ButtonLoader from '../../components/Common/BtnLoader'
 import useAIGenerate from '../../utilities/AI-Functions/AI-Generate'

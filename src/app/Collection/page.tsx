@@ -1,17 +1,18 @@
 "use client";
 import { ContextTheme } from "../../Context/DarkTheme"
 import { useGetBookmarksQuery } from "../../Redux/Services/bookmarkApi";
+import {liveRefetchOptions} from "../../hooks/rtkOptions"
 import Link from "next/link";
 import { FileText } from "lucide-react";
 import { useState, useContext } from "react";
 import { Button } from "../../components/ui/button";
-import CollectionsBlogCard from '../../components/CollectionsComponents/BlogCard'
+import CollectionsBlogCard from "./_component/BlogCard";
 import LoadingPage from "../../components/layout/LoadingPage";
 
 export default function Collection() {
-  const { data, isLoading, isError } = useGetBookmarksQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading, isError } = useGetBookmarksQuery(undefined, liveRefetchOptions);
+
+  console.log("Bookmarks Data:", data);
   const [imgError, setImgError] = useState(false);
   const { themeValue, light, dark, lightText, DarkText } = useContext(ContextTheme);
 
@@ -41,7 +42,8 @@ export default function Collection() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
               Discover Your Saved Collections
             </h1>
-          <p className={`text-lg ${themeValue ? "text-gray-600" : "text-gray-400"} max-w-2xl mx-auto my-2 `}>
+          <p className={`lg:text-lg  text-md   ${themeValue ? "text-gray-600" : "text-gray-400"} 
+            lg:max-w-[450px]  max-w-[300px]   mx-auto  my-2 `}>
             A curated space where all your saved articles, ideas, and inspirations live together.
           </p>
         </div>
@@ -69,6 +71,7 @@ export default function Collection() {
               {bookmarks.map((bookmark: any) => {
                 const blog = bookmark.blogId;
                 const hasImage = blog?.userId?.profilePic && blog.userId.profilePic.trim() !== "" && !imgError;
+
 
                 return (
                   <div

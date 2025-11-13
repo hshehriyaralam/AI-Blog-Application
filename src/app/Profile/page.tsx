@@ -11,12 +11,11 @@ import { ContextTheme } from "../../Context/DarkTheme";
 import { useAlert } from '../../Context/AlertContext';
 import { useSelector } from "react-redux";
 import type { RootState } from "../../Redux/store";
-import { useGetBookmarksQuery } from "../../Redux/Services/bookmarkApi";
 import Link from "next/link";
 import LoadingPage from "../../components/layout/LoadingPage";
-import UserNotFoundPage from '../../components/ProfileComponents/userPage'
-import ProfileSection from '../../components/ProfileComponents/ProfilSection'
-import ProfileBlogsSections from '../../components/ProfileComponents/BlogsSection'
+import UserNotFoundPage from './_component/userPage'
+import ProfileSection from './_component/ProfilSection'
+import ProfileBlogsSections from './_component/BlogsSection'
 
 
 
@@ -28,16 +27,15 @@ export default function Profile() {
   const Googleloading = useSelector((state: RootState) => state.auth.loading);
   const { themeValue, light, dark } = useContext(ContextTheme);
   // fetch Profile
-  const { data: Profile, isLoading } = useGetProfileQuery(undefined, {
-    refetchOnMountOrArgChange: true,
+  const { data: Profile, isLoading } = useGetProfileQuery(undefined,{
+      pollingInterval: 1000,
+       refetchOnMountOrArgChange: true,
+       refetchOnFocus: true,
+       refetchOnReconnect: true,
   });
-  // Fetch Bookmarks
-  const { data  } = useGetBookmarksQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  })
   // Delete Profile & Blog Mutations
   const [deleteProfile , { isLoading: DeleteProfileLoader}] = useDeleteProfileMutation();
-  const [deleteBlog, { isLoading: deleting }] = useDeleteBlogMutation();
+  const [deleteBlog] = useDeleteBlogMutation();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
@@ -71,9 +69,10 @@ export default function Profile() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    dispatch(googleLoginThunk());
-  };
+const handleGoogleLogin = () => {
+  dispatch(googleLoginThunk())
+  
+};
 
   if (isLoading) return <LoadingPage />;
   if (!user) return (
@@ -101,10 +100,10 @@ export default function Profile() {
     : "Recently active";
 
   // Calculate total views
-  const totalViews = blogs.reduce((sum: number, blog: any) => sum + (blog.views || 0), 0);
   const totalLikes = user?.totalLikes
   const LikedBlogs = user?.likedBlogs?.length
-  const bookmarks  = data?.bookmarks.length
+  const bookmarks  = user?.bookmarks?.length || 0;
+ 
 
 
 
@@ -120,7 +119,6 @@ export default function Profile() {
         joinedDate={joinedDate}
         lastSeen={lastSeen}
         blogs={blogs}
-        totalViews={totalViews}
         handleGoogleLogin={handleGoogleLogin}
         setShowDeleteConfirm={setShowDeleteConfirm}
         handleDeleteAccount={handleDeleteAccount}
@@ -152,7 +150,7 @@ export default function Profile() {
               <h3 className={`text-lg font-semibold mb-2 ${themeValue ? 'text-gray-800' : 'text-white'}`}>
                 No articles yet
               </h3>
-              <p className={`text-gray-600 `}>
+              <p className={`text-gray-600 lg:max-w-[400px]   max-w-[280px]  text-center mx-auto     `}>
                 Start writing your first article to share with the world!
               </p>
               <Link  href='/Create'>

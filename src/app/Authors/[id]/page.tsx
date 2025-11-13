@@ -2,30 +2,27 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSingleUserQuery } from "../../../Redux/Services/userApi";
+import {liveRefetchOptions}  from "../../../hooks/rtkOptions"
 import { ContextTheme } from "../../../Context/DarkTheme";
 import { useContext,useState } from "react";
 import {  BookOpen} from "lucide-react";
 import LoadingPage from "../../../components/layout/LoadingPage";
 import ErrorPage from '../../../components/Common/ErrorPage'
-import AuthorsProfileSection from '../../../components/AuthorsComponents/ProfileSection'
-import AuthorsBlog from "../../../components/AuthorsComponents/AuthorsBlogs"
-import { useGetBookmarksQuery } from "../../../Redux/Services/bookmarkApi";
+import AuthorsProfileSection from '../_component/ProfileSection'
+import AuthorsBlog from "../_component/AuthorsBlogs"
 
 
 
 export default function AuthorsDetail() {
   const params = useParams();
   const id = params?.id as string;
-  const { data: SingleUser, isLoading, error } = useSingleUserQuery(id)
-  const { data  } = useGetBookmarksQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data: SingleUser, isLoading, error } = useSingleUserQuery(id,liveRefetchOptions)
+
   const { themeValue, light, dark } = useContext(ContextTheme);
   const user = SingleUser?.data?.user;
   const blogs = SingleUser?.data?.blogs || [];
   const [imgError, setImgError] = useState(false);
   const hasImage = user?.profilePic && user.profilePic.trim() !== "" && !imgError;
-
 
   if (isLoading) return <LoadingPage />;
   if (error) return <ErrorPage  themeValue={themeValue} light={light} dark={dark}   />
@@ -61,7 +58,8 @@ export default function AuthorsDetail() {
 
   const totalLikes = user?.totalLikes
   const LikedBlogs = user?.likedBlogs?.length
-  const bookmarks  = data?.bookmarks.length
+  const bookmarks  = user?.bookmarks?.length || 0;
+
 
 
   return (
@@ -105,7 +103,7 @@ export default function AuthorsDetail() {
               <h3 className={`text-lg font-semibold mb-2 ${themeValue ? 'text-gray-800' : 'text-white'}`}>
                 No articles yet
               </h3>
-              <p className={`text-gray-600 `}>
+              <p className={`text-gray-600 lg:max-w-[400px]   max-w-[280px]  text-center mx-auto     `}>
                 {user.name} hasn't published any articles yet.
               </p>
             </div>

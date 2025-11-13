@@ -3,17 +3,17 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const blogApi = createApi({
   reducerPath: "blogApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
-  tagTypes: ["Blog", "User"],
+  tagTypes: ["Blog", "User","Like","Bookmark"],
   endpoints: (builder) => ({
     //All Blogs
     fetchBlog: builder.query({
       query: () => "AllBlogs",
-      providesTags: ["Blog"],
+      providesTags: ["Blog", "User","Like","Bookmark"],
     }),
     //Single Blog
     singleBlog: builder.query({
         query : (id: string) => `AllBlogs/${id}`,
-        providesTags : ["Blog"]
+        providesTags : ["Blog", "User","Like","Bookmark"]
       }),
     // Add Blog
     addBlog: builder.mutation({
@@ -22,7 +22,7 @@ export const blogApi = createApi({
         method: "POST",
         body: newBlog,
       }),
-      invalidatesTags: ["Blog"],
+      invalidatesTags: ["Blog", "User","Like","Bookmark"],
     }),
     // Delete my Blog
     deleteBlog: builder.mutation<void, string>({
@@ -30,7 +30,7 @@ export const blogApi = createApi({
         url: `User/blog/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Blog"], 
+      invalidatesTags: ["Blog", "User","Like","Bookmark"], 
     }),
     //  AI Suggestion 
     suggestSummaryTags: builder.mutation<
@@ -49,7 +49,7 @@ export const blogApi = createApi({
         url: `AllBlogs/${id}/like`,
         method: "POST",
       }),
-      invalidatesTags: ["Blog", "User"], 
+      invalidatesTags: ["Blog", "User","Like","Bookmark"], 
     }),
   }),
 });

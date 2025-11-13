@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   try {
     const { blogTitle, blogContent, lang = "en" } = await req.json();
 
-    console.log("GEMINI_API_KEY", process.env.GEMINI_API_KEY?.slice(0, 8));
     if (!blogTitle || !blogContent) {
       return NextResponse.json(
         { error: "blogTitle and blogContent are required" },
@@ -15,10 +14,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
-;
+    // ✅ Use the updated model name
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    // Strong, JSON-only prompt for reliable parsing
     const prompt = `
       You are an assistant for a blog platform.
       Given a blog title and content, write:
@@ -34,11 +32,9 @@ export async function POST(req: Request) {
       ${blogContent}
     `;
 
-    // Generate result through prompt
     const result = await model.generateContent(prompt);
     const text = result.response.text().trim();
 
-    // Parse pure JSON or fenced JSON
     const json = tryParseJSON(text);
 
     if (!json || !json.summary || !Array.isArray(json.tags)) {
@@ -48,8 +44,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const tags: string[] = Array.from(
-    new Set((json.tags as string[]).map((t) => t.trim()))
+    const tags = Array.from(
+      new Set((json.tags as string[]).map((t) => t.trim()))
     ).slice(0, 4);
 
     if (tags.length < 4) {
@@ -74,7 +70,6 @@ export async function POST(req: Request) {
 
 function tryParseJSON(text: string) {
   try {
-    // If response wrapped in ```json … ```
     const m =
       text.match(/```json\s*([\s\S]*?)```/i) ||
       text.match(/```\s*([\s\S]*?)```/);

@@ -6,7 +6,8 @@
     "dev": "next dev -H 0.0.0.0 -p 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "preview": "next preview"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -33,11 +34,13 @@
     "react-dom": "19.1.0",
     "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
+    "react-router-dom": "^7.9.5",
     "styled-components": "^6.1.19",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@netlify/plugin-nextjs": "^5.14.5",
     "@tailwindcss/postcss": "^4",
     "@types/cookie": "^0.6.0",
     "@types/js-cookie": "^3.0.6",
