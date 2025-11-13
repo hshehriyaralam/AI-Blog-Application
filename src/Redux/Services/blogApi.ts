@@ -7,12 +7,12 @@ export const blogApi = createApi({
   endpoints: (builder) => ({
     //All Blogs
     fetchBlog: builder.query({
-      query: () => "AllBlogs",
+      query: () => "allBlogs",
       providesTags: ["Blog", "User","Like","Bookmark"],
     }),
     //Single Blog
     singleBlog: builder.query({
-        query : (id: string) => `AllBlogs/${id}`,
+        query : (id: string) => `allBlogs/${id}`,
         providesTags : ["Blog", "User","Like","Bookmark"]
       }),
     // Add Blog
@@ -27,7 +27,7 @@ export const blogApi = createApi({
     // Delete my Blog
     deleteBlog: builder.mutation<void, string>({
       query: (id) => ({
-        url: `User/blog/${id}`,
+        url: `user/blog/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Blog", "User","Like","Bookmark"], 
@@ -46,7 +46,7 @@ export const blogApi = createApi({
     // liked blogs 
     likeBlog: builder.mutation({
       query: (id: string) => ({
-        url: `AllBlogs/${id}/like`,
+        url: `allBlogs/${id}/like`,
         method: "POST",
       }),
       invalidatesTags: ["Blog", "User","Like","Bookmark"], 

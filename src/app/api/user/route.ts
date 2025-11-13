@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { connectDB } from "../../lib/dbConnect";
-
-// ensure Like imported earlier if other code depends on it, but we WON'T use it to override likedBlogs
 import { Like } from "../../lib/Models/Like";
 import { User } from "../../lib/Models/user";
 import { Blogs } from "../../lib/Models/Blog";
@@ -30,7 +28,7 @@ export async function GET(req: Request) {
       (await cookies()).delete("token");
       return new Response(JSON.stringify({ error: "User Not Found" }), { status: 404 });
     }
-
+    
     // fetch user's own blogs (you can still attach likes info for each blog if you want)
     const blogs = await Blogs.find({ userId: user._id }).lean();
 

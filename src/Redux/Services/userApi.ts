@@ -8,32 +8,29 @@ export const userApi = createApi({
     endpoints : (builder) => ({
         // Fetch Profile
         getProfile  : builder.query({
-            query : () => "User",
+            query : () => "user",
             providesTags: ["Blog", "User","Like","Bookmark"]
         }),
         // Fetch all user
         allUser : builder.query({
-            query : () => "AllUsers",
+            query : () => "allUsers",
             providesTags : ["Blog", "User","Like","Bookmark"]
         }),
         // fetch Single Authors for Author dynamic page 
         singleUser : builder.query({
-            query : (id: string) => `AllUsers/${id}`,
+            query : (id: string) => `allUsers/${id}`,
             providesTags : ["Blog", "User","Like","Bookmark"]
         }),
          // Delete profile 
         deleteProfile: builder.mutation<void, void>({
             query: () => ({
-                url: "User/delete",
+                url: "user/delete",
                 method: "DELETE",
             }),
             invalidatesTags: ["Blog", "User","Like","Bookmark"],
             }),
     })
 })
-
-
-
 export const {
     useGetProfileQuery,
     useAllUserQuery,

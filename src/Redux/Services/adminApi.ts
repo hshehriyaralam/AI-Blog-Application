@@ -8,13 +8,13 @@ export const adminApi = createApi({
   endpoints: (builder) => ({
      //All Blogs
     allBlogAdmin: builder.query({
-      query: () => "Admin/Blogs",
+      query: () => "admin/blogs",
       providesTags: ["Blog", "User","Like","Bookmark"],
     }),
     //Delete Blog By Admin 
     deleteBlogAdmin: builder.mutation<void, string>({
       query: (id) => ({
-        url: `Admin/Blogs/${id}`,
+        url: `admin/blogs/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Blog", "User","Like","Bookmark"]
@@ -22,24 +22,24 @@ export const adminApi = createApi({
     //Delete Author By Admin 
     deleteUserAdmin: builder.mutation<void, string>({
       query: (id) => ({
-        url: `Admin/Users/${id}`,
+        url: `admin/users/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["User"], 
     }),
     // All user Fetch
     allUserAdmin : builder.query({
-        query : () => "Admin/Users",
+        query : () => "admin/users",
       providesTags : ["Blog", "User","Like","Bookmark"],
     }),
     // fetch All Likes
     allLikesAdmin : builder.query({
-        query : () => "Admin/Likes",
+        query : () => "admin/likes",
         providesTags :["Blog", "User","Like","Bookmark"]
     }),
     // fetch all Bookmarks by admin
     allbookmarksAdmin : builder.query({
-        query : () => "Admin/Bookmarks",
+        query : () => "admin/bookmarks",
         providesTags :["Blog", "User","Like","Bookmark"]
     })
   }),
