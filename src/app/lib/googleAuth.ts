@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { User } from "./Models/User";
+import { User } from "./Models/user";
 import { connectDB } from "./dbConnect";
 
 export async function googleLogin(accessToken: string) {

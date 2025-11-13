@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "../../../../lib/dbConnect";
 import { Blogs } from "../../../../lib/Models/Blog";
 import { Like } from "../../../../lib/Models/Like";
-import { User } from "../../../../lib/Models/User";
+import { User } from "../../../../lib/Models/user";
 import { cookies } from "next/headers";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";

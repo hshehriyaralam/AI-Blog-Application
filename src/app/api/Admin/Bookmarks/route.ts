@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/app/lib/dbConnect";
-import { Bookmark } from "@/app/lib/Models/Bookmark";
+import { Bookmark } from "@/app/lib/Models/bookmark";
 
 export async function GET(req: NextRequest) {
   try {

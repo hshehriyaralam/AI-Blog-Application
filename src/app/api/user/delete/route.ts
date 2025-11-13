@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { connectDB } from "../../../lib/dbConnect";
-import { User } from "../../../lib/Models/User";
+import { User } from "../../../lib/Models/user";
 import { Blogs } from "../../../lib/Models/Blog";
 import { Like } from "../../../lib/Models/Like";
-import { Bookmark } from "../../../lib/Models/Bookmark"; 
+import { Bookmark } from "../../../lib/Models/bookmark"; 
 import { deleteFromCloudinary } from "../../../lib/deleteCloudinary";
 import { NextResponse } from "next/server";
 

@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/app/lib/dbConnect";
-import { User } from "@/app/lib/Models/User";
+import { User } from "@/app/lib/Models/user";
 import { Blogs } from "@/app/lib/Models/Blog";
 import { Like } from "@/app/lib/Models/Like";
-import { Bookmark } from "@/app/lib/Models/Bookmark";
+import { Bookmark } from "@/app/lib/Models/bookmark";
 
 export async function DELETE(
   req: Request,

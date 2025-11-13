@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 import { connectDB } from "@/app/lib/dbConnect";
 import { Blogs } from "@/app/lib/Models/Blog";
 import { Like } from "@/app/lib/Models/Like";
-import { Bookmark } from "@/app/lib/Models/Bookmark";
-import { User } from "@/app/lib/Models/User";
+import { Bookmark } from "@/app/lib/Models/bookmark";
+import { User } from "@/app/lib/Models/user";
 import { deleteFromCloudinary } from "@/app/lib/deleteCloudinary";
 
 export async function DELETE(

@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { connectDB } from "../../lib/dbConnect";
-import {Bookmark} from "../../lib/Models/Bookmark";
-import { User } from "../../lib/Models/User";
+import {Bookmark} from "../../lib/Models/bookmark";
+import { User } from "../../lib/Models/user";
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     const userId = decode.id;
     const { blogId } = await req.json();
     if (!blogId) return NextResponse.json({ error: "blogId required" }, { status: 400 });
-
+ 
     const exists = await Bookmark.findOne({ userId, blogId });
 
     if (exists) {

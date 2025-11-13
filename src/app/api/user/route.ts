@@ -4,7 +4,7 @@ import { connectDB } from "../../lib/dbConnect";
 
 // ensure Like imported earlier if other code depends on it, but we WON'T use it to override likedBlogs
 import { Like } from "../../lib/Models/Like";
-import { User } from "../../lib/Models/User";
+import { User } from "../../lib/Models/user";
 import { Blogs } from "../../lib/Models/Blog";
 
 export async function GET(req: Request) {

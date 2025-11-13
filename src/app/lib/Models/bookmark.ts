@@ -5,7 +5,7 @@ export interface IBookmark extends Document {
   blogId: mongoose.Types.ObjectId;
 }
 
-const BookmarkSchema: Schema = new Schema(
+const bookmarkSchema: Schema = new Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     blogId: { type: mongoose.Schema.Types.ObjectId, ref: "Blog", required: true },
@@ -14,4 +14,4 @@ const BookmarkSchema: Schema = new Schema(
 );
 
 export const Bookmark = mongoose.models.Bookmark ||
-  mongoose.model<IBookmark>("Bookmark", BookmarkSchema);
+  mongoose.model<IBookmark>("Bookmark", bookmarkSchema);

@@ -1,7 +1,7 @@
 import { Blogs } from "../../lib/Models/Blog";
 import { NextResponse } from "next/server";
 import { connectDB } from "../../lib/dbConnect";
-import { User } from "../../lib/Models/User";
+import { User } from "../../lib/Models/user";
 
 
 export async function POST(req: Request) {

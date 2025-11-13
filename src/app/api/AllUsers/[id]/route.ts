@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { User } from "../../../lib/Models/User";
+import { User } from "../../../lib/Models/user";
 import { Blogs } from "../../../lib/Models/Blog";
 import { connectDB } from '../../../lib/dbConnect'
 
