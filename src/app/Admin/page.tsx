@@ -2,8 +2,8 @@
 import {  useContext } from "react";
 import { ContextTheme } from "../../Context/DarkTheme";
 import Stats from "../../components/DashboardComponent/Stats";
-import RecenetBlog from "../../components/DashboardComponent/Stats";
-import QuickActions from "../../components/DashboardComponent/Stats";
+import RecenetBlog from "../../components/DashboardComponent/RecentBlog";
+import QuickActions from "../../components/DashboardComponent/QuickActions";
 import TopAuthors from "@/components/Common/Authors";
 
 
