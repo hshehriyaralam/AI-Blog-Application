@@ -208,9 +208,9 @@ export default function AllUserAdminPage({ filteredUsers, setShowDeleteModal, se
               </div>
 
               {/* Last Active */}
-              <div className=" col-span-6 md:col-span-3 md:mx-2 flex items-center justify-between">
+              <div className=" col-span-6 md:col-span-3 md:mx-2 flex items-center  lg:justify-between justify-center  gap-x-1 ">
                 <span
-                  className={`  hidden md:block text-xs ${themeValue ? "text-gray-600" : "text-gray-300"}`}
+                  className={`hidden md:block text-xs ${themeValue ? "text-gray-600" : "text-gray-300"}`}
                 >
                   {formatLastSeen(user.lastSeenAt)}
                 </span>
