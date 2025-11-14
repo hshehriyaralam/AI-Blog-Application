@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const bookmarkApi = createApi({
   reducerPath: "bookmarkApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
   tagTypes: ["Blog", "User","Like","Bookmark"],
   endpoints: (builder) => ({
     // ✅ Get user bookmarks

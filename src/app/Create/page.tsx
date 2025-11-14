@@ -63,22 +63,8 @@ const { handleSuggest, aiLoading } = useAIGenerate(setFormData, formData);
 
           {/* Middle Column - Summary and Tags */}
           <div className="space-y-3">
-            {/* Input Summary */}
-            <InputSummary  value={formData.summary} onChange={handleChange} />
-            {/* InputTags */}
-            <InputTags 
-            value={tagInput} 
-            onChange={(e: { target: { value: SetStateAction<string>; }; }) => setTagInput(e.target.value)}
-            onKeyDown={(e: { key: string; }) => e.key === 'Enter' && addTag()}
-            addTag={addTag}
-            removeTag={removeTag}
-            formData={formData}
-            />
-          </div>
 
-          {/* Right Column - AI Tools */}
-          <div className="space-y-3">
-          <div className={`p-4 rounded-2xl shadow-sm transition-all ${
+              <div className={`p-4 rounded-2xl shadow-sm transition-all ${
           themeValue ? "bg-gray-50" : "bg-gray-900 border border-gray-700"
         }`}
       >
@@ -116,11 +102,19 @@ const { handleSuggest, aiLoading } = useAIGenerate(setFormData, formData);
           </Button>
         </div>
       </div>
-
-
-            {/* Preview Blogs  */}
-            <PreviewBlog  formData={formData} />
+            {/* Input Summary */}
+            <InputSummary  value={formData.summary} onChange={handleChange} />
+            {/* InputTags */}
+            <InputTags 
+            value={tagInput} 
+            onChange={(e: { target: { value: SetStateAction<string>; }; }) => setTagInput(e.target.value)}
+            onKeyDown={(e: { key: string; }) => e.key === 'Enter' && addTag()}
+            addTag={addTag}
+            removeTag={removeTag}
+            formData={formData}
+            />
           </div>
+            <PreviewBlog  formData={formData} />
         </div>
 
         {/* Action Buttons - Centered */}

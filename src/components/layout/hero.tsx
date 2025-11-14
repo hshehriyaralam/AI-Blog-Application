@@ -36,7 +36,7 @@ export default function Hero() {
       <Blogs />
    <div className="flex justify-center lg:justify-end">
     <Button
-      onClick={() => authNavigate('/Profile')}
+      onClick={() => authNavigate('/Blogs')}
       disabled={isAuthenticating}
       variant="ghost"
       className={`flex items-center gap-2 group mt-4 px-8 py-1.5 cursor-pointer ${
