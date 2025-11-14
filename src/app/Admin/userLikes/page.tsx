@@ -61,10 +61,10 @@ useEffect(() => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className={`text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent  lg:text-left text-center lg:mt-0 mt-4`}>
             User Likes
           </h1>
-          <p className={`${themeValue ? "text-gray-600" : "text-gray-300"} mt-2`}>
+           <p className={`mt-2 ${themeValue ? 'text-gray-600' : 'text-gray-300'}  mt-2  text-[16px] lg:max-w-[600px]  lg:text-left   text-center`}>
             See which users liked which blogs
           </p>
         </div>

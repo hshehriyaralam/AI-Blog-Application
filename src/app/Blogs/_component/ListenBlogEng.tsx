@@ -1,6 +1,6 @@
 'use client';
 import { Volume2 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export default function ListeBlogEng({
   isPlaying,
@@ -18,19 +18,18 @@ export default function ListeBlogEng({
         return;
       }
 
-      // Cancel any existing queue & clear interval
+      // Cancel previous queue
       window.speechSynthesis.cancel();
       if (fallbackInterval.current) clearInterval(fallbackInterval.current);
 
-      const sections = [
-        { section: "content", text: blogContent || "" },
-      ];
+      const sections = [{ section: "content", text: blogContent || "" }];
       if (blogSummary) sections.push({ section: "summary", text: blogSummary });
 
-      // Prepare word list for highlighting
-      let allWords: { section: string; word: string; localIndex: number }[] = [];
+      let allWords: any[] = [];
       sections.forEach(sec =>
-        sec.text.split(/\s+/).forEach((w:any, idx:any) => allWords.push({ section: sec.section, word: w, localIndex: idx }))
+        sec.text.split(/\s+/).forEach((w: any, idx: any) =>
+          allWords.push({ section: sec.section, word: w, localIndex: idx })
+        )
       );
 
       const fullText = sections.map(s => s.text).join(" ");
@@ -41,16 +40,22 @@ export default function ListeBlogEng({
 
       const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
-      // 🔹 Desktop highlight using onboundary
+      /** ------------------------------
+       *   DESKTOP HIGHLIGHT — PERFECT
+       * ------------------------------ */
       if (!isMobile) {
         utter.onboundary = (event: any) => {
           if (event.charIndex !== undefined) {
             const currentChar = event.charIndex;
             let cumulative = 0;
+
             for (let i = 0; i < allWords.length; i++) {
-              cumulative += allWords[i].word.length + 1; // +1 for space
+              cumulative += allWords[i].word.length + 1;
               if (currentChar < cumulative) {
-                setCurrentIndex({ section: allWords[i].section, index: allWords[i].localIndex });
+                setCurrentIndex({
+                  section: allWords[i].section,
+                  index: allWords[i].localIndex,
+                });
                 break;
               }
             }
@@ -58,32 +63,46 @@ export default function ListeBlogEng({
         };
       }
 
-      // 🔹 Mobile highlight fallback using interval
+      /** ------------------------------
+       *    MOBILE HIGHLIGHT — FIXED
+       * ------------------------------ */
       if (isMobile) {
-        let i = 0;
-        const avgTimePerWord = 300; // Approx 300ms per word
-        fallbackInterval.current = setInterval(() => {
-          if (i < allWords.length && isPlaying) {
-            setCurrentIndex({ section: allWords[i].section, index: allWords[i].localIndex });
-            i++;
-          } else {
-            clearInterval(fallbackInterval.current);
-          }
-        }, avgTimePerWord);
+        utter.onstart = () => {
+          let i = 0;
+          const avg = 260; // Faster + More accurate
+          fallbackInterval.current = setInterval(() => {
+            if (i < allWords.length) {
+              setCurrentIndex({
+                section: allWords[i].section,
+                index: allWords[i].localIndex,
+              });
+              i++;
+            } else {
+              clearInterval(fallbackInterval.current);
+            }
+          }, avg);
+        };
       }
 
-      // 🔹 On end cleanup
+      /** ------------------------------
+       *     END CLEANUP
+       * ------------------------------ */
       utter.onend = () => {
         if (fallbackInterval.current) clearInterval(fallbackInterval.current);
         setCurrentIndex({ section: "", index: null });
         setIsPlaying(false);
       };
 
-      // Speak immediately
-      window.speechSynthesis.speak(utter);
-      setIsPlaying(true);
+      /** ------------------------------
+       *   MOBILE INSTANT START FIX 🚀
+       * ------------------------------ */
+      setTimeout(() => {
+        window.speechSynthesis.speak(utter);
+      }, isMobile ? 20 : 0); // mobile me lag prevent
 
+      setIsPlaying(true);
     } else {
+      // STOP
       window.speechSynthesis.cancel();
       if (fallbackInterval.current) clearInterval(fallbackInterval.current);
       setCurrentIndex({ section: "", index: null });

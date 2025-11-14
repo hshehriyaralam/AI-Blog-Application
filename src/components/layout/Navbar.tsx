@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, Moon, Sun, PenSquare, Home, Users, BookOpen, User, Bookmark } from 'lucide-react';
 import { ContextTheme } from '../../Context/DarkTheme';
@@ -14,26 +14,45 @@ import { Button } from '../ui/button';
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+
   const dispatch = useDispatch<AppDispatch>();
   const { themeValue, changeTheme, light, dark } = useContext(ContextTheme);
   const { data } = useGetProfileQuery(undefined, liveRefetchOptions);
+
   const router = useRouter();
   const pathname = usePathname();
 
   const isAuthenticated = !!data?.user;
 
-  const handleNavigate = (link: string) => {
+  /** 🔹 Outside Click Close — Mobile Menu */
+  useEffect(() => {
+    const handleClickOutside = (e: any) => {
+      if (menuOpen && mobileMenuRef.current && !mobileMenuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
+
+
+  /** 🔹 Navigation Logic */
+  const handleNavigate = async (link: string) => {
     if (isAuthenticated) {
       setMenuOpen(false);
       router.push(link);
-    } else {
-      handleAuthAndNavigate(link);
+      return;
     }
+    handleAuthAndNavigate(link);
   };
 
   const handleAuthAndNavigate = async (link: string) => {
     if (isAuthenticating) return;
     setIsAuthenticating(true);
+
     try {
       await dispatch(googleLoginThunk()).unwrap();
       setMenuOpen(false);
@@ -45,10 +64,13 @@ export default function Navbar() {
     }
   };
 
+  /** 🔹 Close menu on route change */
   useEffect(() => {
     setMenuOpen(false);
   }, [router]);
 
+
+  /** 🔹 Navbar Links */
   const navLinks = [
     { href: "/", label: "Home", icon: Home },
     { href: "/Create", label: "Create Blog", icon: PenSquare },
@@ -61,6 +83,7 @@ export default function Navbar() {
     ? "bg-indigo-50 text-indigo-700"
     : "bg-indigo-900/30 text-indigo-300";
 
+
   return (
     <header
       className={`sticky top-0 z-50 w-full backdrop-blur-md py-0.5 bg-opacity-90 ${
@@ -70,23 +93,22 @@ export default function Navbar() {
       }`}
     >
       <div className="container mx-auto flex justify-between items-center py-3 px-6">
-        {/* Logo */}
+
+        {/* ================= LOGO ================= */}
         <Link
           href="/"
           className="text-2xl font-bold flex items-center gap-1 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent cursor-pointer"
           onClick={() => setMenuOpen(false)}
         >
           <div
-            className={`p-1.5 rounded-lg ${
-              themeValue ? 'bg-indigo-100' : 'bg-indigo-900/30'
-            }`}
+            className={`p-1.5 rounded-lg ${themeValue ? 'bg-indigo-100' : 'bg-indigo-900/30'}`}
           >
             <BookOpen size={18} className="text-indigo-600" />
           </div>
           Intelli<span className="text-indigo-500">Blog</span>
         </Link>
 
-        {/* Desktop Menu */}
+        {/* =============== DESKTOP MENU =============== */}
         <div className="hidden lg:flex items-center gap-2">
           <nav>
             <ul
@@ -140,7 +162,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* =============== MOBILE MENU BUTTON =============== */}
         <div className="lg:hidden flex items-center gap-3">
           <button
             onClick={changeTheme}
@@ -166,10 +188,11 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* =============== MOBILE DROPDOWN =============== */}
       <div
+        ref={mobileMenuRef}
         className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-900 ease-in-out ${
-          menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          menuOpen ? 'max-height-96 opacity-100' : 'max-h-0 opacity-0'
         } ${themeValue ? `${light}` : `${dark} text-gray-200`}`}
       >
         <div className="px-6 py-2 space-y-3">
@@ -189,7 +212,7 @@ export default function Navbar() {
             </button>
           ))}
 
-          <div className="pt-3 border-t border-gray-200  mt-3">
+          <div className="pt-3 border-t border-gray-200 mt-3">
             <Button
               onClick={() => handleNavigate('/Profile')}
               disabled={isAuthenticating}

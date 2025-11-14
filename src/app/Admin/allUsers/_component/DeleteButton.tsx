@@ -19,7 +19,7 @@ export default function DeleteButton({
           } group/tooltip relative`}
         >
           <Eye size={14} /> 
-          <span>Blog</span>
+          <span>Profile </span>
         </button>
       </Link>
       <button

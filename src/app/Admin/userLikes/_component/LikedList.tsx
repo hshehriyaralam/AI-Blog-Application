@@ -141,7 +141,7 @@ export default function LikedLists({
 
                 {/* Blog Content */}
                 <div 
-                  className="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-3 cursor-pointer"
+                  className={` ${themeValue ? "bg-gray-50" : "bg-gray-700/30"} rounded-lg p-3 cursor-pointer`}
                   onClick={(e) => handleBlogClick(like.blogId, e)}
                 >
                   <div className="flex space-x-3">
@@ -240,7 +240,7 @@ export default function LikedLists({
                 </div>
 
                 {/* Published Date */}
-                <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-600">
+                <div className="flex items-center justify-between pt-2 border-t border-gray-200">
                   <span className={`text-xs ${themeValue ? "text-gray-500" : "text-gray-400"}`}>
                     Published {formatDate(like.blogCreatedAt)}
                   </span>

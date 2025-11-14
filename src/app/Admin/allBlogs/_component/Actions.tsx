@@ -17,7 +17,7 @@ export default function ActionsAdmin({themeValue,blog}:any){
              } group/tooltip relative`}
            >
              <Eye size={14} /> 
-             <span>Blog</span>
+             <span>View</span>
            </button>
     </Link>
    <DeleteBlogButton  themeValue={themeValue}  blog={blog} />

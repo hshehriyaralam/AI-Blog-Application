@@ -275,7 +275,7 @@ export default function BookmarkList({
               }`}
                       >
                         <Eye size={12} />
-                        <span>Blog</span>
+                        <span>View Blog</span>
                       </button>
 
                         <button
