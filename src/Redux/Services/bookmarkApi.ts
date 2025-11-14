@@ -7,14 +7,14 @@ export const bookmarkApi = createApi({
   endpoints: (builder) => ({
     // ✅ Get user bookmarks
     getBookmarks: builder.query<any, void>({
-      query: () => "/bookmark",
+      query: () => "bookmark",
       providesTags: ["Blog", "User","Like","Bookmark"],
     }),
 
     // ✅ Toggle bookmark (add/remove)
     toggleBookmark: builder.mutation<any, { blogId: string }>({
       query: ({ blogId }) => ({
-        url: "/bookmark",
+        url: "bookmark",
         method: "POST",
         body: { blogId },
       }),
