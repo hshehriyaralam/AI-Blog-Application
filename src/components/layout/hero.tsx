@@ -8,6 +8,7 @@ import { useAuthNavigate } from "@/hooks/useAuthNavigate";
 import { Button } from '../ui/button';
 import { ArrowRight } from 'lucide-react';
 import Blogs from "./HomeBlogs"
+import Stats from '../DashboardComponent/Stats';
 
 
 export default function Hero() {
@@ -20,20 +21,30 @@ export default function Hero() {
 
    <HeroTopCard />
     <div className="w-full lg:w-[20%] space-y-4">
-      <Tags />
       {/* Top Authors */}
+      <Tags />
       <TopAuthors  navigate={"/Authors"} />
     </div>
   </div>
 
+
+
+
+
   {/* Main Content */}
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  ">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:-mt-10  mt-0  ">
+     {/* <div className="max-w-full mx-auto   ">
+              <Stats />
+              </div> */}
          {/* Header with View All Button */}
       <div className="flex items-center justify-between  mb-2">
 
-            <h2 className={`  sm:text-1xl  lg:text-3xl font-bold  ${themeValue?  'text-gray-900' : 'text-gray-300'} `}>Latest Articles</h2>
+            <h2 className={`  sm:text-1xl  lg:text-3xl font-bold  bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent  `}>Latest Articles</h2>
       </div>
+        
+             
       <Blogs />
+
    <div className="flex justify-center lg:justify-end">
     <Button
       onClick={() => authNavigate('/Blogs')}

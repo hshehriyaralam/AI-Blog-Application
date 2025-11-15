@@ -78,7 +78,7 @@ export default function LikedByUser({ likedUsers }: { likedUsers: IUser[] }) {
                 return (
                   <Link
                     key={user.id || index}
-                    href={`/Authors/${user.id}`}
+                    href={`/Authors/${user._id}`}
                     className={`flex items-center gap-3 p-2 rounded-md transition ${
                       themeValue ? "hover:bg-gray-100" : "hover:bg-gray-900"
                     }`}

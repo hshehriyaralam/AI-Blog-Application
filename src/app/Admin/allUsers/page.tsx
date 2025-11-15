@@ -20,7 +20,7 @@ export default function AllUsers() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-  const users: User[] = data?.data || [];
+  const users: User[] = data?.data?.slice().reverse() || []
 
   // Filter users based on search and filters
   const filteredUsers = useMemo(() => {

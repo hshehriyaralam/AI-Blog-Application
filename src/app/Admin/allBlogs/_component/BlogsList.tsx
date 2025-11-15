@@ -9,8 +9,6 @@ import type {AdminBlog as Blog} from "../../../../../types/Admin"
 
 
 export default function AllBlogList({ filteredBlogs, themeValue,light,dark }: any) {
-  const [imgError, setImgError] = useState(false);
-  const hasImage = filteredBlogs?.userId?.profilePic && filteredBlogs?.userId?.profilePic.trim() !== "" && !imgError;
   const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
