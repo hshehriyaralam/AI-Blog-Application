@@ -87,7 +87,7 @@ export default function AuthorsDetail() {
         {/* Blogs Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className={`text-2xl font-bold ${themeValue ? 'text-gray-800' : 'text-white'}`}>
+            <h2 className={`text-2xl font-bold  bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent`}>
               Articles by {user.name}
             </h2>
             <span className={`text-sm ${themeValue ? 'text-gray-600' : 'text-gray-400'}`}>

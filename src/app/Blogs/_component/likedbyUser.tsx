@@ -5,8 +5,11 @@ import { IUser } from "./LikeButton";
 import { ContextTheme } from "../../../Context/DarkTheme";
 import Link from "next/link";
 import { User } from "lucide-react";
+import { useGetProfileQuery } from "../../../Redux/Services/userApi"
+import {liveRefetchOptions} from "../../../hooks/rtkOptions"
 
 export default function LikedByUser({ likedUsers }: { likedUsers: IUser[] }) {
+  const { data : loggedInUser} = useGetProfileQuery(undefined,liveRefetchOptions )
   const { themeValue } = useContext(ContextTheme);
   const [isOpen, setIsOpen] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -17,7 +20,7 @@ export default function LikedByUser({ likedUsers }: { likedUsers: IUser[] }) {
   if (!likedByUser || likedByUser.length === 0) {
     return (
       <div
-        className={`text-[8px] md:text-[12px] ${
+        className={`text-[10x] md:text-[13px] ${
           themeValue ? "text-gray-500" : "text-gray-400"
         }`}
       >
@@ -26,35 +29,54 @@ export default function LikedByUser({ likedUsers }: { likedUsers: IUser[] }) {
     );
   }
 
-  const firstUser = likedByUser[0];
-  const otherCount = likedByUser.length - 1;
 
+
+const loggedInUserId = loggedInUser?.user?._id;
+
+// Check if logged-in user liked this post
+const isYou = likedByUser.some(u => u._id === loggedInUserId);
+
+// First user (excluding you if needed)
+const firstUser = isYou
+  ? likedByUser.find(u => u._id !== loggedInUserId)
+  : likedByUser[0];
+
+// Calculate other users count
+const totalCount = likedByUser.length;
+const otherCount = isYou
+  ? totalCount - 2  
+  : totalCount - 1;  
+
+
+  
   return (
     <div
-      className={`text-[8px] md:text-[12px] ${
+      className={`text-[10px] md:text-[13px] ${
         themeValue ? "text-gray-700" : "text-gray-300"
       }`}
     >
       <span>
-        Liked by{" "}
-        <button
-          onClick={() => setIsOpen(true)}
-          className="font-semibold hover:underline"
-        >
-          {firstUser.name}
-        </button>{" "}
-        {otherCount > 0 && (
-          <span>
-            and{" "}
-            <button
-              onClick={() => setIsOpen(true)}
-              className="font-semibold hover:underline"
-            >
-              {otherCount} others
-            </button>
-          </span>
-        )}
-      </span>
+  Liked by{" "}
+  <button
+    onClick={() => setIsOpen(true)}
+    className="font-bold hover:underline"
+  >
+    {isYou ? "You" : firstUser?.name}
+  </button>
+
+  {otherCount > 0 && (
+    <>
+      {" "}and{" "}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="font-semibold hover:underline"
+      >
+        {otherCount} others
+      </button>
+    </>
+  )}
+</span>
+
 
       {/* Modal */}
       <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
