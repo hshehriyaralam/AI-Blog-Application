@@ -2,6 +2,8 @@
 import {useDeleteUserAdminMutation} from "../../../../Redux/Services/adminApi"
 import { useAlert } from '../../../../Context/AlertContext'
 import ButtonLoader from "../../../../components/Common/Loader"
+import  SingleButtonLoader from "../../../../components/Common/SingleButtonLoader"
+
 
 
 export default function DeletePopUp({user, themeValue, setShowDeleteModal, setSelectedUser,light,dark }: any) {
@@ -61,7 +63,7 @@ export default function DeletePopUp({user, themeValue, setShowDeleteModal, setSe
             onClick={handleDelete}
             className="px-3 py-1 bg-red-600 text-white text-sm cursor-pointer rounded-lg hover:bg-red-700 transition-colors"
           >
-            {isLoading ?  <ButtonLoader /> : "Delete Account" }
+            {isLoading ?  <SingleButtonLoader /> : "Delete Account" }
           </button>
         </div>
       </div>
