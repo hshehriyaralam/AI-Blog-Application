@@ -1,7 +1,3 @@
-Here is a clean, professional, developer-friendly **README.md** for your **IntelliBlog** application.
-
----
-
 # **IntelliBlog – AI-Powered Blog Platform**
 
 IntelliBlog is an advanced AI-driven blogging platform where users can create, explore, and manage blogs with intelligent features like automated summaries and tag generation. The app delivers a smooth reading and writing experience with modern UI, Google Authentication, and powerful admin controls.
@@ -225,13 +221,3 @@ Shows complete user profile with:
 * Admin controls
 * Blog CRUD operations
 
----
-
-If you want, I can convert this into:
-
-✅ A beautifully formatted **GitHub-flavored markdown**
-✅ Add images / badges
-✅ Add installation + setup instructions
-✅ Add folder structure section
-
-Just tell me!
